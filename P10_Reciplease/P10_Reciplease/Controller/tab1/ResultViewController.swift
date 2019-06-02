@@ -39,7 +39,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             
-            cell.configure(image: #imageLiteral(resourceName: "antipasta"), nameRecipe: "Salade Romaine", detailIngredients: "Comcombres, asperges, maïs, oignons, tomates.." , numberOflike: 680, time: 31)
+            cell.configure(image: #imageLiteral(resourceName: "defaultImage"), nameRecipe: "Salade Romaine", detailIngredients: "Comcombres, asperges, maïs, oignons, tomates.." , numberOflike: 680, time: 31)
             
             return cell
         }

@@ -41,7 +41,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             
-            cell.configure(image: #imageLiteral(resourceName: "antipasta"), nameRecipe: "(nameRecipe)", detailIngredients: "(cheese, beef, potatoes)" , numberOflike: 100, time: 02)
+            cell.configure(image: #imageLiteral(resourceName: "defaultImage"), nameRecipe: "(nameRecipe)", detailIngredients: "(cheese, beef, potatoes)" , numberOflike: 100, time: 02)
             
             return cell
         }

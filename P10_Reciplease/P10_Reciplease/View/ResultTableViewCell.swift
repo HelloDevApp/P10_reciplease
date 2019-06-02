@@ -17,7 +17,7 @@ class ResultTableViewCell: UITableViewCell {
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var noImageLabel: UILabel!
     
-    let defaultImage = #imageLiteral(resourceName: "antipasta")
+    let defaultImage = #imageLiteral(resourceName: "defaultImage")
     
     func configure(image: UIImage?, nameRecipe: String, detailIngredients: String, numberOflike: Int, time: Int) {
         
