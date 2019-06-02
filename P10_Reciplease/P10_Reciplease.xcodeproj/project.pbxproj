@@ -7,8 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		521D23A7229EEAF100701187 /* Sensations.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521D23A6229EEAF100701187 /* Sensations.ttf */; };
+		521D23AB22A0501600701187 /* FavoritesResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D23AA22A0501600701187 /* FavoritesResultViewController.swift */; };
+		521D23AD22A0505A00701187 /* FavoritesDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D23AC22A0505A00701187 /* FavoritesDescriptionViewController.swift */; };
+		521D23AF22A41E5E00701187 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D23AE22A41E5E00701187 /* DetailsViewController.swift */; };
+		521D23B122A41EB700701187 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D23B022A41EB700701187 /* Protocol.swift */; };
+		521D23B322A41FC100701187 /* FavoritesDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D23B222A41FC100701187 /* FavoritesDetailsViewController.swift */; };
+		521D23B522A4239F00701187 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D23B422A4239F00701187 /* Recipe.swift */; };
+		5227BC0F2296ADD1009A3E43 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC0E2296ADD1009A3E43 /* SearchTableViewCell.swift */; };
+		5227BC172296BA2A009A3E43 /* RecipeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC162296BA2A009A3E43 /* RecipeHelper.swift */; };
+		5227BC192296C5E2009A3E43 /* ExtensionUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */; };
+		5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */; };
+		52C766112296026B007A2212 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766102296026B007A2212 /* SearchViewController.swift */; };
+		52C76613229602F1007A2212 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76612229602F1007A2212 /* ResultViewController.swift */; };
+		52C766152296034B007A2212 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766142296034B007A2212 /* DescriptionViewController.swift */; };
 		52CAF3D22294882400240A7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CAF3D12294882400240A7B /* AppDelegate.swift */; };
-		52CAF3D42294882400240A7B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CAF3D32294882400240A7B /* ViewController.swift */; };
 		52CAF3D72294882400240A7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52CAF3D52294882400240A7B /* Main.storyboard */; };
 		52CAF3DA2294882400240A7B /* P10_Reciplease.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52CAF3D82294882400240A7B /* P10_Reciplease.xcdatamodeld */; };
 		52CAF3DC2294882600240A7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52CAF3DB2294882600240A7B /* Assets.xcassets */; };
@@ -27,9 +40,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		521D23A6229EEAF100701187 /* Sensations.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sensations.ttf; sourceTree = "<group>"; };
+		521D23AA22A0501600701187 /* FavoritesResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesResultViewController.swift; sourceTree = "<group>"; };
+		521D23AC22A0505A00701187 /* FavoritesDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDescriptionViewController.swift; sourceTree = "<group>"; };
+		521D23AE22A41E5E00701187 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		521D23B022A41EB700701187 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		521D23B222A41FC100701187 /* FavoritesDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDetailsViewController.swift; sourceTree = "<group>"; };
+		521D23B422A4239F00701187 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		5227BC0E2296ADD1009A3E43 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		5227BC162296BA2A009A3E43 /* RecipeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeHelper.swift; sourceTree = "<group>"; };
+		5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIView.swift; sourceTree = "<group>"; };
+		5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
+		52C766102296026B007A2212 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		52C76612229602F1007A2212 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		52C766142296034B007A2212 /* DescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		52CAF3CE2294882400240A7B /* P10_Reciplease.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = P10_Reciplease.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52CAF3D12294882400240A7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		52CAF3D32294882400240A7B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		52CAF3D62294882400240A7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52CAF3D92294882400240A7B /* P10_Reciplease.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = P10_Reciplease.xcdatamodel; sourceTree = "<group>"; };
 		52CAF3DB2294882600240A7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,6 +84,58 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		521D23A822A0479D00701187 /* tab1 */ = {
+			isa = PBXGroup;
+			children = (
+				52C766102296026B007A2212 /* SearchViewController.swift */,
+				52C76612229602F1007A2212 /* ResultViewController.swift */,
+				52C766142296034B007A2212 /* DescriptionViewController.swift */,
+				521D23AE22A41E5E00701187 /* DetailsViewController.swift */,
+			);
+			path = tab1;
+			sourceTree = "<group>";
+		};
+		521D23A922A04FBE00701187 /* tab2 */ = {
+			isa = PBXGroup;
+			children = (
+				521D23AA22A0501600701187 /* FavoritesResultViewController.swift */,
+				521D23AC22A0505A00701187 /* FavoritesDescriptionViewController.swift */,
+				521D23B222A41FC100701187 /* FavoritesDetailsViewController.swift */,
+			);
+			path = tab2;
+			sourceTree = "<group>";
+		};
+		5227BC132296B54B009A3E43 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				521D23B022A41EB700701187 /* Protocol.swift */,
+				521D23A822A0479D00701187 /* tab1 */,
+				521D23A922A04FBE00701187 /* tab2 */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		5227BC1F22980070009A3E43 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */,
+				5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */,
+				5227BC0E2296ADD1009A3E43 /* SearchTableViewCell.swift */,
+				52CAF3D52294882400240A7B /* Main.storyboard */,
+				52CAF3DD2294882600240A7B /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5227BC2022980081009A3E43 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5227BC162296BA2A009A3E43 /* RecipeHelper.swift */,
+				521D23B422A4239F00701187 /* Recipe.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		52CAF3C52294882400240A7B = {
 			isa = PBXGroup;
 			children = (
@@ -80,10 +158,11 @@
 			isa = PBXGroup;
 			children = (
 				52CAF3D12294882400240A7B /* AppDelegate.swift */,
-				52CAF3D32294882400240A7B /* ViewController.swift */,
-				52CAF3D52294882400240A7B /* Main.storyboard */,
+				5227BC2022980081009A3E43 /* Model */,
+				5227BC1F22980070009A3E43 /* View */,
+				5227BC132296B54B009A3E43 /* Controller */,
+				521D23A6229EEAF100701187 /* Sensations.ttf */,
 				52CAF3DB2294882600240A7B /* Assets.xcassets */,
-				52CAF3DD2294882600240A7B /* LaunchScreen.storyboard */,
 				52CAF3E02294882600240A7B /* Info.plist */,
 				52CAF3D82294882400240A7B /* P10_Reciplease.xcdatamodeld */,
 			);
@@ -149,9 +228,11 @@
 				TargetAttributes = {
 					52CAF3CD2294882400240A7B = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 					52CAF3E42294882600240A7B = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 						TestTargetID = 52CAF3CD2294882400240A7B;
 					};
 				};
@@ -180,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521D23A7229EEAF100701187 /* Sensations.ttf in Resources */,
 				52CAF3DF2294882600240A7B /* LaunchScreen.storyboard in Resources */,
 				52CAF3DC2294882600240A7B /* Assets.xcassets in Resources */,
 				52CAF3D72294882400240A7B /* Main.storyboard in Resources */,
@@ -200,9 +282,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52CAF3D42294882400240A7B /* ViewController.swift in Sources */,
+				5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */,
+				5227BC172296BA2A009A3E43 /* RecipeHelper.swift in Sources */,
+				5227BC0F2296ADD1009A3E43 /* SearchTableViewCell.swift in Sources */,
+				52C766112296026B007A2212 /* SearchViewController.swift in Sources */,
+				521D23AD22A0505A00701187 /* FavoritesDescriptionViewController.swift in Sources */,
 				52CAF3DA2294882400240A7B /* P10_Reciplease.xcdatamodeld in Sources */,
 				52CAF3D22294882400240A7B /* AppDelegate.swift in Sources */,
+				52C766152296034B007A2212 /* DescriptionViewController.swift in Sources */,
+				5227BC192296C5E2009A3E43 /* ExtensionUIView.swift in Sources */,
+				521D23B522A4239F00701187 /* Recipe.swift in Sources */,
+				521D23AB22A0501600701187 /* FavoritesResultViewController.swift in Sources */,
+				521D23B122A41EB700701187 /* Protocol.swift in Sources */,
+				521D23B322A41FC100701187 /* FavoritesDetailsViewController.swift in Sources */,
+				52C76613229602F1007A2212 /* ResultViewController.swift in Sources */,
+				521D23AF22A41E5E00701187 /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,8 +467,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "dylan.P10-Reciplease";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -391,8 +485,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "dylan.P10-Reciplease";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -411,7 +505,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "dylan.P10-RecipleaseTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/P10_Reciplease.app/P10_Reciplease";
 			};
@@ -432,7 +526,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "dylan.P10-RecipleaseTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/P10_Reciplease.app/P10_Reciplease";
 			};
