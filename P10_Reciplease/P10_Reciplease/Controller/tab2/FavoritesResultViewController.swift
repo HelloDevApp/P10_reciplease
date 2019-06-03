@@ -10,12 +10,13 @@ import UIKit
 
 class FavoritesResultViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 }
-
 
 
 // MARK: - Navigation
@@ -30,22 +31,31 @@ extension FavoritesResultViewController {
 // MARK: - TableView
 extension FavoritesResultViewController: UITableViewDataSource, UITableViewDelegate {
     
+    override func viewWillAppear(_ animated: Bool) {
+        if RecipeHelper.favoritesRecipes.count == 0 {
+            // TO-DO: - Hidden noimageLabel
+        }
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if RecipeHelper.favoritesRecipes.count <= 0 {
             tableView.separatorStyle = .none
         }
-        return RecipeHelper.favoritesRecipes.count - 1
+        return RecipeHelper.favoritesRecipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        tableView.rowHeight = tableView.frame.height / 4
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             
-            cell.configure(image: #imageLiteral(resourceName: "defaultImage"), nameRecipe: "(nameRecipe)", detailIngredients: "(cheese, beef, potatoes)" , numberOflike: 100, time: 02)
+            cell.setup(recipeImageView: cell.recipeImageView, recipeImage: cell.defaultImage, defaultImage: cell.defaultImage, noImageLabel: cell.noImageLabel, nameRecipeLabel: cell.nameRecipeLabel, nameRecipe: "Salade Romaine", ingredientsLabel: cell.ingredientsLabel, detailIngredients: "poulet, salade, maïs, tomates, olives", numberOfLikeLabel: cell.numberOfLike, numberOfLike: 300, timeLabel: cell.timeLabel, time: 12)
             
             return cell
         }
         return UITableViewCell()
     }
-    
 }

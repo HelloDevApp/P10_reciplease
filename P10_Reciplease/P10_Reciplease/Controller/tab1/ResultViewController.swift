@@ -29,9 +29,16 @@ extension ResultViewController {
 extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+
         return 10
     }
+    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        if RecipeHelper.favoritesRecipes.count <= 0 {
+//            tableView.separatorStyle = .none
+//        }
+//        return RecipeHelper.favoritesRecipes.count - 1
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -39,7 +46,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             
-            cell.configure(image: #imageLiteral(resourceName: "defaultImage"), nameRecipe: "Salade Romaine", detailIngredients: "Comcombres, asperges, maïs, oignons, tomates.." , numberOflike: 680, time: 31)
+            cell.setup(recipeImageView: cell.recipeImageView, recipeImage: cell.defaultImage, defaultImage: cell.defaultImage, noImageLabel: cell.noImageLabel, nameRecipeLabel: cell.nameRecipeLabel, nameRecipe: "Salade Romaine", ingredientsLabel: cell.ingredientsLabel, detailIngredients: "poulet, salade, maïs, tomates, olives", numberOfLikeLabel: cell.numberOfLike, numberOfLike: 300, timeLabel: cell.timeLabel, time: 12)
             
             return cell
         }

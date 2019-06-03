@@ -18,7 +18,16 @@ class DescriptionViewController: UIViewController, Favorites {
     
     // MARK: - @IBActions
     @IBAction func featuredButtonAction(_ sender: UIBarButtonItem) {
-        changeTintColor(barButtonItem: featuredButton, color: UIColor.yellow)
+        
+        // TO-DO: - add toggle Label
+        changeTintColor(barButtonItem: featuredButton)
+        
+        let recipe = Recipe(name: "ok", numberOfIngredients: 2, directions: "olives, oignons, piment, salade, tomates..", numberOfLike: 300, time: 30)
+        
+        save(recipe: recipe)
+        print("element enregistré")
+        
+        
     }
 }
 

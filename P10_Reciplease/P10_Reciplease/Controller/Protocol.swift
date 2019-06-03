@@ -8,18 +8,58 @@
 
 import UIKit
 
-protocol Favorites {
+//MARK: -ResultCell Protocol
+protocol ResultCell {}
+
+
+extension ResultCell {
     
-    func changeTintColor(barButtonItem: UIBarButtonItem, color: UIColor)
+    func setup(recipeImageView: UIImageView, recipeImage: UIImage?, defaultImage: UIImage, noImageLabel: UILabel, nameRecipeLabel: UILabel, nameRecipe: String, ingredientsLabel: UILabel, detailIngredients: String, numberOfLikeLabel: UILabel, numberOfLike: Int, timeLabel: UILabel, time: Int) {
+        
+        if recipeImageView.image != nil {
+            noImageLabel.isHidden = true
+            recipeImageView.image = recipeImage
+        } else {
+            noImageLabel.isHidden = false
+            recipeImageView.image = defaultImage
+        }
+        
+        recipeImageView.contentMode = .scaleAspectFill
+        nameRecipeLabel.text = nameRecipe
+        ingredientsLabel.text = detailIngredients
+        numberOfLikeLabel.text = "\(numberOfLike)"
+        timeLabel.text = "\(time)min"
+    }
+}
+
+//MARK: -Favorites Protocol
+protocol Favorites {
 }
 
 extension Favorites {
     
-    func changeTintColor(barButtonItem: UIBarButtonItem, color: UIColor) {
+    func toggleLabel(noImageLabel: UILabel) {
+        if noImageLabel.isHidden == true {
+            noImageLabel.isHidden = false
+        } else {
+            noImageLabel.isHidden = true
+        }
+    }
+    
+    func changeTintColor(barButtonItem: UIBarButtonItem) {
+        
         if barButtonItem.tintColor == UIColor.white {
-            barButtonItem.tintColor = color
+            barButtonItem.tintColor = UIColor.yellow
         } else {
             barButtonItem.tintColor = UIColor.white
         }
+    }
+    
+    func save(recipe: Recipe) {
+        RecipeHelper.favoritesRecipes.append(recipe)
+    }
+    
+    func remove(row: Int) {
+        RecipeHelper.favoritesRecipes.remove(at: row)
     }
 }

@@ -526,7 +526,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b8D-0M-7bd">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b8D-0M-7bd">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(name)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOI-a8-lRY">
@@ -637,6 +637,9 @@
                     <navigationItem key="navigationItem" title="Reciplease" id="c13-w7-CKb">
                         <barButtonItem key="backBarButtonItem" title="Back" id="dYz-YT-Kno"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="BnC-dG-JGZ" id="DcB-rk-Xhi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BUh-xG-24V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
