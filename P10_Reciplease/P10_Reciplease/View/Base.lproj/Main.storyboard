@@ -362,6 +362,7 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="hmE-sL-DHF" id="P7q-aa-ja4"/>
+                                    <outlet property="delegate" destination="hmE-sL-DHF" id="X9q-RT-SYC"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -452,15 +453,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Reciplease" id="0vB-I5-oBD">
                         <barButtonItem key="backBarButtonItem" title="Back" id="2Es-UP-kNT"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="star" style="done" id="qhW-Ay-A67">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="featuredButtonAction:" destination="MwN-sV-QHi" id="x4p-67-zcR"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="featuredButton" destination="qhW-Ay-A67" id="z1n-1S-mQQ"/>
                         <outlet property="recipeImageView" destination="MWs-18-HJ8" id="cm7-Go-5qb"/>
                     </connections>
                 </viewController>
@@ -713,17 +707,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0Mt-Kf-XDE"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Reciplease" id="zq3-dl-dng">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="star" style="done" id="Uwd-g8-RWI">
-                            <color key="tintColor" red="0.93435251541851572" green="0.93621113578680204" blue="0.028679935590715435" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="featuredButtonAction:" destination="H0v-Xj-xXm" id="Yjq-Cv-2Py"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="featuredButton" destination="Uwd-g8-RWI" id="0OD-Kr-YyE"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Reciplease" id="zq3-dl-dng"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoX-VZ-WgZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -764,7 +748,6 @@
     </scenes>
     <resources>
         <image name="like" width="48" height="48"/>
-        <image name="star" width="30" height="30"/>
         <image name="time" width="40" height="40"/>
     </resources>
 </document>

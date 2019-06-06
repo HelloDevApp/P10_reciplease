@@ -15,6 +15,9 @@ class FavoritesResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+//        if Recipe.favoritesRecipes.count == 0 {
+            // TO-DO: - Hidden noimageLabel
+//        }
     }
 }
 
@@ -32,18 +35,15 @@ extension FavoritesResultViewController {
 extension FavoritesResultViewController: UITableViewDataSource, UITableViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
-        if RecipeHelper.favoritesRecipes.count == 0 {
-            // TO-DO: - Hidden noimageLabel
-        }
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if RecipeHelper.favoritesRecipes.count <= 0 {
+        if Recipe.favoritesRecipes.count <= 0 {
             tableView.separatorStyle = .none
         }
-        return RecipeHelper.favoritesRecipes.count
+        return Recipe.favoritesRecipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,7 +52,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             
-            cell.setup(recipeImageView: cell.recipeImageView, recipeImage: cell.defaultImage, defaultImage: cell.defaultImage, noImageLabel: cell.noImageLabel, nameRecipeLabel: cell.nameRecipeLabel, nameRecipe: "Salade Romaine", ingredientsLabel: cell.ingredientsLabel, detailIngredients: "poulet, salade, maïs, tomates, olives", numberOfLikeLabel: cell.numberOfLike, numberOfLike: 300, timeLabel: cell.timeLabel, time: 12)
+            cell.setup(recipeImageView: cell.recipeImageView, recipeImage: nil, defaultImage: cell.defaultImage, noImageLabel: cell.noImageLabel, nameRecipeLabel: cell.nameRecipeLabel, nameRecipe: "Salade Romaine", ingredientsLabel: cell.ingredientsLabel, detailIngredients: "poulet, salade, maïs, tomates, olives", numberOfLikeLabel: cell.numberOfLike, numberOfLike: 300, timeLabel: cell.timeLabel, time: 12)
             
             return cell
         }

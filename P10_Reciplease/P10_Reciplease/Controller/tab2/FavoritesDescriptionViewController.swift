@@ -8,20 +8,15 @@
 
 import UIKit
 
-class FavoritesDescriptionViewController: UIViewController {
-
-    @IBOutlet weak var featuredButton: UIBarButtonItem!
+class FavoritesDescriptionViewController: UIViewController, DataService, Favorites {
+    
+    let recipe = Recipe(name: "nameDefault", numberOfIngredients: 0, directions: "...", numberOfLike: 0, time: 0, isFavorite: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
-    @IBAction func featuredButtonAction(_ sender: UIBarButtonItem) {
-    }
-    
 }
-
 
 // MARK: - Navigation
 extension FavoritesDescriptionViewController {

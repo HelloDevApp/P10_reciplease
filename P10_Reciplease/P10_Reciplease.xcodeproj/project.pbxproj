@@ -15,7 +15,6 @@
 		521D23B322A41FC100701187 /* FavoritesDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D23B222A41FC100701187 /* FavoritesDetailsViewController.swift */; };
 		521D23B522A4239F00701187 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D23B422A4239F00701187 /* Recipe.swift */; };
 		5227BC0F2296ADD1009A3E43 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC0E2296ADD1009A3E43 /* SearchTableViewCell.swift */; };
-		5227BC172296BA2A009A3E43 /* RecipeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC162296BA2A009A3E43 /* RecipeHelper.swift */; };
 		5227BC192296C5E2009A3E43 /* ExtensionUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */; };
 		5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */; };
 		52C766112296026B007A2212 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766102296026B007A2212 /* SearchViewController.swift */; };
@@ -48,7 +47,6 @@
 		521D23B222A41FC100701187 /* FavoritesDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDetailsViewController.swift; sourceTree = "<group>"; };
 		521D23B422A4239F00701187 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		5227BC0E2296ADD1009A3E43 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
-		5227BC162296BA2A009A3E43 /* RecipeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeHelper.swift; sourceTree = "<group>"; };
 		5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIView.swift; sourceTree = "<group>"; };
 		5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		52C766102296026B007A2212 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 		5227BC2022980081009A3E43 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5227BC162296BA2A009A3E43 /* RecipeHelper.swift */,
 				521D23B422A4239F00701187 /* Recipe.swift */,
 			);
 			path = Model;
@@ -283,7 +280,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */,
-				5227BC172296BA2A009A3E43 /* RecipeHelper.swift in Sources */,
 				5227BC0F2296ADD1009A3E43 /* SearchTableViewCell.swift in Sources */,
 				52C766112296026B007A2212 /* SearchViewController.swift in Sources */,
 				521D23AD22A0505A00701187 /* FavoritesDescriptionViewController.swift in Sources */,
