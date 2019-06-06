@@ -16,7 +16,7 @@ extension ResultCell {
     
     func setup(recipeImageView: UIImageView, recipeImage: UIImage?, defaultImage: UIImage, noImageLabel: UILabel, nameRecipeLabel: UILabel, nameRecipe: String, ingredientsLabel: UILabel, detailIngredients: String, numberOfLikeLabel: UILabel, numberOfLike: Int, timeLabel: UILabel, time: Int) {
         
-        if recipeImageView.image != nil {
+        if recipeImage != nil {
             noImageLabel.isHidden = true
             recipeImageView.image = recipeImage
         } else {
@@ -33,33 +33,36 @@ extension ResultCell {
 }
 
 //MARK: -Favorites Protocol
-protocol Favorites {
-}
+protocol Favorites {}
 
 extension Favorites {
     
-    func toggleLabel(noImageLabel: UILabel) {
+    func toggleHiddenLabel(noImageLabel: UILabel) {
         if noImageLabel.isHidden == true {
             noImageLabel.isHidden = false
         } else {
             noImageLabel.isHidden = true
         }
     }
+}
+
+//MARK: -DataService Protocol
+protocol DataService {}
+
+extension DataService {
     
-    func changeTintColor(barButtonItem: UIBarButtonItem) {
-        
-        if barButtonItem.tintColor == UIColor.white {
-            barButtonItem.tintColor = UIColor.yellow
-        } else {
-            barButtonItem.tintColor = UIColor.white
-        }
+    func saveToCoreData(recipe: Recipe) {
+        addRecipeToFavorites(recipe: recipe)
+        print(Recipe.favoritesRecipes.count)
     }
     
-    func save(recipe: Recipe) {
-        RecipeHelper.favoritesRecipes.append(recipe)
+    func remove(recipe: Recipe, row: Int) {
+        Recipe.favoritesRecipes.remove(at: row)
+        print(Recipe.favoritesRecipes.count)
     }
     
-    func remove(row: Int) {
-        RecipeHelper.favoritesRecipes.remove(at: row)
+    func addRecipeToFavorites(recipe: Recipe) {
+        Recipe.favoritesRecipes.append(recipe)
+        print(Recipe.favoritesRecipes.count)
     }
 }
