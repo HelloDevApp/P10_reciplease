@@ -15,7 +15,6 @@
 		5227BC192296C5E2009A3E43 /* ExtensionUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */; };
 		5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */; };
 		52619B1022AA6D01002B8471 /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52619B0F22AA6D01002B8471 /* APIResult.swift */; };
-		52619B1222AA7E3C002B8471 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52619B1122AA7E3C002B8471 /* APIKey.swift */; };
 		52C766112296026B007A2212 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766102296026B007A2212 /* SearchViewController.swift */; };
 		52C76613229602F1007A2212 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76612229602F1007A2212 /* ResultViewController.swift */; };
 		52C766152296034B007A2212 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766142296034B007A2212 /* DescriptionViewController.swift */; };
@@ -25,6 +24,7 @@
 		52CAF3DC2294882600240A7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52CAF3DB2294882600240A7B /* Assets.xcassets */; };
 		52CAF3DF2294882600240A7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52CAF3DD2294882600240A7B /* LaunchScreen.storyboard */; };
 		52CAF3EA2294882600240A7B /* P10_RecipleaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CAF3E92294882600240A7B /* P10_RecipleaseTests.swift */; };
+		52F2DF8922B0029A004F2988 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DF8822B0029A004F2988 /* APIKey.swift */; };
 		52F6B43B22AB257600959467 /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F6B43A22AB257600959467 /* APIHelper.swift */; };
 		AB8426761D21D93C3BDF7A5D /* Pods_P10_Reciplease.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F0A6A961A824509886B2739 /* Pods_P10_Reciplease.framework */; };
 /* End PBXBuildFile section */
@@ -51,7 +51,6 @@
 		5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIView.swift; sourceTree = "<group>"; };
 		5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		52619B0F22AA6D01002B8471 /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
-		52619B1122AA7E3C002B8471 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		52C1F823E1E2BBE4A8F9BA18 /* Pods_P10_RecipleaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_P10_RecipleaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52C766102296026B007A2212 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		52C76612229602F1007A2212 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +65,7 @@
 		52CAF3E52294882600240A7B /* P10_RecipleaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = P10_RecipleaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52CAF3E92294882600240A7B /* P10_RecipleaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P10_RecipleaseTests.swift; sourceTree = "<group>"; };
 		52CAF3EB2294882600240A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52F2DF8822B0029A004F2988 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		52F6B43A22AB257600959467 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		A89238CEA0B5A5ADF9DA1EDE /* Pods-P10_RecipleaseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-P10_RecipleaseTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-P10_RecipleaseTests/Pods-P10_RecipleaseTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,7 +155,7 @@
 				521D23B422A4239F00701187 /* Data.swift */,
 				52619B0F22AA6D01002B8471 /* APIResult.swift */,
 				52F6B43A22AB257600959467 /* APIHelper.swift */,
-				52619B1122AA7E3C002B8471 /* APIKey.swift */,
+				52F2DF8822B0029A004F2988 /* APIKey.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -377,9 +377,9 @@
 				52C766152296034B007A2212 /* DescriptionViewController.swift in Sources */,
 				5227BC192296C5E2009A3E43 /* ExtensionUIView.swift in Sources */,
 				521D23B522A4239F00701187 /* Data.swift in Sources */,
-				52619B1222AA7E3C002B8471 /* APIKey.swift in Sources */,
 				52F6B43B22AB257600959467 /* APIHelper.swift in Sources */,
 				521D23AB22A0501600701187 /* FavoritesResultViewController.swift in Sources */,
+				52F2DF8922B0029A004F2988 /* APIKey.swift in Sources */,
 				52C76613229602F1007A2212 /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
