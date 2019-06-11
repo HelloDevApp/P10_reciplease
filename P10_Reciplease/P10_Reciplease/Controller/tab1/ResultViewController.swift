@@ -75,6 +75,12 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             fillCell(cell, with: Data.hits, indexPath: indexPath)
+            if Data.hits.count != 0 {
+                tableView.separatorStyle = .singleLine
+                tableView.separatorColor = UIColor.white
+            } else {
+                tableView.separatorStyle = .none
+            }
             return cell
         }
         let cellStandard = UITableViewCell()
