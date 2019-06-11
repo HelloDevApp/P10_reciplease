@@ -8,18 +8,10 @@
 
 import UIKit
 
-class DescriptionViewController: UIViewController, Favorites {
-    
+class DescriptionViewController: UIViewController {
     
     // MARK: - @IBOutlets
-    @IBOutlet weak var featuredButton: UIBarButtonItem!
-
     @IBOutlet weak var recipeImageView: UIImageView!
-    
-    // MARK: - @IBActions
-    @IBAction func featuredButtonAction(_ sender: UIBarButtonItem) {
-        changeTintColor(barButtonItem: featuredButton, color: UIColor.yellow)
-    }
 }
 
 

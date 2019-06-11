@@ -7,7 +7,11 @@
 //
 
 import UIKit
-
+enum Choice {
+    case get
+    case set
+    case remove
+}
 class SearchViewController: UIViewController {
 
     // MARK: - @IBOutlets
@@ -22,29 +26,54 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addGestureToHideKeyboard()
-        
+        updateUserIngredients(action: .get, indexPath: nil)
     }
     
     // MARK: - #@IBActions
     @IBAction func actionAddButton(_ sender: UIButton) {
-        
-        if let ingredient = ingredientTextField.text, ingredient.count > 2 {
-            
-            let indexPath = IndexPath(row: Recipe.ingredients.count - 1, section: 0)
-            Recipe.ingredients.append("- " + ingredient)
-            ingredientTextField.text = ""
-            tableView.insertRows(at: [indexPath], with: .automatic)
-            tableView.reloadData()
-            impact.impactOccurred()
-        }
-        
+        addUserIngredientToArray()
     }
     
     @IBAction func actionClearButton(_ sender: UIButton) {
-        Recipe.ingredients = []
+        Data.userIngredients.removeAll()
+        updateUserIngredients(action: .set, indexPath: nil)
         tableView.reloadData()
         impact.impactOccurred()
         
+    }
+    
+    func addUserIngredientToArray() {
+        if let ingredient = ingredientTextField.text, ingredient.count > 2 {
+            let indexPath: IndexPath
+            Data.userIngredients.append(ingredient)
+            updateUserIngredients(action: .set, indexPath: nil)
+            indexPath = IndexPath(row: Data.userIngredients.count - 1, section: 0)
+            tableView.insertRows(at: [indexPath], with: .automatic)
+            tableView.reloadData()
+            resetText(textField: ingredientTextField)
+            impact.impactOccurred()
+        }
+    }
+    
+    // required IndexPath only for .remove
+    func updateUserIngredients(action: Choice, indexPath: IndexPath?) {
+        let userIngredientskey = "UserIngredient"
+        let userDefault = UserDefaults.standard
+        
+        switch action {
+        case .get:
+            Data.userIngredients = userDefault.array(forKey: userIngredientskey) as? [String] ?? [String]()
+        case .set:
+            userDefault.set(Data.userIngredients, forKey: userIngredientskey)
+        case .remove:
+            if let indexPath = indexPath {
+                Data.userIngredients.remove(at: indexPath.row)
+            }
+        }
+    }
+    
+    func resetText(textField: UITextField) {
+        textField.text = ""
     }
 }
 
@@ -52,8 +81,15 @@ class SearchViewController: UIViewController {
 extension SearchViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
+        let segueID = "SearchToResult"
+        guard segue.identifier == segueID else { return }
+        if let resultVC = segue.destination as? ResultViewController {
+            APIHelper.getRecipe() { (apiResult) in
+                guard apiResult != nil else { return } // ?*?*?
+                resultVC.tableView.reloadData() // ?*?*?
+            }
+        }
     }
 }
 
@@ -66,28 +102,30 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Recipe.ingredients.count
+        return Data.userIngredients.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = createCell(indexPath: indexPath)
+        let cell = UITableViewCell()
+        fillCell(cell: cell, indexPath: indexPath)
         return cell
     }
     
-    func createCell(indexPath: IndexPath) -> UITableViewCell {
-        
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as? SearchTableViewCell {
-            cell.setTitle(label: cell.ingredientsLabel, text: Recipe.ingredients[indexPath.row])
-            tableView.rowHeight = tableView.frame.height / 6
-            return cell
+    func fillCell(cell: UITableViewCell, indexPath: IndexPath) {
+        cell.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
+        if let labelCell = cell.textLabel {
+            updateUserIngredients(action: .get, indexPath: nil)
+            updateLabelCell(labelCell: labelCell, indexPath: indexPath)
         }
-        
-        return UITableViewCell()
+        tableView.rowHeight = tableView.frame.height / 6
+    }
+    
+    func updateLabelCell(labelCell: UILabel, indexPath: IndexPath) {
+        labelCell.textColor = .white
+        labelCell.text = "∙  \(Data.userIngredients[indexPath.row])"
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
         if editingStyle == .delete {
             deleteRow(indexPath: indexPath)
             impact.impactOccurred()
@@ -95,7 +133,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func deleteRow(indexPath: IndexPath) {
-        Recipe.ingredients.remove(at: indexPath.row)
+        updateUserIngredients(action: .remove, indexPath: indexPath)
+        updateUserIngredients(action: .set, indexPath: nil)
         tableView.deleteRows(at: [indexPath], with: .automatic)
         tableView.reloadData()
     }

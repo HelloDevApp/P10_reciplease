@@ -9,19 +9,12 @@
 import UIKit
 
 class FavoritesDescriptionViewController: UIViewController {
-
-    @IBOutlet weak var featuredButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
-    @IBAction func featuredButtonAction(_ sender: UIBarButtonItem) {
-    }
-    
 }
-
 
 // MARK: - Navigation
 extension FavoritesDescriptionViewController {
