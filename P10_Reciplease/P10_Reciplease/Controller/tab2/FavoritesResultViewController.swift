@@ -12,6 +12,8 @@ class FavoritesResultViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var noFavoritesLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -39,23 +41,69 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if Recipe.favoritesRecipes.count <= 0 {
-            tableView.separatorStyle = .none
+        if Data.favorite.count == 0 {
+            noFavoritesLabel.isHidden = true
         }
-        return Recipe.favoritesRecipes.count
+        return Data.favorite.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        tableView.rowHeight = tableView.frame.height / 4
+        tableView.rowHeight = tableView.frame.height / 3
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             
-            cell.setup(recipeImageView: cell.recipeImageView, recipeImage: nil, defaultImage: cell.defaultImage, noImageLabel: cell.noImageLabel, nameRecipeLabel: cell.nameRecipeLabel, nameRecipe: "Salade Romaine", ingredientsLabel: cell.ingredientsLabel, detailIngredients: "poulet, salade, maïs, tomates, olives", numberOfLikeLabel: cell.numberOfLike, numberOfLike: 300, timeLabel: cell.timeLabel, time: 12)
-            
+            let recipes = Data.favorite
+            fillCell(cell, with: recipes, indexPath: indexPath)
             return cell
         }
         return UITableViewCell()
+    }
+    
+    func fillCell(_ cell: ResultTableViewCell, with recipes: [Recipe], indexPath: IndexPath) {
+        let recipe = recipes[indexPath.row]
+        let ingredients = recipe.ingredientLines.joined(separator: ", ")
+        let nameRecipe = recipe.label
+        let timeRecipe = recipe.totalTime
+        let image = Data.imageFavorite[indexPath.row]
+        
+        updateNameRecipeLabel(cell: cell, nameRecipe: nameRecipe)
+        updateIngredientsLabel(cell: cell, ingredients: ingredients)
+        updateTimeLabel(cell: cell, time: timeRecipe)
+        updateImage(cell: cell, image: image, indexPath: indexPath)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            Data.favorite.remove(at: indexPath.row)
+            Data.imageFavorite.remove(at: indexPath.row)
+            tableView.reloadData()
+            print(Data.favorite.count)
+        }
+    }
+    
+    func updateNameRecipeLabel(cell: ResultTableViewCell, nameRecipe: String) {
+        cell.nameRecipeLabel.text = nameRecipe
+    }
+    
+    func updateIngredientsLabel(cell: ResultTableViewCell, ingredients: String) {
+        cell.ingredientsLabel.text = ingredients
+    }
+    
+    func updateImage(cell: ResultTableViewCell, image: UIImage, indexPath: IndexPath) {
+        cell.noImageLabel.isHidden = true
+        cell.recipeImageView.image = Data.imageFavorite[indexPath.row]
+        cell.recipeImageView.contentMode = .scaleAspectFill
+        cell.recipeImageView.alpha = 0.7
+    }
+    
+    func updateTimeLabel(cell: ResultTableViewCell, time: Int?) {
+        if let timerecipe = time {
+            let time = String(timerecipe)
+            cell.timeLabel.text = time
+        }
     }
 }

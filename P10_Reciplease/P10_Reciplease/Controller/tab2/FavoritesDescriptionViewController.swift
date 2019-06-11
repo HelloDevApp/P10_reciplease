@@ -8,9 +8,7 @@
 
 import UIKit
 
-class FavoritesDescriptionViewController: UIViewController, DataService, Favorites {
-    
-    let recipe = Recipe(name: "nameDefault", numberOfIngredients: 0, directions: "...", numberOfLike: 0, time: 0, isFavorite: false)
+class FavoritesDescriptionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

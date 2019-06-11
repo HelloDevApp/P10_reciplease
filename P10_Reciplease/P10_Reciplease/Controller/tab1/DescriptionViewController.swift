@@ -8,9 +8,7 @@
 
 import UIKit
 
-class DescriptionViewController: UIViewController, Favorites, DataService {
-    
-    let recipe = Recipe(name: "pates carbonara", numberOfIngredients: 4, directions: "lorem ipsum", numberOfLike: 300, time: 20, isFavorite: false)
+class DescriptionViewController: UIViewController {
     
     // MARK: - @IBOutlets
     @IBOutlet weak var recipeImageView: UIImageView!

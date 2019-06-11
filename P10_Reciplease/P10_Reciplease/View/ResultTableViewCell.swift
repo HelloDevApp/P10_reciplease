@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ResultTableViewCell: UITableViewCell, ResultCell {
+class ResultTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UILabel!
