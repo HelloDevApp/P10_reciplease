@@ -11,22 +11,25 @@ import Alamofire
 
 class APIHelper {
     
-    static var numberOfRecipe = 0
-    
     static func createURL() -> URL {
         
         let apiKey = APIKey()
-        let appID = apiKey.id
-        let key = apiKey.key
+        let appID = (name: "app_id",value: apiKey.id)
+        let key = (name: "app_key", value: apiKey.key)
+        let q = (name: "q", value: Data.userIngredients.joined(separator: ","))
+        let from = (name: "from", value: "0")
+        let to = (name: "to", value: "100")
        
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.edamam.com"
         components.path = "/search"
         components.queryItems =
-            [URLQueryItem(name: "app_id", value: appID),
-             URLQueryItem(name: "app_key", value: key),
-             URLQueryItem(name: "q",        value: Data.userIngredients.joined(separator: ","))]
+            [URLQueryItem(name: appID.name, value: appID.value),
+             URLQueryItem(name: key.name, value: key.value),
+             URLQueryItem(name: q.name, value: q.value),
+             URLQueryItem(name: from.name, value: from.value),
+             URLQueryItem(name: to.name, value: to.value)]
         let url = components.url
         return url!
     }
