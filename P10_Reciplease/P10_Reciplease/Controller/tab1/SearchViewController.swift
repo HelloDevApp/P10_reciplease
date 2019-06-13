@@ -11,6 +11,7 @@ enum Choice {
     case get
     case set
     case remove
+    case removeAll
 }
 class SearchViewController: UIViewController {
 
@@ -35,8 +36,7 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func actionClearButton(_ sender: UIButton) {
-        Data.userIngredients.removeAll()
-        updateUserIngredients(action: .set, indexPath: nil)
+        updateUserIngredients(action: .removeAll, indexPath: nil)
         tableView.reloadData()
         impact.impactOccurred()
         
@@ -57,18 +57,19 @@ class SearchViewController: UIViewController {
     
     // required IndexPath only for .remove
     func updateUserIngredients(action: Choice, indexPath: IndexPath?) {
-        let userIngredientskey = "UserIngredient"
-        let userDefault = UserDefaults.standard
+        let userDefaultsManager = UserDefaultsManager()
+        let key = userDefaultsManager.userIngredientsKey
         
         switch action {
         case .get:
-            Data.userIngredients = userDefault.array(forKey: userIngredientskey) as? [String] ?? [String]()
+            userDefaultsManager.get(to: &Data.userIngredients, key: key)
         case .set:
-            userDefault.set(Data.userIngredients, forKey: userIngredientskey)
+            userDefaultsManager.set(to: Data.userIngredients, key: key)
         case .remove:
-            if let indexPath = indexPath {
-                Data.userIngredients.remove(at: indexPath.row)
-            }
+            guard let indexPath = indexPath else { return }
+            userDefaultsManager.remove(to: &Data.userIngredients, key: key, indexPath: indexPath)
+        case .removeAll:
+            userDefaultsManager.removeAll(to: &Data.userIngredients, key: key)
         }
     }
     
@@ -134,7 +135,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     
     func deleteRow(indexPath: IndexPath) {
         updateUserIngredients(action: .remove, indexPath: indexPath)
-        updateUserIngredients(action: .set, indexPath: nil)
         tableView.deleteRows(at: [indexPath], with: .automatic)
         tableView.reloadData()
     }

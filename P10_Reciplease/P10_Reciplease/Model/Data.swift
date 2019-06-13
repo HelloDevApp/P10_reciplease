@@ -9,11 +9,12 @@
 import UIKit
 
 class Data {
+    // MARK: - Search
     static var userIngredients = [String]()
-    
+    // MARK: - Result
     static var hits = [Hit]()
-    static var urlImageRecipe = [URL]()
     static var imageRecipe = [UIImage]()
+    // MARK: - Favorites
     static var favorite = [Recipe]()
     static var imageFavorite = [UIImage]()
     
