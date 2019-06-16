@@ -10,12 +10,33 @@ import UIKit
 
 class ResultViewController: UIViewController {
     
+    var hits = [Hit]()
+    var favorite = [Recipe]()
+    var imageFavorite = [UIImage]()
+    var imageRecipe = [UIImage]()
+    var userIngredients = [String]()
+    @IBOutlet weak var loadMoreButton: UIButton!
     
     @IBOutlet weak var tableView: UITableView!
+    var apiHelper: APIHelper?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
+        loadMoreButton.isHidden = true
+        
+    }
+    
+    @IBAction func loadMoreAction(_ sender: UIButton) {
+        apiHelper?.from = apiHelper!.to + 1
+        apiHelper?.to = apiHelper!.from + 9
+        
+        apiHelper?.getRecipe(userIngredients: userIngredients, callback: { (apiResult) in
+            guard let apiResult = apiResult else { return }
+            guard let hits = apiResult.hits else { return }
+            self.hits.append(contentsOf: hits)
+            self.tableView.reloadData()
+        })
     }
 }
 
@@ -31,9 +52,9 @@ extension ResultViewController {
 extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            tableView.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
-            tableView.separatorStyle = .none
-        return Data.hits.count
+        tableView.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
+        tableView.separatorStyle = .none
+        return hits.count
     }
     
     func fillCell(_ cell: ResultTableViewCell, with hits: [Hit], indexPath: IndexPath) {
@@ -51,17 +72,17 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let favoritesAction = UITableViewRowAction(style: .default, title: "➕Favorites", handler: { (action, indexPath) in
-                // add actions (save to favorites list) and core data
-            let recipe = Data.hits[indexPath.row].recipe
-            let image = Data.imageRecipe[indexPath.row]
-            Data.favorite.append(recipe)
-            Data.imageFavorite.append(image)
+            // add actions (save to favorites list) and core data
+            let recipe = self.hits[indexPath.row].recipe
+            let image = self.imageRecipe[indexPath.row]
+            self.favorite.append(recipe)
+            self.imageFavorite.append(image)
         })
         
         favoritesAction.backgroundColor = UIColor.darkText
         return [favoritesAction]
     }
- 
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     }
     
@@ -70,21 +91,19 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         tableView.rowHeight = tableView.frame.height / 3
-        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
-            fillCell(cell, with: Data.hits, indexPath: indexPath)
-            if Data.hits.count != 0 {
-                tableView.separatorStyle = .singleLine
-                tableView.separatorColor = UIColor.white
-            } else {
-                tableView.separatorStyle = .none
-            }
+            fillCell(cell, with: hits, indexPath: indexPath)
             return cell
         }
         let cellStandard = UITableViewCell()
         return cellStandard
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == hits.count - 1 && hits.count >= 3 {
+            loadMoreButton.isHidden = false
+        }
     }
     
     func updateNameRecipeLabel(cell: ResultTableViewCell, nameRecipe: String) {
@@ -97,20 +116,20 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     
     func getImage(cell: ResultTableViewCell, hit: Hit) {
         guard let urlImage = hit.recipe.image else { return }
-        APIHelper.getImage(url: urlImage) { (image) in
-            cell.noImageLabel.isHidden = true
-            cell.recipeImageView.image = image
-            cell.recipeImageView.contentMode = .scaleAspectFill
-            cell.recipeImageView.alpha = 0.7
+        if let apiHelper = apiHelper {
+            apiHelper.getImage(url: urlImage) { (image) in
+                cell.noImageLabel.isHidden = true
+                cell.recipeImageView.image = image
+                cell.recipeImageView.contentMode = .scaleAspectFill
+                cell.recipeImageView.alpha = 0.7
+            }
         }
     }
     
-    func updateTimeLabel(cell: ResultTableViewCell, time: Int?) {
+    func updateTimeLabel(cell: ResultTableViewCell, time: Double?) {
         if let timerecipe = time {
             let time = String(timerecipe)
             cell.timeLabel.text = time
         }
     }
-    
-
 }

@@ -9,9 +9,12 @@
 import UIKit
 
 class FavoritesResultViewController: UIViewController {
+    
+//    let data = Data()
+    var favorite = [Recipe]()
+    var imageFavorite = [UIImage]()
 
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var noFavoritesLabel: UILabel!
     
     override func viewDidLoad() {
@@ -41,10 +44,10 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if Data.favorite.count == 0 {
+        if favorite.count == 0 {
             noFavoritesLabel.isHidden = true
         }
-        return Data.favorite.count
+        return favorite.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,7 +56,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             
-            let recipes = Data.favorite
+            let recipes = favorite
             fillCell(cell, with: recipes, indexPath: indexPath)
             return cell
         }
@@ -65,7 +68,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         let ingredients = recipe.ingredientLines.joined(separator: ", ")
         let nameRecipe = recipe.label
         let timeRecipe = recipe.totalTime
-        let image = Data.imageFavorite[indexPath.row]
+        let image = imageFavorite[indexPath.row]
         
         updateNameRecipeLabel(cell: cell, nameRecipe: nameRecipe)
         updateIngredientsLabel(cell: cell, ingredients: ingredients)
@@ -78,10 +81,10 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            Data.favorite.remove(at: indexPath.row)
-            Data.imageFavorite.remove(at: indexPath.row)
+            favorite.remove(at: indexPath.row)
+            imageFavorite.remove(at: indexPath.row)
             tableView.reloadData()
-            print(Data.favorite.count)
+            print(favorite.count)
         }
     }
     
@@ -95,12 +98,12 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     
     func updateImage(cell: ResultTableViewCell, image: UIImage, indexPath: IndexPath) {
         cell.noImageLabel.isHidden = true
-        cell.recipeImageView.image = Data.imageFavorite[indexPath.row]
+        cell.recipeImageView.image = imageFavorite[indexPath.row]
         cell.recipeImageView.contentMode = .scaleAspectFill
         cell.recipeImageView.alpha = 0.7
     }
     
-    func updateTimeLabel(cell: ResultTableViewCell, time: Int?) {
+    func updateTimeLabel(cell: ResultTableViewCell, time: Double?) {
         if let timerecipe = time {
             let time = String(timerecipe)
             cell.timeLabel.text = time

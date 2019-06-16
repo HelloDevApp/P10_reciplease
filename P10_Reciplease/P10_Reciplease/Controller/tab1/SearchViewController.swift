@@ -14,7 +14,16 @@ enum Choice {
     case removeAll
 }
 class SearchViewController: UIViewController {
-
+    
+    // MARK: - Search
+    var userIngredients = [String]()
+    // MARK: - FavoritesResultVC
+    var favorite = [Recipe]()
+    var imageFavorite = [UIImage]()
+    var apiResult: APIResult?
+    let apiHelper = APIHelper()
+    var hits = [Hit]()
+    
     // MARK: - @IBOutlets
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
@@ -42,12 +51,16 @@ class SearchViewController: UIViewController {
         
     }
     
+    @IBAction func actionSearchButton(_ sender: UIButton) {
+        launchCall()
+    }
+    
     func addUserIngredientToArray() {
         if let ingredient = ingredientTextField.text, ingredient.count > 2 {
             let indexPath: IndexPath
-            Data.userIngredients.append(ingredient)
+            userIngredients.append(ingredient)
             updateUserIngredients(action: .set, indexPath: nil)
-            indexPath = IndexPath(row: Data.userIngredients.count - 1, section: 0)
+            indexPath = IndexPath(row: userIngredients.count - 1, section: 0)
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
             resetText(textField: ingredientTextField)
@@ -62,14 +75,14 @@ class SearchViewController: UIViewController {
         
         switch action {
         case .get:
-            userDefaultsManager.get(to: &Data.userIngredients, key: key)
+            userDefaultsManager.get(to: &userIngredients, key: key)
         case .set:
-            userDefaultsManager.set(to: Data.userIngredients, key: key)
+            userDefaultsManager.set(to: userIngredients, key: key)
         case .remove:
             guard let indexPath = indexPath else { return }
-            userDefaultsManager.remove(to: &Data.userIngredients, key: key, indexPath: indexPath)
+            userDefaultsManager.remove(to: &userIngredients, key: key, indexPath: indexPath)
         case .removeAll:
-            userDefaultsManager.removeAll(to: &Data.userIngredients, key: key)
+            userDefaultsManager.removeAll(to: &userIngredients, key: key)
         }
     }
     
@@ -78,18 +91,28 @@ class SearchViewController: UIViewController {
     }
 }
 
+//MARK: - API call
+extension SearchViewController {
+    @objc func launchCall() {
+        apiHelper.getRecipe(userIngredients: userIngredients) { (apiResult) in
+            guard apiResult != nil else { return }
+            
+            self.hits = apiResult?.hits ?? []
+            self.performSegue(withIdentifier: "SearchToResult", sender: nil)
+        }
+    }
+}
+
 // MARK: - Navigation
 extension SearchViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let segueID = "SearchToResult"
-        guard segue.identifier == segueID else { return }
+        guard segue.identifier == "SearchToResult" else { return }
         if let resultVC = segue.destination as? ResultViewController {
-            APIHelper.getRecipe() { (apiResult) in
-                guard apiResult != nil else { return } // ?*?*?
-                resultVC.tableView.reloadData() // ?*?*?
-            }
+            resultVC.userIngredients = self.userIngredients
+            resultVC.apiHelper = apiHelper
+            resultVC.hits = hits
         }
     }
 }
@@ -103,7 +126,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Data.userIngredients.count
+        return userIngredients.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -123,7 +146,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     
     func updateLabelCell(labelCell: UILabel, indexPath: IndexPath) {
         labelCell.textColor = .white
-        labelCell.text = "∙  \(Data.userIngredients[indexPath.row])"
+        labelCell.text = "∙  \(userIngredients[indexPath.row])"
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

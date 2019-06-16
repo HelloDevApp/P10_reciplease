@@ -43,7 +43,7 @@
                 <navigationController id="klf-D3-U6I" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="MsO-WI-m3Y"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Oi4-HU-b3i">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.18465295433998108" green="0.19199731945991516" blue="0.20083925127983093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -188,7 +188,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="hmE-sL-DHF" kind="show" identifier="SearchToResult" id="xpl-Xp-ZTD"/>
+                                    <action selector="actionSearchButton:" destination="ZXq-Cb-5Ce" eventType="touchUpInside" id="Leh-21-XGH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -227,6 +227,7 @@
                         <outlet property="ingredientTextField" destination="OM5-0m-eId" id="IcA-Bd-rDa"/>
                         <outlet property="searchForRecipesButton" destination="hXX-u3-lk3" id="gWU-3s-vP5"/>
                         <outlet property="tableView" destination="wF2-qP-lnB" id="ZUf-Ys-uGH"/>
+                        <segue destination="hmE-sL-DHF" kind="show" identifier="SearchToResult" id="7w2-Ii-PsD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xwK-vK-55D" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -244,6 +245,15 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WRK-JQ-ReA">
                                 <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ulN-q1-M0E">
+                                    <rect key="frame" x="0.0" y="128" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.12190238389999999" green="0.12918049100000001" blue="0.1423901618" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <state key="normal" title="Load more..."/>
+                                    <connections>
+                                        <action selector="loadMoreAction:" destination="hmE-sL-DHF" eventType="touchUpInside" id="7Gf-nB-ye0"/>
+                                    </connections>
+                                </button>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="ResultCell" rowHeight="100" id="CWi-Ga-WDd" customClass="ResultTableViewCell" customModule="P10_Reciplease" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="100"/>
@@ -363,6 +373,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="Ag9-1x-iL2"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="loadMoreButton" destination="ulN-q1-M0E" id="IAp-7I-b3y"/>
                         <outlet property="tableView" destination="WRK-JQ-ReA" id="xS0-mA-gs2"/>
                     </connections>
                 </viewController>

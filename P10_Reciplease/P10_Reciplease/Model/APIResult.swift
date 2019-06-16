@@ -9,7 +9,7 @@
 import Foundation
 
 struct APIResult: Decodable {
-    let hits: [Hit]
+    let hits: [Hit]?
 }
 
 struct Hit: Decodable {
@@ -21,7 +21,7 @@ struct Recipe: Decodable {
     let image: URL?
     let url: URL
     let ingredientLines: [String]
-    let totalTime: Int?
+    let totalTime: Double?
     let isFav: Bool?
 }
 
