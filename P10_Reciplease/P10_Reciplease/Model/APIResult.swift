@@ -9,18 +9,18 @@
 import Foundation
 
 struct APIResult: Decodable {
-    let hits: [Hit]?
+    let hits: [Hit]
 }
 
 struct Hit: Decodable {
-    let recipe: Recipe
+    let recipe: Recipe?
 }
 
 struct Recipe: Decodable {
-    let label: String
+    let label: String?
     let image: URL?
-    let url: URL
-    let ingredientLines: [String]
+    let url: URL?
+    let ingredientLines: [String]?
     let totalTime: Double?
     let isFav: Bool?
 }

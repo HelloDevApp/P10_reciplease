@@ -32,24 +32,34 @@ class APIHelper {
         return url!
     }
     
-    func getRecipe(userIngredients: [String], callback: @escaping (APIResult?) -> Void) {
+    func getRecipe(userIngredients: [String], callback: @escaping (APIResult?, Int?) -> Void) {
         
         let url = createURL(userIngredients: userIngredients)
         print(url)
-        
-        // here that I would like to place my cancel
-        AF.request(url).responseJSON { (response) in
+        let request = AF.request(url).responseJSON { (response) in
+            
             switch response.result {
-            case .success(let success):
                 
+            case .success(let value):
                 guard let json = try? JSONDecoder().decode(APIResult.self, from: response.data ?? Data()) else {
-                    callback(nil)
-                    print("json problem.")
+                    callback(nil, response.response?.statusCode)
                     return
                 }
-                callback(json)
+                
+                if response.response?.statusCode == 200 && json.hits.isEmpty {
+                    callback(nil, response.response?.statusCode)
+                    return
+                }
+                callback(json, nil)
+                
             case .failure:
-                callback(nil)
+                guard let response = response.response else { return }
+                switch response.statusCode {
+                case 400...499:
+                    callback(nil, response.statusCode)
+                default:
+                    callback(nil, response.statusCode)
+                }
             }
         }
     }

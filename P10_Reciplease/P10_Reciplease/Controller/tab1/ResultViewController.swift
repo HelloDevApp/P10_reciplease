@@ -15,7 +15,6 @@ class ResultViewController: UIViewController {
     var imageFavorite = [UIImage]()
     var imageRecipe = [UIImage]()
     var userIngredients = [String]()
-    @IBOutlet weak var loadMoreButton: UIButton!
     
     @IBOutlet weak var tableView: UITableView!
     var apiHelper: APIHelper?
@@ -23,20 +22,6 @@ class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
-        loadMoreButton.isHidden = true
-        
-    }
-    
-    @IBAction func loadMoreAction(_ sender: UIButton) {
-        apiHelper?.from = apiHelper!.to + 1
-        apiHelper?.to = apiHelper!.from + 9
-        
-        apiHelper?.getRecipe(userIngredients: userIngredients, callback: { (apiResult) in
-            guard let apiResult = apiResult else { return }
-            guard let hits = apiResult.hits else { return }
-            self.hits.append(contentsOf: hits)
-            self.tableView.reloadData()
-        })
     }
 }
 
@@ -57,23 +42,10 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         return hits.count
     }
     
-    func fillCell(_ cell: ResultTableViewCell, with hits: [Hit], indexPath: IndexPath) {
-        let hit = hits[indexPath.row]
-        let ingredients = hit.recipe.ingredientLines.joined(separator: ", ")
-        let nameRecipe = hit.recipe.label
-        let timeRecipe = hit.recipe.totalTime
-        
-        updateNameRecipeLabel(cell: cell, nameRecipe: nameRecipe)
-        updateIngredientsLabel(cell: cell, ingredients: ingredients)
-        updateTimeLabel(cell: cell, time: timeRecipe)
-        getImage(cell: cell, hit: hit)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
-    }
-    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let favoritesAction = UITableViewRowAction(style: .default, title: "➕Favorites", handler: { (action, indexPath) in
             // add actions (save to favorites list) and core data
-            let recipe = self.hits[indexPath.row].recipe
+            guard let recipe = self.hits[indexPath.row].recipe else { return }
             let image = self.imageRecipe[indexPath.row]
             self.favorite.append(recipe)
             self.imageFavorite.append(image)
@@ -81,9 +53,6 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         
         favoritesAction.backgroundColor = UIColor.darkText
         return [favoritesAction]
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -94,28 +63,26 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.rowHeight = tableView.frame.height / 3
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             fillCell(cell, with: hits, indexPath: indexPath)
+            loadMoreRecipes(numberOfRow: indexPath.row)
             return cell
         }
         let cellStandard = UITableViewCell()
         return cellStandard
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == hits.count - 1 && hits.count >= 3 {
-            loadMoreButton.isHidden = false
-        }
-    }
-    
-    func updateNameRecipeLabel(cell: ResultTableViewCell, nameRecipe: String) {
-        cell.nameRecipeLabel.text = nameRecipe
-    }
-    
-    func updateIngredientsLabel(cell: ResultTableViewCell, ingredients: String) {
-        cell.ingredientsLabel.text = ingredients
+    func fillCell(_ cell: ResultTableViewCell, with hits: [Hit], indexPath: IndexPath) {
+        let hit = hits[indexPath.row]
+        guard let recipe = hit.recipe else { return }
+        getImage(cell: cell, hit: hit)
+        cell.nameRecipeLabel.text = recipe.label
+        cell.ingredientsLabel.text = recipe.ingredientLines?.joined(separator: ", ") ?? ""
+        guard let totalTime = recipe.totalTime else { return }
+        let timeString = String(totalTime)
+        cell.timeLabel.text = timeString
     }
     
     func getImage(cell: ResultTableViewCell, hit: Hit) {
-        guard let urlImage = hit.recipe.image else { return }
+        guard let urlImage = hit.recipe?.image else { return }
         if let apiHelper = apiHelper {
             apiHelper.getImage(url: urlImage) { (image) in
                 cell.noImageLabel.isHidden = true
@@ -126,10 +93,31 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func updateTimeLabel(cell: ResultTableViewCell, time: Double?) {
-        if let timerecipe = time {
-            let time = String(timerecipe)
-            cell.timeLabel.text = time
+    func loadMoreRecipes(numberOfRow: Int) {
+        if numberOfRow == hits.count - 1 {
+            guard let apiHelper = apiHelper else { return }
+            apiHelper.from = apiHelper.to + 1
+            apiHelper.to = apiHelper.from + 9
+            
+            apiHelper.getRecipe(userIngredients: userIngredients, callback: { (apiResult, statusCode)  in
+                guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
+                    guard let statusCode = statusCode else { return }
+                    switch statusCode {
+                    case 401:
+                        print("limit request")
+                    default:
+                        print("error: \(statusCode)")
+                    }
+                    if let apiHelper = self.apiHelper {
+                        apiHelper.from = apiHelper.to - 1
+                        apiHelper.to = apiHelper.from - 9
+                    }
+                    return
+                    
+                }
+                self.hits.append(contentsOf: apiResult.hits)
+                self.tableView.reloadData()
+            })
         }
     }
 }

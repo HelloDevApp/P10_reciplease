@@ -94,10 +94,19 @@ class SearchViewController: UIViewController {
 //MARK: - API call
 extension SearchViewController {
     @objc func launchCall() {
-        apiHelper.getRecipe(userIngredients: userIngredients) { (apiResult) in
-            guard apiResult != nil else { return }
-            
-            self.hits = apiResult?.hits ?? []
+        apiHelper.getRecipe(userIngredients: userIngredients) { (apiResult, statusCode) in
+            guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
+                guard let statusCode = statusCode else { return }
+                switch statusCode {
+                case 401:
+                    print("limit request")
+                default:
+                    print("error: \(statusCode)")
+                }
+                return
+                    
+            }
+            self.hits = apiResult.hits
             self.performSegue(withIdentifier: "SearchToResult", sender: nil)
         }
     }

@@ -65,8 +65,8 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     
     func fillCell(_ cell: ResultTableViewCell, with recipes: [Recipe], indexPath: IndexPath) {
         let recipe = recipes[indexPath.row]
-        let ingredients = recipe.ingredientLines.joined(separator: ", ")
-        let nameRecipe = recipe.label
+        let ingredients = recipe.ingredientLines?.joined(separator: ", ") ?? "?"
+        let nameRecipe = recipe.label ?? "?"
         let timeRecipe = recipe.totalTime
         let image = imageFavorite[indexPath.row]
         
