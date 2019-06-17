@@ -29,7 +29,6 @@ class ResultViewController: UIViewController {
 extension ResultViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
     }
 }
 

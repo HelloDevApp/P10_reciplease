@@ -10,6 +10,10 @@ import UIKit
 
 class DescriptionViewController: UIViewController {
     
+    var nameRecipe = ""
+    var ingredients = [String]()
+    var imageRecipe = UIImage()
+    
     // MARK: - @IBOutlets
     @IBOutlet weak var recipeImageView: UIImageView!
 }
