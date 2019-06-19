@@ -7,15 +7,25 @@
 //
 
 import UIKit
+import Kingfisher
 
 class DescriptionViewController: UIViewController {
     
-    var nameRecipe = ""
-    var ingredients = [String]()
+    var nameRecipe = String()
+    var ingredients = String()
     var imageRecipe = UIImage()
+    @IBOutlet weak var nameRecipeLabel: UILabel!
+    @IBOutlet weak var ingredientsLabel: UITextView!
     
     // MARK: - @IBOutlets
     @IBOutlet weak var recipeImageView: UIImageView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        recipeImageView.contentMode = .scaleAspectFill
+        recipeImageView.image = imageRecipe
+        nameRecipeLabel.text = nameRecipe
+        ingredientsLabel.text = ingredients
+    }
 }
 
 
