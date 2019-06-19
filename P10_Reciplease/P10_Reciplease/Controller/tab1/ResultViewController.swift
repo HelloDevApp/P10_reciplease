@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ResultViewController: UIViewController {
-    
+    //MARK: - SearchVC
+    var userIngredients = [String]()
+    //MARK: - ResultVC
     var hits = [Hit]()
+    //MARK: - FavoritesVC
     var favorite = [Recipe]()
     var imageFavorite = [UIImage]()
-    var imageRecipe = [UIImage]()
-    var userIngredients = [String]()
+    var rowSelect: Int = 0
     
     @IBOutlet weak var tableView: UITableView!
     var apiHelper: APIHelper?
@@ -29,7 +32,26 @@ class ResultViewController: UIViewController {
 extension ResultViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if segue.identifier == "DescriptionVC" {
+            guard let descriptionVC = segue.destination as? DescriptionViewController else { return }
+            guard let recipe = hits[rowSelect].recipe else { return }
+            guard let nameRecipe = recipe.label else { return }
+            guard let ingredients = recipe.ingredientLines else { return }
+            let cache = ImageCache.default
+            guard let recipeImageURL = recipe.image else { return }
+            cache.retrieveImage(forKey: recipeImageURL.absoluteString) { (ImageCacheResult) in
+                switch ImageCacheResult {
+                case .success(let success):
+                    guard let image = success.image else { return }
+                    descriptionVC.imageRecipe = image
+                case .failure(_):
+                    print("this image is not in the kf cache")
+                    break
+                }
+            }
+            descriptionVC.nameRecipe = nameRecipe
+            descriptionVC.ingredients = ingredients.joined(separator: ", \n")
+        }
     }
 }
 
@@ -46,9 +68,9 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         let favoritesAction = UITableViewRowAction(style: .default, title: "➕Favorites", handler: { (action, indexPath) in
             // add actions (save to favorites list) and core data
             guard let recipe = self.hits[indexPath.row].recipe else { return }
-            let image = self.imageRecipe[indexPath.row]
+            
             self.favorite.append(recipe)
-            self.imageFavorite.append(image)
+//            self.imageFavorite.append(image)
         })
         
         favoritesAction.backgroundColor = UIColor.darkText
@@ -73,7 +95,8 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     func fillCell(_ cell: ResultTableViewCell, with hits: [Hit], indexPath: IndexPath) {
         let hit = hits[indexPath.row]
         guard let recipe = hit.recipe else { return }
-        getImage(cell: cell, hit: hit)
+        cell.recipeImageView.kf.setImage(with: recipe.image)
+//        print(recipe.image)
         cell.nameRecipeLabel.text = recipe.label
         cell.ingredientsLabel.text = recipe.ingredientLines?.joined(separator: ", ") ?? ""
         guard let totalTime = recipe.totalTime else { return }
@@ -81,19 +104,8 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         cell.timeLabel.text = timeString
     }
     
-    func getImage(cell: ResultTableViewCell, hit: Hit) {
-        guard let urlImage = hit.recipe?.image else { return }
-        if let apiHelper = apiHelper {
-            apiHelper.getImage(url: urlImage) { (image) in
-                cell.noImageLabel.isHidden = true
-                cell.recipeImageView.image = image
-                cell.recipeImageView.contentMode = .scaleAspectFill
-                cell.recipeImageView.alpha = 0.7
-            }
-        }
-    }
-    
     func loadMoreRecipes(numberOfRow: Int) {
+        
         if numberOfRow == hits.count - 1 {
             guard let apiHelper = apiHelper else { return }
             apiHelper.from = apiHelper.to + 1
@@ -113,11 +125,15 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
                         apiHelper.to = apiHelper.from - 9
                     }
                     return
-                    
                 }
                 self.hits.append(contentsOf: apiResult.hits)
                 self.tableView.reloadData()
             })
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        rowSelect = indexPath.row
+        performSegue(withIdentifier: "DescriptionVC", sender: nil)
     }
 }
