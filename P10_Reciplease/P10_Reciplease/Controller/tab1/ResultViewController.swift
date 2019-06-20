@@ -45,6 +45,7 @@ extension ResultViewController {
                     guard let image = success.image else { return }
                     descriptionVC.imageRecipe = image
                 case .failure(_):
+                    descriptionVC.imageRecipe = nil
                     print("this image is not in the kf cache")
                     break
                 }

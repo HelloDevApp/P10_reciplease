@@ -36,35 +36,18 @@ class APIHelper {
     func getRecipe(userIngredients: [String], callback: @escaping (APIResult?, Int?) -> Void) {
         
         guard let url = createURL(userIngredients: userIngredients) else { return }
-        
         AF.request(url).responseJSON { (response) in
-            
             switch response.result {
-                
             case .success(_):
-                
                 guard let json = try? JSONDecoder().decode(APIResult.self, from: response.data ?? Data()) else {
                     callback(nil, response.response?.statusCode)
                     return
                 }
-                
-                if response.response?.statusCode == 200 && json.hits.isEmpty {
-                    callback(nil, response.response?.statusCode)
-                    return
-                }
-                
                 callback(json, nil)
                 
             case .failure:
                 guard let response = response.response else { return }
-                
-                switch response.statusCode {
-                    
-                case 400...499:
-                    callback(nil, response.statusCode)
-                default:
-                    callback(nil, response.statusCode)
-                }
+                callback(nil, response.statusCode)
             }
         }
     }

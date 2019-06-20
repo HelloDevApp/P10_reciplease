@@ -94,13 +94,19 @@ class SearchViewController: UIViewController {
 //MARK: - API call
 extension SearchViewController {
     @objc func launchCall() {
+        guard !userIngredients.isEmpty else {
+            presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok)
+            return
+        }
         apiHelper.getRecipe(userIngredients: userIngredients) { (apiResult, statusCode) in
             guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
                 guard let statusCode = statusCode else { return }
                 switch statusCode {
                 case 401:
                     print("limit request")
+                    self.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok)
                 default:
+                    self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok)
                     print("error: \(statusCode)")
                 }
                 return

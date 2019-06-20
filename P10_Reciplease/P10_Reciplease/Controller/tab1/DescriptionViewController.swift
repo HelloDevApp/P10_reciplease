@@ -13,7 +13,7 @@ class DescriptionViewController: UIViewController {
     
     var nameRecipe = String()
     var ingredients = String()
-    var imageRecipe = UIImage()
+    var imageRecipe: UIImage?
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UITextView!
     
@@ -21,10 +21,17 @@ class DescriptionViewController: UIViewController {
     @IBOutlet weak var recipeImageView: UIImageView!
     
     override func viewWillAppear(_ animated: Bool) {
-        recipeImageView.contentMode = .scaleAspectFill
-        recipeImageView.image = imageRecipe
+        updateRecipeImageView()
         nameRecipeLabel.text = nameRecipe
         ingredientsLabel.text = ingredients
+    }
+    func updateRecipeImageView() {
+        recipeImageView.contentMode = .scaleAspectFit
+        if imageRecipe == nil {
+            recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+        } else {
+            recipeImageView.image = imageRecipe
+        }
     }
 }
 
