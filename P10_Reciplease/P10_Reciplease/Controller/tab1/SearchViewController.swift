@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 enum Choice {
     case get
     case set

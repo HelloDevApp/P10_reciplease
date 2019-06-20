@@ -39,6 +39,7 @@ extension ResultViewController {
             guard let recipe = hits[rowSelect].recipe else { return }
             guard let nameRecipe = recipe.label else { return }
             guard let ingredients = recipe.ingredientLines else { return }
+            guard let urlDirections = recipe.url else { return }
             let cache = ImageCache.default
             guard let recipeImageURL = recipe.image else { return }
             cache.retrieveImage(forKey: recipeImageURL.absoluteString) { (ImageCacheResult) in
@@ -52,6 +53,7 @@ extension ResultViewController {
                     break
                 }
             }
+            descriptionVC.urlDirections = urlDirections
             descriptionVC.nameRecipe = nameRecipe
             descriptionVC.ingredients = ingredients.joined(separator: ", \n")
         }

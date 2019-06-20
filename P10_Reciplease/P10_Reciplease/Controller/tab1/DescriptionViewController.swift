@@ -8,12 +8,15 @@
 
 import UIKit
 import Kingfisher
+import WebKit
 
 class DescriptionViewController: UIViewController {
     
     var nameRecipe = String()
     var ingredients = String()
     var imageRecipe: UIImage?
+    var urlDirections = URL(string: "")
+    
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UITextView!
     
@@ -25,6 +28,16 @@ class DescriptionViewController: UIViewController {
         nameRecipeLabel.text = nameRecipe
         ingredientsLabel.text = ingredients
     }
+    
+    @IBAction func getDirectionsButtonAction(_ sender: UIButton) {
+        if let urlDirection = urlDirections {
+            let urlDirectionsRequest = URLRequest(url: urlDirection)
+            let web = WKWebView(frame: view.frame)
+            self.view.addSubview(web)
+            web.load(urlDirectionsRequest)
+        }
+    }
+    
     func updateRecipeImageView() {
         recipeImageView.contentMode = .scaleAspectFit
         if imageRecipe == nil {
