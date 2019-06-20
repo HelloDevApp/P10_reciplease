@@ -28,6 +28,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchForRecipesButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     let impact = UIImpactFeedbackGenerator(style: .heavy)
@@ -52,6 +53,7 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func actionSearchButton(_ sender: UIButton) {
+        searchForRecipesButton.isEnabled = false
         launchCall()
     }
     
@@ -98,23 +100,38 @@ extension SearchViewController {
             presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok)
             return
         }
+        startActivityIndicator()
+        
         apiHelper.getRecipe(userIngredients: userIngredients) { (apiResult, statusCode) in
             guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
                 guard let statusCode = statusCode else { return }
                 switch statusCode {
                 case 401:
-                    print("limit request")
                     self.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok)
                 default:
                     self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok)
                     print("error: \(statusCode)")
                 }
+                self.searchForRecipesButton.isEnabled = true
+                self.stopActivityIndicator()
                 return
                     
             }
             self.hits = apiResult.hits
+            self.searchForRecipesButton.isEnabled = true
+            self.stopActivityIndicator()
             self.performSegue(withIdentifier: "SearchToResult", sender: nil)
         }
+    }
+    
+    func startActivityIndicator() {
+        self.activityIndicator.isHidden = false
+        self.activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        self.activityIndicator.isHidden = true
+        self.activityIndicator.stopAnimating()
     }
 }
 

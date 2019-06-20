@@ -191,6 +191,12 @@
                                     <action selector="actionSearchButton:" destination="ZXq-Cb-5Ce" eventType="touchUpInside" id="Leh-21-XGH"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="x7L-fy-HZS">
+                                <rect key="frame" x="149.5" y="390.5" width="21" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="x7L-fy-HZS" secondAttribute="height" multiplier="1:1" id="7Q1-PS-G6M"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.18073180320000001" green="0.18807554239999999" blue="0.19691777229999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -204,8 +210,11 @@
                             <constraint firstItem="wF2-qP-lnB" firstAttribute="top" secondItem="dLG-LF-ZTC" secondAttribute="bottom" constant="25" id="H50-5h-dEo"/>
                             <constraint firstItem="heZ-eF-bzb" firstAttribute="leading" secondItem="dLG-LF-ZTC" secondAttribute="trailing" constant="30" id="Kmi-Cj-JHt"/>
                             <constraint firstItem="jAe-63-Aib" firstAttribute="bottom" secondItem="wF2-qP-lnB" secondAttribute="bottom" constant="60" id="Mbn-ZW-2Bu"/>
+                            <constraint firstItem="x7L-fy-HZS" firstAttribute="centerY" secondItem="hXX-u3-lk3" secondAttribute="centerY" id="Ndn-Wg-c6k"/>
+                            <constraint firstItem="x7L-fy-HZS" firstAttribute="height" secondItem="hXX-u3-lk3" secondAttribute="height" multiplier="0.7" id="UY8-S5-VLN"/>
                             <constraint firstItem="jAe-63-Aib" firstAttribute="bottom" secondItem="hXX-u3-lk3" secondAttribute="bottom" constant="15" id="Urj-VS-7Jt"/>
                             <constraint firstItem="hXX-u3-lk3" firstAttribute="top" secondItem="wF2-qP-lnB" secondAttribute="bottom" constant="15" id="Ybx-gZ-V8Q"/>
+                            <constraint firstItem="x7L-fy-HZS" firstAttribute="centerX" secondItem="nyw-tc-cmU" secondAttribute="centerX" id="af9-rC-trb"/>
                             <constraint firstItem="jgD-bl-eiv" firstAttribute="top" secondItem="wF2-qP-lnB" secondAttribute="bottom" id="cVo-1Z-hfS"/>
                             <constraint firstItem="dLG-LF-ZTC" firstAttribute="leading" secondItem="jAe-63-Aib" secondAttribute="leading" constant="16" id="e2N-Hj-fg1"/>
                             <constraint firstItem="hXX-u3-lk3" firstAttribute="centerX" secondItem="jAe-63-Aib" secondAttribute="centerX" id="g8g-2e-OqG"/>
@@ -224,6 +233,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="7bo-kr-Opg"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="x7L-fy-HZS" id="kUf-Yu-Yav"/>
                         <outlet property="ingredientTextField" destination="OM5-0m-eId" id="IcA-Bd-rDa"/>
                         <outlet property="searchForRecipesButton" destination="hXX-u3-lk3" id="gWU-3s-vP5"/>
                         <outlet property="tableView" destination="wF2-qP-lnB" id="ZUf-Ys-uGH"/>
@@ -245,6 +255,12 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WRK-JQ-ReA">
                                 <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="dNu-Wb-vG2">
+                                    <rect key="frame" x="0.0" y="128" width="320" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.12190238389999999" green="0.12918049100000001" blue="0.1423901618" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </activityIndicatorView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="ResultCell" rowHeight="100" id="CWi-Ga-WDd" customClass="ResultTableViewCell" customModule="P10_Reciplease" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="100"/>
@@ -330,12 +346,12 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.18857410550117493" green="0.19591912627220154" blue="0.20476078987121582" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="WRK-JQ-ReA" firstAttribute="top" secondItem="Q1l-Ue-Mdf" secondAttribute="top" id="0UE-cd-ZJK"/>
+                            <constraint firstItem="Q1l-Ue-Mdf" firstAttribute="bottom" secondItem="WRK-JQ-ReA" secondAttribute="bottom" id="2Jh-0U-3Nu"/>
                             <constraint firstItem="Q1l-Ue-Mdf" firstAttribute="trailing" secondItem="WRK-JQ-ReA" secondAttribute="trailing" id="46n-xU-FuD"/>
                             <constraint firstItem="WRK-JQ-ReA" firstAttribute="leading" secondItem="Q1l-Ue-Mdf" secondAttribute="leading" id="9gx-dU-i7j"/>
-                            <constraint firstItem="Q1l-Ue-Mdf" firstAttribute="bottom" secondItem="WRK-JQ-ReA" secondAttribute="bottom" id="oVl-sK-irj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Q1l-Ue-Mdf"/>
                     </view>
@@ -343,6 +359,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="Ag9-1x-iL2"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="dNu-Wb-vG2" id="rhY-pn-0M7"/>
                         <outlet property="tableView" destination="WRK-JQ-ReA" id="xS0-mA-gs2"/>
                         <segue destination="MwN-sV-QHi" kind="show" identifier="DescriptionVC" id="GA5-SB-On1"/>
                     </connections>

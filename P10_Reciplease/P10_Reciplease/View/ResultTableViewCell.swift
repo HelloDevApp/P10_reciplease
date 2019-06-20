@@ -13,7 +13,6 @@ class ResultTableViewCell: UITableViewCell {
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var numberOfLike: UILabel!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var noImageLabel: UILabel!
     

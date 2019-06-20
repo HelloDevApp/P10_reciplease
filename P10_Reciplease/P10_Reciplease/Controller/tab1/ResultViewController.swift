@@ -19,6 +19,8 @@ class ResultViewController: UIViewController {
     var imageFavorite = [UIImage]()
     var rowSelect: Int = 0
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var tableView: UITableView!
     var apiHelper: APIHelper?
     
@@ -112,12 +114,15 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
             apiHelper.from = apiHelper.to + 1
             apiHelper.to = apiHelper.from + 9
             
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
             apiHelper.getRecipe(userIngredients: userIngredients, callback: { (apiResult, statusCode)  in
                 guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
                     guard let statusCode = statusCode else { return }
                     switch statusCode {
                     case 401:
                         print("limit request")
+                        
                     default:
                         print("error: \(statusCode)")
                     }
@@ -125,9 +130,13 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
                         apiHelper.from = apiHelper.to - 1
                         apiHelper.to = apiHelper.from - 9
                     }
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
                     return
                 }
                 self.hits.append(contentsOf: apiResult.hits)
+                self.activityIndicator.isHidden = true
+                self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
             })
         }
