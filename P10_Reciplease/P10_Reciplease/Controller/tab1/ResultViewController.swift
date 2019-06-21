@@ -102,7 +102,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         guard let recipe = hit.recipe else { return }
         cell.recipeImageView.kf.setImage(with: recipe.image)
 //        print(recipe.image)
-        cell.nameRecipeLabel.text = recipe.label
+        cell.nameRecipeLabel.text = "\(indexPath.row)" + recipe.label!
         cell.ingredientsLabel.text = recipe.ingredientLines?.joined(separator: ", ") ?? ""
         guard let totalTime = recipe.totalTime else { return }
         let timeString = String(totalTime)
@@ -110,10 +110,12 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func loadMoreRecipes(numberOfRow: Int) {
-        
+        print(numberOfRow)
         if numberOfRow == hits.count - 1 {
             guard let apiHelper = apiHelper else { return }
+            print("increment from = \(apiHelper.to + 1)")
             apiHelper.from = apiHelper.to + 1
+            print("increment to \(apiHelper.from + 9)")
             apiHelper.to = apiHelper.from + 9
             
             activityIndicator.isHidden = false
@@ -123,14 +125,18 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
                     guard let statusCode = statusCode else { return }
                     switch statusCode {
                     case 401:
+                        self.presentAlert(titleAlert: .error, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
                         print("limit request")
-                        
+                        print("error: \(statusCode)")
                     default:
+                        self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .error, statusCode: statusCode)
                         print("error: \(statusCode)")
                     }
                     if let apiHelper = self.apiHelper {
-                        apiHelper.from = apiHelper.to - 1
-                        apiHelper.to = apiHelper.from - 9
+                        print("revertFrom = \(apiHelper.from - 10)")
+                        apiHelper.from = apiHelper.from - 10
+                        print("revertTo = \(apiHelper.to - 10)")
+                        apiHelper.to = apiHelper.to - 10
                     }
                     self.activityIndicator.isHidden = true
                     self.activityIndicator.stopAnimating()

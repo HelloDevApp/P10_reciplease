@@ -98,19 +98,22 @@ class SearchViewController: UIViewController {
 extension SearchViewController {
     @objc func launchCall() {
         guard !userIngredients.isEmpty else {
-            presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok)
+            presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok, statusCode: nil)
             return
         }
         startActivityIndicator()
         
+        apiHelper.from = 1
+        apiHelper.to = 10
         apiHelper.getRecipe(userIngredients: userIngredients) { (apiResult, statusCode) in
             guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
                 guard let statusCode = statusCode else { return }
                 switch statusCode {
                 case 401:
-                    self.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok)
+                    self.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
+                    print("error: \(statusCode)")
                 default:
-                    self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok)
+                    self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: statusCode)
                     print("error: \(statusCode)")
                 }
                 self.searchForRecipesButton.isEnabled = true

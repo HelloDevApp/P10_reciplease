@@ -37,15 +37,20 @@ class APIHelper {
         
         guard let url = createURL(userIngredients: userIngredients) else { return }
         AF.request(url).responseJSON { (response) in
+            print(url)
             switch response.result {
             case .success(_):
+                print("success")
                 guard let json = try? JSONDecoder().decode(APIResult.self, from: response.data ?? Data()) else {
+                    print("success json failed")
                     callback(nil, response.response?.statusCode)
                     return
                 }
+                print("success json in callback")
                 callback(json, nil)
                 
             case .failure:
+                print("failure")
                 guard let response = response.response else { return }
                 callback(nil, response.statusCode)
             }
