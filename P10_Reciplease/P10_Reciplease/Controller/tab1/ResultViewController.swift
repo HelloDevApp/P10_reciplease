@@ -89,6 +89,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.rowHeight = tableView.frame.height / 3
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
+            print("toto", indexPath.row)
             fillCell(cell, with: hits, indexPath: indexPath)
             loadMoreRecipes(numberOfRow: indexPath.row)
             return cell
@@ -120,32 +121,32 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
             
             activityIndicator.isHidden = false
             activityIndicator.startAnimating()
-            apiHelper.getRecipe(userIngredients: userIngredients, callback: { (apiResult, statusCode)  in
+            apiHelper.getRecipe(userIngredients: userIngredients, callback: { [weak self] (apiResult, statusCode)  in
                 guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
                     guard let statusCode = statusCode else { return }
                     switch statusCode {
                     case 401:
-                        self.presentAlert(titleAlert: .error, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
+                        self?.presentAlert(titleAlert: .error, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
                         print("limit request")
                         print("error: \(statusCode)")
                     default:
-                        self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .error, statusCode: statusCode)
+                        self?.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .error, statusCode: statusCode)
                         print("error: \(statusCode)")
                     }
-                    if let apiHelper = self.apiHelper {
+                    if let apiHelper = self?.apiHelper {
                         print("revertFrom = \(apiHelper.from - 10)")
                         apiHelper.from = apiHelper.from - 10
                         print("revertTo = \(apiHelper.to - 10)")
                         apiHelper.to = apiHelper.to - 10
                     }
-                    self.activityIndicator.isHidden = true
-                    self.activityIndicator.stopAnimating()
+                    self?.activityIndicator.isHidden = true
+                    self?.activityIndicator.stopAnimating()
                     return
                 }
-                self.hits.append(contentsOf: apiResult.hits)
-                self.activityIndicator.isHidden = true
-                self.activityIndicator.stopAnimating()
-                self.tableView.reloadData()
+                self?.hits.append(contentsOf: apiResult.hits)
+                self?.activityIndicator.isHidden = true
+                self?.activityIndicator.stopAnimating()
+                self?.tableView.reloadData()
             })
         }
     }
