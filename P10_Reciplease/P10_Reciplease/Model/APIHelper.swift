@@ -36,8 +36,9 @@ class APIHelper {
     func getRecipe(userIngredients: [String], callback: @escaping (APIResult?, Int?) -> Void) {
         
         guard let url = createURL(userIngredients: userIngredients) else { return }
-        AF.request(url).responseJSON { (response) in
+        AF.request(url).responseJSON { [weak self] (response) in
             print(url)
+            guard self != nil else { return }
             switch response.result {
             case .success(_):
                 print("success")

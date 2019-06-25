@@ -16,7 +16,7 @@ class ResultViewController: UIViewController {
     var hits = [Hit]()
     //MARK: - FavoritesVC
     var favorite = [Recipe]()
-    var imageFavorite = [UIImage]()
+  //  var imageFavorite = [UIImage]()
     var rowSelect: Int = 0
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -28,6 +28,11 @@ class ResultViewController: UIViewController {
         super.viewDidLoad()
         tableView.reloadData()
     }
+    
+    deinit {
+        print("deinit: ResultVC")
+    }
+    
 }
 
 // MARK: - Navigation
@@ -42,7 +47,8 @@ extension ResultViewController {
             guard let urlDirections = recipe.url else { return }
             let cache = ImageCache.default
             guard let recipeImageURL = recipe.image else { return }
-            cache.retrieveImage(forKey: recipeImageURL.absoluteString) { (ImageCacheResult) in
+            cache.retrieveImage(forKey: recipeImageURL.absoluteString) { [weak self] (ImageCacheResult) in
+                guard self != nil else { return }
                 switch ImageCacheResult {
                 case .success(let success):
                     guard let image = success.image else { return }
@@ -70,7 +76,9 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let favoritesAction = UITableViewRowAction(style: .default, title: "➕Favorites", handler: { (action, indexPath) in
+        let favoritesAction = UITableViewRowAction(style: .default, title: "➕Favorites", handler: { [weak self] (action, indexPath) in
+            
+            guard let self = self else { return }
             // add actions (save to favorites list) and core data
             guard let recipe = self.hits[indexPath.row].recipe else { return }
             
@@ -89,7 +97,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.rowHeight = tableView.frame.height / 3
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
-            print("toto", indexPath.row)
+            print(indexPath.row)
             fillCell(cell, with: hits, indexPath: indexPath)
             loadMoreRecipes(numberOfRow: indexPath.row)
             return cell
@@ -101,7 +109,8 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     func fillCell(_ cell: ResultTableViewCell, with hits: [Hit], indexPath: IndexPath) {
         let hit = hits[indexPath.row]
         guard let recipe = hit.recipe else { return }
-        cell.recipeImageView.kf.setImage(with: recipe.image)
+//        cell.recipeImageView.kf.setImage(with: recipe.image)
+        cell.recipeImageView.kf.setImage(with: .network(recipe.image!), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(10))], progressBlock: nil, completionHandler: nil)
 //        print(recipe.image)
         cell.nameRecipeLabel.text = "\(indexPath.row)" + recipe.label!
         cell.ingredientsLabel.text = recipe.ingredientLines?.joined(separator: ", ") ?? ""
@@ -122,31 +131,32 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
             activityIndicator.isHidden = false
             activityIndicator.startAnimating()
             apiHelper.getRecipe(userIngredients: userIngredients, callback: { [weak self] (apiResult, statusCode)  in
+                guard let self = self else { return }
                 guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
                     guard let statusCode = statusCode else { return }
                     switch statusCode {
                     case 401:
-                        self?.presentAlert(titleAlert: .error, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
+                        self.presentAlert(titleAlert: .error, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
                         print("limit request")
                         print("error: \(statusCode)")
                     default:
-                        self?.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .error, statusCode: statusCode)
+                        self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .error, statusCode: statusCode)
                         print("error: \(statusCode)")
                     }
-                    if let apiHelper = self?.apiHelper {
+                    if let apiHelper = self.apiHelper {
                         print("revertFrom = \(apiHelper.from - 10)")
                         apiHelper.from = apiHelper.from - 10
                         print("revertTo = \(apiHelper.to - 10)")
                         apiHelper.to = apiHelper.to - 10
                     }
-                    self?.activityIndicator.isHidden = true
-                    self?.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
                     return
                 }
-                self?.hits.append(contentsOf: apiResult.hits)
-                self?.activityIndicator.isHidden = true
-                self?.activityIndicator.stopAnimating()
-                self?.tableView.reloadData()
+                self.hits.append(contentsOf: apiResult.hits)
+                self.activityIndicator.isHidden = true
+                self.activityIndicator.stopAnimating()
+                self.tableView.reloadData()
             })
         }
     }

@@ -41,6 +41,10 @@ class SearchViewController: UIViewController {
         updateUserIngredients(action: .get, indexPath: nil)
     }
     
+    deinit {
+        print("deinit: SearchVC")
+    }
+    
     // MARK: - #@IBActions
     @IBAction func actionAddButton(_ sender: UIButton) {
         addUserIngredientToArray()
@@ -96,7 +100,8 @@ class SearchViewController: UIViewController {
 
 //MARK: - API call
 extension SearchViewController {
-    @objc func launchCall() {
+    
+    func launchCall() {
         guard !userIngredients.isEmpty else {
             presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok, statusCode: nil)
             return
@@ -106,25 +111,26 @@ extension SearchViewController {
         apiHelper.from = 1
         apiHelper.to = 10
         apiHelper.getRecipe(userIngredients: userIngredients) { [weak self] (apiResult, statusCode) in
+            guard let self = self else { return }
             guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
                 guard let statusCode = statusCode else { return }
                 switch statusCode {
                 case 401:
-                    self?.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
+                    self.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
                     print("error: \(statusCode)")
                 default:
-                    self?.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: statusCode)
+                    self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: statusCode)
                     print("error: \(statusCode)")
                 }
-                self?.searchForRecipesButton.isEnabled = true
-                self?.stopActivityIndicator()
+                self.searchForRecipesButton.isEnabled = true
+                self.stopActivityIndicator()
                 return
                     
             }
-            self?.hits = apiResult.hits
-            self?.searchForRecipesButton.isEnabled = true
-            self?.stopActivityIndicator()
-            self?.performSegue(withIdentifier: "SearchToResult", sender: nil)
+            self.hits = apiResult.hits
+            self.searchForRecipesButton.isEnabled = true
+            self.stopActivityIndicator()
+            self.performSegue(withIdentifier: "SearchToResult", sender: nil)
         }
     }
     

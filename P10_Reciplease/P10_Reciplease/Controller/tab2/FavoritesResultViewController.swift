@@ -24,6 +24,11 @@ class FavoritesResultViewController: UIViewController {
             // TO-DO: - Hidden noimageLabel
 //        }
     }
+    
+    deinit {
+        print("deinit: FavoritesVC")
+    }
+    
 }
 
 

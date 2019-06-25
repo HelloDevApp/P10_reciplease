@@ -29,13 +29,11 @@ class DescriptionViewController: UIViewController {
         ingredientsLabel.text = ingredients
     }
     
+    deinit {
+        print("deinit: DescriptionVC")
+    }
     @IBAction func getDirectionsButtonAction(_ sender: UIButton) {
-        if let urlDirection = urlDirections {
-            let urlDirectionsRequest = URLRequest(url: urlDirection)
-            let web = WKWebView(frame: view.frame)
-            self.view.addSubview(web)
-            web.load(urlDirectionsRequest)
-        }
+        performSegue(withIdentifier: "DescriptionToWeb", sender: nil)
     }
     
     func updateRecipeImageView() {
@@ -53,7 +51,8 @@ class DescriptionViewController: UIViewController {
 extension DescriptionViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "DescriptionToWeb", let webVC = segue.destination as? WebViewController {
+            webVC.url = urlDirections
+        }
     }
 }

@@ -18,6 +18,8 @@
 		52365E8222BB0C28005226DB /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E8122BB0C28005226DB /* ErrorMessages.swift */; };
 		52619B1022AA6D01002B8471 /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52619B0F22AA6D01002B8471 /* APIResult.swift */; };
 		529BB74222B2A386004B9244 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BB74122B2A386004B9244 /* UserDefaultsManager.swift */; };
+		52B59A1A22C0DA6F00BDE0CE /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */; };
+		52B59A1C22C216F600BDE0CE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B59A1B22C216F600BDE0CE /* WebKit.framework */; };
 		52C766112296026B007A2212 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766102296026B007A2212 /* SearchViewController.swift */; };
 		52C76613229602F1007A2212 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76612229602F1007A2212 /* ResultViewController.swift */; };
 		52C766152296034B007A2212 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766142296034B007A2212 /* DescriptionViewController.swift */; };
@@ -56,6 +58,8 @@
 		52365E8122BB0C28005226DB /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
 		52619B0F22AA6D01002B8471 /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		529BB74122B2A386004B9244 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		52B59A1B22C216F600BDE0CE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		52C1F823E1E2BBE4A8F9BA18 /* Pods_P10_RecipleaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_P10_RecipleaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52C766102296026B007A2212 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		52C76612229602F1007A2212 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52B59A1C22C216F600BDE0CE /* WebKit.framework in Frameworks */,
 				AB8426761D21D93C3BDF7A5D /* Pods_P10_Reciplease.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +102,7 @@
 		176D833A154E74007F7119A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52B59A1B22C216F600BDE0CE /* WebKit.framework */,
 				2F0A6A961A824509886B2739 /* Pods_P10_Reciplease.framework */,
 				52C1F823E1E2BBE4A8F9BA18 /* Pods_P10_RecipleaseTests.framework */,
 			);
@@ -120,6 +126,7 @@
 				52C766102296026B007A2212 /* SearchViewController.swift */,
 				52C76612229602F1007A2212 /* ResultViewController.swift */,
 				52C766142296034B007A2212 /* DescriptionViewController.swift */,
+				52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */,
 			);
 			path = tab1;
 			sourceTree = "<group>";
@@ -391,6 +398,7 @@
 				521D23AB22A0501600701187 /* FavoritesResultViewController.swift in Sources */,
 				52365E7E22B7D4AC005226DB /* APIKey.swift in Sources */,
 				52C76613229602F1007A2212 /* ResultViewController.swift in Sources */,
+				52B59A1A22C0DA6F00BDE0CE /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
