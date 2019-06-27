@@ -109,7 +109,8 @@ extension SearchViewController {
         startActivityIndicator()
         
         apiHelper.from = 1
-        apiHelper.to = 10
+        apiHelper.to = 20
+        
         apiHelper.getRecipe(userIngredients: userIngredients) { [weak self] (apiResult, statusCode) in
             guard let self = self else { return }
             guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
@@ -203,5 +204,4 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deleteRows(at: [indexPath], with: .automatic)
         tableView.reloadData()
     }
-    
 }

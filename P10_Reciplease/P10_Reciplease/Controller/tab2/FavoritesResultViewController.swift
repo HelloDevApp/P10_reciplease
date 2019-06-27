@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+import Kingfisher
 
 class FavoritesResultViewController: UIViewController {
     
@@ -17,12 +19,8 @@ class FavoritesResultViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var noFavoritesLabel: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-//        if Recipe.favoritesRecipes.count == 0 {
-            // TO-DO: - Hidden noimageLabel
-//        }
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
     
     deinit {

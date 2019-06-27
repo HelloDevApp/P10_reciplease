@@ -17,7 +17,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(url)
         loadURLDirections(url: url)
         // Do any additional setup after loading the view.
     }
@@ -46,7 +45,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         guard let urldirection = url else { return }
         guard let urlCurrent = navigationAction.request.url else { return }
         if urldirection != urlCurrent {
-            print("desolé.")
+            print("problem URL directions.")
             decisionHandler(.cancel)
         } else {
             print("c'est ok")

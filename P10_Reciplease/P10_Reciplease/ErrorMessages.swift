@@ -6,8 +6,6 @@
 //  Copyright © 2019 macbook pro. All rights reserved.
 //
 
-import Foundation
-
 enum ErrorMessages: String {
     
     // MARK: - Title

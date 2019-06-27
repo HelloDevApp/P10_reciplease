@@ -6,13 +6,12 @@
 //  Copyright © 2019 macbook pro. All rights reserved.
 //
 
-import Foundation
 import Alamofire
 
 class APIHelper {
     
     var from = 1
-    var to = 10
+    var to = 20
     
     func createURL(userIngredients: [String]) -> URL? {
         
@@ -43,7 +42,7 @@ class APIHelper {
             case .success(_):
                 print("success")
                 guard let json = try? JSONDecoder().decode(APIResult.self, from: response.data ?? Data()) else {
-                    print("success json failed")
+                    print("decode json failed")
                     callback(nil, response.response?.statusCode)
                     return
                 }
