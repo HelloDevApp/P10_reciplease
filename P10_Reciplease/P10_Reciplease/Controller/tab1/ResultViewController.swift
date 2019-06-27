@@ -19,18 +19,22 @@ class ResultViewController: UIViewController {
   //  var imageFavorite = [UIImage]()
     var rowSelect: Int = 0
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    let cache = ImageCache.default
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
+    
     var apiHelper: APIHelper?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
+//        cache.memoryStorage.config.expiration = .seconds(60)
     }
     
     deinit {
         print("deinit: ResultVC")
+        cache.clearMemoryCache()
     }
     
 }
@@ -45,8 +49,9 @@ extension ResultViewController {
             guard let nameRecipe = recipe.label else { return }
             guard let ingredients = recipe.ingredientLines else { return }
             guard let urlDirections = recipe.url else { return }
-            let cache = ImageCache.default
             guard let recipeImageURL = recipe.image else { return }
+            
+            
             cache.retrieveImage(forKey: recipeImageURL.absoluteString) { [weak self] (ImageCacheResult) in
                 guard self != nil else { return }
                 switch ImageCacheResult {
@@ -109,9 +114,8 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     func fillCell(_ cell: ResultTableViewCell, with hits: [Hit], indexPath: IndexPath) {
         let hit = hits[indexPath.row]
         guard let recipe = hit.recipe else { return }
-//        cell.recipeImageView.kf.setImage(with: recipe.image)
-        cell.recipeImageView.kf.setImage(with: .network(recipe.image!), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(10))], progressBlock: nil, completionHandler: nil)
-//        print(recipe.image)
+        guard let url = recipe.image else { return }
+        cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(3))], progressBlock: nil, completionHandler: nil)
         cell.nameRecipeLabel.text = "\(indexPath.row)" + recipe.label!
         cell.ingredientsLabel.text = recipe.ingredientLines?.joined(separator: ", ") ?? ""
         guard let totalTime = recipe.totalTime else { return }
@@ -121,44 +125,40 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     
     func loadMoreRecipes(numberOfRow: Int) {
         print(numberOfRow)
-        if numberOfRow == hits.count - 1 {
-            guard let apiHelper = apiHelper else { return }
-            print("increment from = \(apiHelper.to + 1)")
-            apiHelper.from = apiHelper.to + 1
-            print("increment to \(apiHelper.from + 9)")
-            apiHelper.to = apiHelper.from + 9
-            
-            activityIndicator.isHidden = false
-            activityIndicator.startAnimating()
-            apiHelper.getRecipe(userIngredients: userIngredients, callback: { [weak self] (apiResult, statusCode)  in
-                guard let self = self else { return }
-                guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
-                    guard let statusCode = statusCode else { return }
-                    switch statusCode {
-                    case 401:
-                        self.presentAlert(titleAlert: .error, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
-                        print("limit request")
-                        print("error: \(statusCode)")
-                    default:
-                        self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .error, statusCode: statusCode)
-                        print("error: \(statusCode)")
-                    }
-                    if let apiHelper = self.apiHelper {
-                        print("revertFrom = \(apiHelper.from - 10)")
-                        apiHelper.from = apiHelper.from - 10
-                        print("revertTo = \(apiHelper.to - 10)")
-                        apiHelper.to = apiHelper.to - 10
-                    }
-                    self.activityIndicator.isHidden = true
-                    self.activityIndicator.stopAnimating()
-                    return
+        guard numberOfRow == hits.count - 1 else { return }
+        guard let apiHelper = apiHelper else { return }
+        apiHelper.from = apiHelper.to + 1
+        apiHelper.to = apiHelper.from + 9
+        
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
+        apiHelper.getRecipe(userIngredients: userIngredients, callback: { [weak self] (apiResult, statusCode)  in
+            guard let self = self else { return }
+            guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
+                guard let statusCode = statusCode else { return }
+                switch statusCode {
+                case 401:
+                    self.presentAlert(titleAlert: .error, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
+                    print("limit request")
+                    print("error: \(statusCode)")
+                default:
+                    self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .error, statusCode: statusCode)
+                    print("error: \(statusCode)")
                 }
-                self.hits.append(contentsOf: apiResult.hits)
+                if let apiHelper = self.apiHelper {
+                    apiHelper.from -= 10
+                    apiHelper.to -= 10
+                }
                 self.activityIndicator.isHidden = true
                 self.activityIndicator.stopAnimating()
-                self.tableView.reloadData()
-            })
-        }
+                return
+            }
+            self.hits.append(contentsOf: apiResult.hits)
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
+            self.tableView.reloadData()
+        })
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
