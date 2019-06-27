@@ -12,10 +12,7 @@ import Kingfisher
 
 class FavoritesResultViewController: UIViewController {
     
-//    let data = Data()
-    var favorite = [Recipe]()
-    var imageFavorite = [UIImage]()
-
+    lazy var refresher = UIRefreshControl()
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var noFavoritesLabel: UILabel!
     
@@ -42,41 +39,78 @@ extension FavoritesResultViewController {
 // MARK: - TableView
 extension FavoritesResultViewController: UITableViewDataSource, UITableViewDelegate {
     
-    override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+    fileprivate func initRefresher() {
+        
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refresher
+        } else {
+            tableView.addSubview(refresher)
+        }
+        
+        refresher.addTarget(self, action: #selector(fetch), for: .valueChanged)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initRefresher()
+    }
+    
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func fetch() {
+        tableView.reloadData()
+        self.refresher.endRefreshing()
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if favorite.count == 0 {
+        return Recipe_.allRecipes.count
+    }
+    
+    fileprivate func changeSeparatorStyle(_ tableView: UITableView) {
+        switch Recipe_.allRecipes.count {
+        case 0:
+            noFavoritesLabel.isHidden = false
+            tableView.separatorStyle = .none
+        case 1:
+            tableView.separatorStyle = .none
             noFavoritesLabel.isHidden = true
+        case 2...Int.max:
+            tableView.separatorStyle = .singleLine
+        default:
+            break
         }
-        return favorite.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.rowHeight = tableView.frame.height / 3
+        changeSeparatorStyle(tableView)
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
-            
-            let recipes = favorite
-            fillCell(cell, with: recipes, indexPath: indexPath)
-            return cell
-        }
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell else { return UITableViewCell() }
+        
+        fillCell(cell, with: Recipe_.allRecipes, indexPath: indexPath)
+        
+        return cell
     }
     
-    func fillCell(_ cell: ResultTableViewCell, with recipes: [Recipe], indexPath: IndexPath) {
-        let recipe = recipes[indexPath.row]
-        let ingredients = recipe.ingredientLines?.joined(separator: ", ") ?? "?"
-        let nameRecipe = recipe.label ?? "?"
+    func fillCell(_ cell: ResultTableViewCell, with recipes: [Recipe_?], indexPath: IndexPath) {
+        
+        guard let recipe = recipes[indexPath.row] else { return }
+        
+        let ingredientLines = recipe.ingredientLines as? [String]
+        let ingredients = ingredientLines?.joined(separator: ", ") ?? "Ingredients not available"
+        let nameRecipe = recipe.label ?? "Name not available"
         let timeRecipe = recipe.totalTime
-        let image = imageFavorite[indexPath.row]
+        if let imageURL = recipe.image {
+            updateImage(cell: cell, urlImage: imageURL, indexPath: indexPath)
+        }
         
         updateNameRecipeLabel(cell: cell, nameRecipe: nameRecipe)
         updateIngredientsLabel(cell: cell, ingredients: ingredients)
         updateTimeLabel(cell: cell, time: timeRecipe)
-        updateImage(cell: cell, image: image, indexPath: indexPath)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
@@ -84,10 +118,15 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            favorite.remove(at: indexPath.row)
-            imageFavorite.remove(at: indexPath.row)
+            AppDelegate.viewContext.delete(Recipe_.allRecipes[indexPath.row])
+            do {
+                try AppDelegate.viewContext.save()
+                print("saved context done.")
+            } catch {
+                   print("saved context problem.")
+            }
             tableView.reloadData()
-            print(favorite.count)
+            print("recipe_.all.count:" + "\(Recipe_.allRecipes.count)")
         }
     }
     
@@ -99,11 +138,11 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         cell.ingredientsLabel.text = ingredients
     }
     
-    func updateImage(cell: ResultTableViewCell, image: UIImage, indexPath: IndexPath) {
+    func updateImage(cell: ResultTableViewCell, urlImage: URL, indexPath: IndexPath) {
+        
         cell.noImageLabel.isHidden = true
-        cell.recipeImageView.image = imageFavorite[indexPath.row]
-        cell.recipeImageView.contentMode = .scaleAspectFill
-        cell.recipeImageView.alpha = 0.7
+        cell.recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.flipFromTop(1))], progressBlock: nil, completionHandler: nil)
+        print("image loaded.")
     }
     
     func updateTimeLabel(cell: ResultTableViewCell, time: Double?) {

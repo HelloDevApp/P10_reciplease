@@ -74,6 +74,18 @@ extension ResultViewController {
 // MARK: - TableView
 extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     
+    private func saveRecipe(label: String?, ingredientsLines: [String?], image: URL?, url: URL?, totalTime: Double) {
+        
+        let recipe = Recipe_(context: AppDelegate.viewContext)
+        
+        recipe.label = label
+        recipe.ingredientLines = ingredientsLines as NSObject
+        recipe.totalTime = totalTime
+        recipe.image = image
+        
+        Recipe_.saveContext()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
         tableView.separatorStyle = .none
@@ -86,6 +98,9 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
             guard let self = self else { return }
             // add actions (save to favorites list) and core data
             guard let recipe = self.hits[indexPath.row].recipe else { return }
+            guard let ingredientsLines = recipe.ingredientLines else { return }
+            guard let totalTime = recipe.totalTime else { return }
+            self.saveRecipe(label: recipe.label, ingredientsLines: ingredientsLines, image: recipe.image, url: recipe.url, totalTime: totalTime)
             
             self.favorite.append(recipe)
 //            self.imageFavorite.append(image)
