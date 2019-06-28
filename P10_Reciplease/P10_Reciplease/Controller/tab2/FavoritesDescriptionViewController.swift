@@ -7,14 +7,35 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FavoritesDescriptionViewController: UIViewController {
     
     var recipe: Recipe_?
     
+    @IBOutlet weak var recipeImageView: UIImageView!
+    
+    @IBOutlet weak var nameRecipeLabel: UILabel!
+    
+    @IBOutlet weak var ingredientsTextView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setup()
+    }
+    
+    @IBAction func getDirectionButtonAction(_ sender: UIButton) {
+    }
+    
+    func setup() {
+        guard let recipe = recipe else { return }
+        nameRecipeLabel.text = recipe.label
+        guard let ingredients = recipe.ingredientLines as? [String] else  { return }
+        
+        ingredientsTextView.text = ingredients.joined(separator: ",\n")
+        guard let urlImage = recipe.image else { return }
+        recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(1))], progressBlock: nil, completionHandler: nil)
+        
     }
 }
 

@@ -440,7 +440,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="2Es-UP-kNT"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="ingredientsLabel" destination="I74-rn-Yif" id="EY3-7x-kv8"/>
+                        <outlet property="ingredientsTextView" destination="I74-rn-Yif" id="bGT-43-bj1"/>
                         <outlet property="nameRecipeLabel" destination="tez-8V-rbg" id="EmA-8Q-5ie"/>
                         <outlet property="recipeImageView" destination="MWs-18-HJ8" id="cm7-Go-5qb"/>
                         <segue destination="RzH-GS-btU" kind="presentation" identifier="DescriptionToWeb" modalPresentationStyle="currentContext" id="vYn-UB-bss"/>
@@ -605,6 +605,7 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="Ry2-s0-s3y" id="wFM-sC-5sy"/>
+                                    <outlet property="delegate" destination="Ry2-s0-s3y" id="JZp-Ea-0V6"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -664,6 +665,9 @@
                                 <state key="normal" title="Get Directions">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="getDirectionButtonAction:" destination="H0v-Xj-xXm" eventType="touchUpInside" id="86b-HZ-3PQ"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pizza" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="vn9-fO-kd2">
                                 <rect key="frame" x="32" y="291" width="256" height="23.5"/>
@@ -696,6 +700,11 @@
                         <viewLayoutGuide key="safeArea" id="0Mt-Kf-XDE"/>
                     </view>
                     <navigationItem key="navigationItem" title="Reciplease" id="zq3-dl-dng"/>
+                    <connections>
+                        <outlet property="ingredientsTextView" destination="mOt-Fu-tGi" id="c61-2G-8Rg"/>
+                        <outlet property="nameRecipeLabel" destination="vn9-fO-kd2" id="E0B-Fj-vt6"/>
+                        <outlet property="recipeImageView" destination="j6N-dR-IgG" id="GKA-AO-h0N"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoX-VZ-WgZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
