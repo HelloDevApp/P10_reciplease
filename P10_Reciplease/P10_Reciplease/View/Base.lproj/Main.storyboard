@@ -600,7 +600,6 @@
                                             <outlet property="noImageLabel" destination="aHX-9c-Pfx" id="VRe-cq-cWV"/>
                                             <outlet property="recipeImageView" destination="b8D-0M-7bd" id="HRX-1O-YXY"/>
                                             <outlet property="timeLabel" destination="b5S-Z8-JTa" id="CxC-G9-QXt"/>
-                                            <segue destination="H0v-Xj-xXm" kind="show" id="waA-EU-3mU"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -624,6 +623,7 @@
                     <connections>
                         <outlet property="noFavoritesLabel" destination="CTy-db-Vp1" id="SVI-cq-hLb"/>
                         <outlet property="tableView" destination="BnC-dG-JGZ" id="DcB-rk-Xhi"/>
+                        <segue destination="H0v-Xj-xXm" kind="show" identifier="FavoritesToFavoritesDescription" id="oJZ-mO-2iX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BUh-xG-24V" userLabel="First Responder" sceneMemberID="firstResponder"/>
