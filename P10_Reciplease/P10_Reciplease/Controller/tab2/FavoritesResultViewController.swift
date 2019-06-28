@@ -13,10 +13,15 @@ import Kingfisher
 class FavoritesResultViewController: UIViewController {
     
     lazy var refresher = UIRefreshControl()
+    var favoritesRecipes = [Recipe_]()
+    var rowSelect = 0
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var noFavoritesLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
+        initRefresher()
+        fetchRecipes()
         tableView.reloadData()
     }
     
@@ -31,8 +36,9 @@ class FavoritesResultViewController: UIViewController {
 extension FavoritesResultViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        guard segue.identifier == "FavoritesToFavoritesDescription" else { return }
+        guard let favoritesDescriptionVC = segue.destination as? FavoritesDescriptionViewController else { return }
+        favoritesDescriptionVC.recipe = favoritesRecipes[rowSelect]
     }
 }
 
@@ -47,12 +53,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
             tableView.addSubview(refresher)
         }
         
-        refresher.addTarget(self, action: #selector(fetch), for: .valueChanged)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        initRefresher()
+        refresher.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
     }
     
     
@@ -61,16 +62,22 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func fetch() {
+    @objc func refreshTableView() {
         tableView.reloadData()
         self.refresher.endRefreshing()
     }
+    
+    func fetchRecipes() {
+        favoritesRecipes = Recipe_.allRecipes.reversed()
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Recipe_.allRecipes.count
+        return favoritesRecipes.count
     }
     
     fileprivate func changeSeparatorStyle(_ tableView: UITableView) {
-        switch Recipe_.allRecipes.count {
+        switch favoritesRecipes.count {
         case 0:
             noFavoritesLabel.isHidden = false
             tableView.separatorStyle = .none
@@ -90,8 +97,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         changeSeparatorStyle(tableView)
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell else { return UITableViewCell() }
-        
-        fillCell(cell, with: Recipe_.allRecipes, indexPath: indexPath)
+        fillCell(cell, with: favoritesRecipes, indexPath: indexPath)
         
         return cell
     }
@@ -118,7 +124,10 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            AppDelegate.viewContext.delete(Recipe_.allRecipes[indexPath.row])
+            AppDelegate.viewContext.delete(favoritesRecipes[indexPath.row])
+            // refresh count of favoritesRecipes to display correct tableView
+            favoritesRecipes = Recipe_.allRecipes
+            
             do {
                 try AppDelegate.viewContext.save()
                 print("saved context done.")
@@ -126,8 +135,13 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
                    print("saved context problem.")
             }
             tableView.reloadData()
-            print("recipe_.all.count:" + "\(Recipe_.allRecipes.count)")
+            print("favoritesRecipes:" + "\(favoritesRecipes.count)" + "\(favoritesRecipes)")
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        rowSelect = indexPath.row
+        performSegue(withIdentifier: "FavoritesToFavoritesDescription", sender: nil)
     }
     
     func updateNameRecipeLabel(cell: ResultTableViewCell, nameRecipe: String) {
