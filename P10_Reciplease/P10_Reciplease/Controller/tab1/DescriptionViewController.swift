@@ -18,7 +18,7 @@ class DescriptionViewController: UIViewController {
     var urlDirections = URL(string: "")
     
     @IBOutlet weak var nameRecipeLabel: UILabel!
-    @IBOutlet weak var ingredientsLabel: UITextView!
+    @IBOutlet weak var ingredientsTextView: UITextView!
     
     // MARK: - @IBOutlets
     @IBOutlet weak var recipeImageView: UIImageView!
@@ -26,7 +26,7 @@ class DescriptionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         updateRecipeImageView()
         nameRecipeLabel.text = nameRecipe
-        ingredientsLabel.text = ingredients
+        ingredientsTextView.text = ingredients
     }
     
     deinit {
