@@ -17,6 +17,7 @@
 		52365E8022BB037B005226DB /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E7F22BB037B005226DB /* Alert.swift */; };
 		52365E8222BB0C28005226DB /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E8122BB0C28005226DB /* ErrorMessages.swift */; };
 		52619B1022AA6D01002B8471 /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52619B0F22AA6D01002B8471 /* APIResult.swift */; };
+		529AC36E22C62CED0020DD36 /* FavoritesWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AC36D22C62CED0020DD36 /* FavoritesWebViewController.swift */; };
 		529BB74222B2A386004B9244 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BB74122B2A386004B9244 /* UserDefaultsManager.swift */; };
 		52B59A1A22C0DA6F00BDE0CE /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */; };
 		52B59A1C22C216F600BDE0CE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B59A1B22C216F600BDE0CE /* WebKit.framework */; };
@@ -58,6 +59,7 @@
 		52365E7F22BB037B005226DB /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		52365E8122BB0C28005226DB /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
 		52619B0F22AA6D01002B8471 /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
+		529AC36D22C62CED0020DD36 /* FavoritesWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesWebViewController.swift; sourceTree = "<group>"; };
 		529BB74122B2A386004B9244 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		52B59A1B22C216F600BDE0CE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -138,6 +140,7 @@
 			children = (
 				521D23AA22A0501600701187 /* FavoritesResultViewController.swift */,
 				521D23AC22A0505A00701187 /* FavoritesDescriptionViewController.swift */,
+				529AC36D22C62CED0020DD36 /* FavoritesWebViewController.swift */,
 			);
 			path = tab2;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 			files = (
 				5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */,
 				52C766112296026B007A2212 /* SearchViewController.swift in Sources */,
+				529AC36E22C62CED0020DD36 /* FavoritesWebViewController.swift in Sources */,
 				521D23AD22A0505A00701187 /* FavoritesDescriptionViewController.swift in Sources */,
 				52CAF3DA2294882400240A7B /* P10_Reciplease.xcdatamodeld in Sources */,
 				52CAF3D22294882400240A7B /* AppDelegate.swift in Sources */,

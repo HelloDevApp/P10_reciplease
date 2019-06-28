@@ -82,6 +82,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         recipe.ingredientLines = ingredientsLines as NSObject
         recipe.totalTime = totalTime
         recipe.image = image
+        recipe.url = url
         
         Recipe_.saveContext()
     }

@@ -1,15 +1,15 @@
 //
-//  WebViewController.swift
+//  FavoritesWebViewController.swift
 //  P10_Reciplease
 //
-//  Created by macbook pro on 24/06/2019.
+//  Created by macbook pro on 28/06/2019.
 //  Copyright © 2019 macbook pro. All rights reserved.
 //
 
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController, WKNavigationDelegate {
+class FavoritesWebViewController: UIViewController {
     
     var url: URL?
     @IBOutlet weak var webView: WKWebView!
@@ -19,15 +19,12 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         loadURLDirections(url: url)
         // Do any additional setup after loading the view.
     }
-    deinit {
-        print("deinit: WebViewVC")
-    }
     
-    @IBAction func actionCloseButton() {
+    @IBAction func closeButton() {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func actionReloadButton(_ sender: UIButton) {
+    @IBAction func refreshButton() {
         webView.reload()
     }
     
