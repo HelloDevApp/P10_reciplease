@@ -10,6 +10,8 @@ import UIKit
 
 class FavoritesDescriptionViewController: UIViewController {
     
+    var recipe: Recipe_?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
