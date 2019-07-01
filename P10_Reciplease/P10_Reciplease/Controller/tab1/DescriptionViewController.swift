@@ -14,7 +14,7 @@ class DescriptionViewController: UIViewController {
     
     var nameRecipe = String()
     var ingredients = String()
-    var imageRecipe: UIImage?
+    var imageURL: URL?
     var urlDirections = URL(string: "")
     
     @IBOutlet weak var nameRecipeLabel: UILabel!
@@ -37,12 +37,9 @@ class DescriptionViewController: UIViewController {
     }
     
     func updateRecipeImageView() {
+        guard let imageURL = imageURL else { return }
         recipeImageView.contentMode = .scaleAspectFit
-        if imageRecipe == nil {
-            recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
-        } else {
-            recipeImageView.image = imageRecipe
-        }
+        recipeImageView.kf.setImage(with: .network(imageURL))
     }
 }
 

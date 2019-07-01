@@ -12,21 +12,34 @@ import Kingfisher
 
 class FavoritesResultViewController: UIViewController {
     
+    // FavoritesResultVC
     lazy var refresher = UIRefreshControl()
+    
+    // FavoritesResultVC & FavoritesDescriptionVC
     var favoritesRecipes = [Recipe_]()
+    
+    // FavoritesDescriptionVC
     var rowSelect = 0
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var noFavoritesLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
-        initRefresher()
         fetchRecipes()
         tableView.reloadData()
     }
     
     deinit {
         print("deinit: FavoritesVC")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func fetchRecipes() {
+        favoritesRecipes = Recipe_.allRecipes.reversed()
+        tableView.reloadData()
     }
     
 }
@@ -45,31 +58,9 @@ extension FavoritesResultViewController {
 // MARK: - TableView
 extension FavoritesResultViewController: UITableViewDataSource, UITableViewDelegate {
     
-    fileprivate func initRefresher() {
-        
-        if #available(iOS 10.0, *) {
-            tableView.refreshControl = refresher
-        } else {
-            tableView.addSubview(refresher)
-        }
-        
-        refresher.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
-    }
-    
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     @objc func refreshTableView() {
         tableView.reloadData()
         self.refresher.endRefreshing()
-    }
-    
-    func fetchRecipes() {
-        favoritesRecipes = Recipe_.allRecipes.reversed()
-        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -135,7 +126,6 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
                    print("saved context problem.")
             }
             tableView.reloadData()
-            print("favoritesRecipes:" + "\(favoritesRecipes.count)" + "\(favoritesRecipes)")
         }
     }
     

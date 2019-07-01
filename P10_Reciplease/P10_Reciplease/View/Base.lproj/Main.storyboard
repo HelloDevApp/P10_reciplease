@@ -704,7 +704,7 @@
                         <outlet property="ingredientsTextView" destination="mOt-Fu-tGi" id="c61-2G-8Rg"/>
                         <outlet property="nameRecipeLabel" destination="vn9-fO-kd2" id="E0B-Fj-vt6"/>
                         <outlet property="recipeImageView" destination="j6N-dR-IgG" id="GKA-AO-h0N"/>
-                        <segue destination="4bd-Ku-cDt" kind="presentation" identifier="FavoritesDescriptionToWeb" modalPresentationStyle="currentContext" id="Uqn-xh-bHR"/>
+                        <segue destination="4bd-Ku-cDt" kind="presentation" identifier="FavoritesDescriptionToWeb" id="Uqn-xh-bHR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoX-VZ-WgZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -720,7 +720,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" allowsBackForwardNavigationGestures="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gak-Q8-udc">
-                                <rect key="frame" x="0.0" y="50" width="320" height="469"/>
+                                <rect key="frame" x="0.0" y="50" width="320" height="518"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
