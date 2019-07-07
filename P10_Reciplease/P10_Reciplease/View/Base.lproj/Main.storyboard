@@ -517,17 +517,9 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BnC-dG-JGZ">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" red="0.18465295430000001" green="0.19199731950000001" blue="0.20083925129999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start by adding your recipes as favorites" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" id="CTy-db-Vp1">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="20.5"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.12190238389999999" green="0.12918049100000001" blue="0.1423901618" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="ResultCell" rowHeight="100" id="XOe-xU-TsD" customClass="ResultTableViewCell" customModule="P10_Reciplease" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="48.5" width="320" height="100"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XOe-xU-TsD" id="JkP-K7-tph">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
@@ -622,7 +614,6 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="dYz-YT-Kno"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="noFavoritesLabel" destination="CTy-db-Vp1" id="SVI-cq-hLb"/>
                         <outlet property="tableView" destination="BnC-dG-JGZ" id="DcB-rk-Xhi"/>
                         <segue destination="H0v-Xj-xXm" kind="show" identifier="FavoritesToFavoritesDescription" id="oJZ-mO-2iX"/>
                     </connections>

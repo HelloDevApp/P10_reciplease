@@ -17,10 +17,9 @@ class DescriptionViewController: UIViewController {
     var imageURL: URL?
     var urlDirections = URL(string: "")
     
+    // MARK: - @IBOutlets
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsTextView: UITextView!
-    
-    // MARK: - @IBOutlets
     @IBOutlet weak var recipeImageView: UIImageView!
     
     override func viewWillAppear(_ animated: Bool) {

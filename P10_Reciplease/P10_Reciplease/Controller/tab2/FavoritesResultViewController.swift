@@ -15,30 +15,29 @@ class FavoritesResultViewController: UIViewController {
     // FavoritesResultVC
     lazy var refresher = UIRefreshControl()
     
-    // FavoritesResultVC & FavoritesDescriptionVC
-    var favoritesRecipes = [Recipe_]()
-    
     // FavoritesDescriptionVC
     var rowSelect = 0
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var noFavoritesLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
         fetchRecipes()
+        changeSeparatorStyle(tableView)
         tableView.reloadData()
     }
     
-    deinit {
-        print("deinit: FavoritesVC")
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
-        self.dismiss(animated: true, completion: nil)
     }
     
     func fetchRecipes() {
-        favoritesRecipes = Recipe_.allRecipes.reversed()
+        guard !CoreDataManager.shared.fetchRecipes().isEmpty else {
+            parent?.presentAlert(titleAlert: .error, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok
+            , statusCode: nil) { (alert) in
+                self.tabBarController?.selectedIndex = 0
+            }
+            return
+        }
+        CoreDataManager.shared.favoritesRecipes = CoreDataManager.shared.fetchRecipes()
         tableView.reloadData()
     }
     
@@ -51,7 +50,7 @@ extension FavoritesResultViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "FavoritesToFavoritesDescription" else { return }
         guard let favoritesDescriptionVC = segue.destination as? FavoritesDescriptionViewController else { return }
-        favoritesDescriptionVC.recipe = favoritesRecipes[rowSelect]
+        favoritesDescriptionVC.recipe = CoreDataManager.shared.favoritesRecipes[rowSelect]
     }
 }
 
@@ -64,31 +63,29 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoritesRecipes.count
+        return CoreDataManager.shared.favoritesRecipes.count
     }
     
     fileprivate func changeSeparatorStyle(_ tableView: UITableView) {
-        switch favoritesRecipes.count {
-        case 0:
-            noFavoritesLabel.isHidden = false
+        switch CoreDataManager.shared.favoritesRecipes.count {
+        case 0...2:
             tableView.separatorStyle = .none
-        case 1:
-            tableView.separatorStyle = .none
-            noFavoritesLabel.isHidden = true
-        case 2...Int.max:
+        case 3...Int.max:
             tableView.separatorStyle = .singleLine
+            tableView.separatorColor = .black
         default:
             break
         }
+        
+        print(tableView.separatorStyle)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.rowHeight = tableView.frame.height / 3
-        changeSeparatorStyle(tableView)
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell else { return UITableViewCell() }
-        fillCell(cell, with: favoritesRecipes, indexPath: indexPath)
+        fillCell(cell, with: CoreDataManager.shared.favoritesRecipes, indexPath: indexPath)
         
         return cell
     }
@@ -96,18 +93,24 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     func fillCell(_ cell: ResultTableViewCell, with recipes: [Recipe_?], indexPath: IndexPath) {
         
         guard let recipe = recipes[indexPath.row] else { return }
+        guard let nameRecipe = recipe.label else { return }
+        guard let ingredientLines = recipe.ingredientLines as? [String] else { return }
         
-        let ingredientLines = recipe.ingredientLines as? [String]
-        let ingredients = ingredientLines?.joined(separator: ", ") ?? "Ingredients not available"
-        let nameRecipe = recipe.label ?? "Name not available"
+        let ingredients = ingredientLines.joined(separator: ", \n")
         let timeRecipe = recipe.totalTime
-        if let imageURL = recipe.image {
-            updateImage(cell: cell, urlImage: imageURL, indexPath: indexPath)
-        }
         
         updateNameRecipeLabel(cell: cell, nameRecipe: nameRecipe)
         updateIngredientsLabel(cell: cell, ingredients: ingredients)
         updateTimeLabel(cell: cell, time: timeRecipe)
+        
+        if let imageURL = recipe.image {
+            cell.noImageLabel.isHidden = true
+            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(1))], progressBlock: nil, completionHandler: nil)
+        } else {
+            cell.noImageLabel.isHidden = false
+            cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
+            cell.recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+        }
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
@@ -115,17 +118,19 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            AppDelegate.viewContext.delete(favoritesRecipes[indexPath.row])
-            // refresh count of favoritesRecipes to display correct tableView
-            favoritesRecipes = Recipe_.allRecipes
+            CoreDataManager.shared.viewContext.delete(CoreDataManager.shared.favoritesRecipes[indexPath.row])
+            CoreDataManager.shared.saveContext()
             
-            do {
-                try AppDelegate.viewContext.save()
-                print("saved context done.")
-            } catch {
-                   print("saved context problem.")
-            }
+            // refresh count of favoritesRecipes to display correct tableView
+            CoreDataManager.shared.favoritesRecipes = CoreDataManager.shared.fetchRecipes()
+            changeSeparatorStyle(tableView)
             tableView.reloadData()
+            
+            if CoreDataManager.shared.favoritesRecipes.count == 0 {
+                parent?.presentAlert(titleAlert: .sorry, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok, statusCode: nil) { (alert) in
+                    self.tabBarController?.selectedIndex = 0
+                }
+            }
         }
     }
     
@@ -140,13 +145,6 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     
     func updateIngredientsLabel(cell: ResultTableViewCell, ingredients: String) {
         cell.ingredientsLabel.text = ingredients
-    }
-    
-    func updateImage(cell: ResultTableViewCell, urlImage: URL, indexPath: IndexPath) {
-        
-        cell.noImageLabel.isHidden = true
-        cell.recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.flipFromTop(1))], progressBlock: nil, completionHandler: nil)
-        print("image loaded.")
     }
     
     func updateTimeLabel(cell: ResultTableViewCell, time: Double?) {

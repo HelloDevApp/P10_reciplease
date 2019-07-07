@@ -46,7 +46,7 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func actionSearchButton(_ sender: UIButton) {
-        searchForRecipesButton.isEnabled = false
+        startActivityIndicator()
         launchCall()
     }
     
@@ -97,7 +97,7 @@ extension SearchViewController {
     
     func launchCall() {
         guard !userIngredients.isEmpty else {
-            presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok, statusCode: nil)
+            parent?.presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok, statusCode: nil, completion: nil)
             return
         }
         startActivityIndicator()
@@ -105,35 +105,42 @@ extension SearchViewController {
         apiHelper.to = 20
         
         apiHelper.getRecipe(userIngredients: userIngredients) { [weak self] (apiResult, statusCode) in
-            guard let self = self else { return }
             guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
-                guard let statusCode = statusCode else { return }
+                self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: nil, completion: nil)
+                self?.stopActivityIndicator()
+                
+                guard let statusCode = statusCode else {
+                     self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: nil, completion: nil)
+                    self?.stopActivityIndicator()
+                    return
+                }
+                
                 switch statusCode {
                 case 401:
-                    self.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode)
+                    self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode, completion: nil)
                     print("error: \(statusCode)")
                 default:
-                    self.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: statusCode)
+                    self?.parent?.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: statusCode, completion: nil)
                     print("error: \(statusCode)")
                 }
-                self.searchForRecipesButton.isEnabled = true
-                self.stopActivityIndicator()
+                self?.stopActivityIndicator()
                 return
                     
             }
-            self.hits = apiResult.hits
-            self.stopActivityIndicator()
-            self.searchForRecipesButton.isEnabled = true
-            self.performSegue(withIdentifier: "SearchToResult", sender: nil)
+            self?.hits = apiResult.hits
+            self?.stopActivityIndicator()
+            self?.performSegue(withIdentifier: "SearchToResult", sender: nil)
         }
     }
     
     func startActivityIndicator() {
+        self.searchForRecipesButton.isEnabled = false
         self.activityIndicator.isHidden = false
         self.activityIndicator.startAnimating()
     }
     
     func stopActivityIndicator() {
+        self.searchForRecipesButton.isEnabled = true
         self.activityIndicator.isHidden = true
         self.activityIndicator.stopAnimating()
     }

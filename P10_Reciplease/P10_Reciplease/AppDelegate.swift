@@ -43,24 +43,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         
     }
-
-    // MARK: - Core Data
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "P10_Reciplease")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
-
-    static var persistentContainer: NSPersistentContainer {
-        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer
-    }
-
-    static var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
 }
 

@@ -51,7 +51,10 @@ class APIHelper {
                 
             case .failure:
                 print("failure")
-                guard let response = response.response else { return }
+                guard let response = response.response else {
+                    callback(nil, nil)
+                    return
+                }
                 callback(nil, response.statusCode)
             }
         }
