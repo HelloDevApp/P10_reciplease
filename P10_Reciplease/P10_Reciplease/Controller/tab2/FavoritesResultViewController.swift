@@ -103,6 +103,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         updateIngredientsLabel(cell: cell, ingredients: ingredients)
         updateTimeLabel(cell: cell, time: timeRecipe)
         
+        cell.recipeImageView.contentMode = .scaleAspectFit
         if let imageURL = recipe.image {
             cell.noImageLabel.isHidden = true
             cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(1))], progressBlock: nil, completionHandler: nil)

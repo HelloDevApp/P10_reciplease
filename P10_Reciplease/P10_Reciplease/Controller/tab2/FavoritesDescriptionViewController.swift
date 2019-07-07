@@ -32,8 +32,12 @@ class FavoritesDescriptionViewController: UIViewController {
         guard let ingredients = recipe.ingredientLines as? [String] else  { return }
 
         ingredientsTextView.text = ingredients.joined(separator: ",\n")
-        guard let urlImage = recipe.image else { return }
-        recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(1))], progressBlock: nil, completionHandler: nil)
+        recipeImageView.contentMode = .scaleAspectFit
+        if let urlImage = recipe.image {
+            recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(1))], progressBlock: nil, completionHandler: nil)
+        } else {
+            recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+        }
         
     }
 }
