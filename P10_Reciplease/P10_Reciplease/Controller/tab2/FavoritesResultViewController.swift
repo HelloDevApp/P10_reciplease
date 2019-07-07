@@ -7,23 +7,40 @@
 //
 
 import UIKit
+import CoreData
+import Kingfisher
 
 class FavoritesResultViewController: UIViewController {
     
-//    let data = Data()
-    var favorite = [Recipe]()
-    var imageFavorite = [UIImage]()
-
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var noFavoritesLabel: UILabel!
+    // FavoritesResultVC
+    lazy var refresher = UIRefreshControl()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-//        if Recipe.favoritesRecipes.count == 0 {
-            // TO-DO: - Hidden noimageLabel
-//        }
+    // FavoritesDescriptionVC
+    var rowSelect = 0
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        fetchRecipes()
+        changeSeparatorStyle(tableView)
+        tableView.reloadData()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+    }
+    
+    func fetchRecipes() {
+        guard !CoreDataManager.shared.fetchRecipes().isEmpty else {
+            parent?.presentAlert(titleAlert: .error, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok
+            , statusCode: nil) { (alert) in
+                self.tabBarController?.selectedIndex = 0
+            }
+            return
+        }
+        CoreDataManager.shared.favoritesRecipes = CoreDataManager.shared.fetchRecipes()
+        tableView.reloadData()
+    }
+    
 }
 
 
@@ -31,49 +48,69 @@ class FavoritesResultViewController: UIViewController {
 extension FavoritesResultViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        guard segue.identifier == "FavoritesToFavoritesDescription" else { return }
+        guard let favoritesDescriptionVC = segue.destination as? FavoritesDescriptionViewController else { return }
+        favoritesDescriptionVC.recipe = CoreDataManager.shared.favoritesRecipes[rowSelect]
     }
 }
 
 // MARK: - TableView
 extension FavoritesResultViewController: UITableViewDataSource, UITableViewDelegate {
     
-    override func viewWillAppear(_ animated: Bool) {
+    @objc func refreshTableView() {
         tableView.reloadData()
+        self.refresher.endRefreshing()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if favorite.count == 0 {
-            noFavoritesLabel.isHidden = true
+        return CoreDataManager.shared.favoritesRecipes.count
+    }
+    
+    fileprivate func changeSeparatorStyle(_ tableView: UITableView) {
+        switch CoreDataManager.shared.favoritesRecipes.count {
+        case 0...2:
+            tableView.separatorStyle = .none
+        case 3...Int.max:
+            tableView.separatorStyle = .singleLine
+            tableView.separatorColor = .black
+        default:
+            break
         }
-        return favorite.count
+        
+        print(tableView.separatorStyle)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.rowHeight = tableView.frame.height / 3
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
-            
-            let recipes = favorite
-            fillCell(cell, with: recipes, indexPath: indexPath)
-            return cell
-        }
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell else { return UITableViewCell() }
+        fillCell(cell, with: CoreDataManager.shared.favoritesRecipes, indexPath: indexPath)
+        
+        return cell
     }
     
-    func fillCell(_ cell: ResultTableViewCell, with recipes: [Recipe], indexPath: IndexPath) {
-        let recipe = recipes[indexPath.row]
-        let ingredients = recipe.ingredientLines?.joined(separator: ", ") ?? "?"
-        let nameRecipe = recipe.label ?? "?"
+    func fillCell(_ cell: ResultTableViewCell, with recipes: [Recipe_?], indexPath: IndexPath) {
+        
+        guard let recipe = recipes[indexPath.row] else { return }
+        guard let nameRecipe = recipe.label else { return }
+        guard let ingredientLines = recipe.ingredientLines as? [String] else { return }
+        
+        let ingredients = ingredientLines.joined(separator: ", \n")
         let timeRecipe = recipe.totalTime
-        let image = imageFavorite[indexPath.row]
         
         updateNameRecipeLabel(cell: cell, nameRecipe: nameRecipe)
         updateIngredientsLabel(cell: cell, ingredients: ingredients)
         updateTimeLabel(cell: cell, time: timeRecipe)
-        updateImage(cell: cell, image: image, indexPath: indexPath)
+        
+        if let imageURL = recipe.image {
+            cell.noImageLabel.isHidden = true
+            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(1))], progressBlock: nil, completionHandler: nil)
+        } else {
+            cell.noImageLabel.isHidden = false
+            cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
+            cell.recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+        }
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
@@ -81,11 +118,25 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            favorite.remove(at: indexPath.row)
-            imageFavorite.remove(at: indexPath.row)
+            CoreDataManager.shared.viewContext.delete(CoreDataManager.shared.favoritesRecipes[indexPath.row])
+            CoreDataManager.shared.saveContext()
+            
+            // refresh count of favoritesRecipes to display correct tableView
+            CoreDataManager.shared.favoritesRecipes = CoreDataManager.shared.fetchRecipes()
+            changeSeparatorStyle(tableView)
             tableView.reloadData()
-            print(favorite.count)
+            
+            if CoreDataManager.shared.favoritesRecipes.count == 0 {
+                parent?.presentAlert(titleAlert: .sorry, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok, statusCode: nil) { (alert) in
+                    self.tabBarController?.selectedIndex = 0
+                }
+            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        rowSelect = indexPath.row
+        performSegue(withIdentifier: "FavoritesToFavoritesDescription", sender: nil)
     }
     
     func updateNameRecipeLabel(cell: ResultTableViewCell, nameRecipe: String) {
@@ -94,13 +145,6 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     
     func updateIngredientsLabel(cell: ResultTableViewCell, ingredients: String) {
         cell.ingredientsLabel.text = ingredients
-    }
-    
-    func updateImage(cell: ResultTableViewCell, image: UIImage, indexPath: IndexPath) {
-        cell.noImageLabel.isHidden = true
-        cell.recipeImageView.image = imageFavorite[indexPath.row]
-        cell.recipeImageView.contentMode = .scaleAspectFill
-        cell.recipeImageView.alpha = 0.7
     }
     
     func updateTimeLabel(cell: ResultTableViewCell, time: Double?) {

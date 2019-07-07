@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 enum Choice {
     case get
     case set
@@ -15,29 +16,22 @@ enum Choice {
 }
 class SearchViewController: UIViewController {
     
-    // MARK: - Search
-    var userIngredients = [String]()
-    // MARK: - FavoritesResultVC
-    var favorite = [Recipe]()
-    var imageFavorite = [UIImage]()
-    var apiResult: APIResult?
-    let apiHelper = APIHelper()
-    var hits = [Hit]()
-    
     // MARK: - @IBOutlets
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchForRecipesButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     let impact = UIImpactFeedbackGenerator(style: .heavy)
     
-    // MARK: - Methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.addGestureToHideKeyboard()
-        updateUserIngredients(action: .get, indexPath: nil)
-    }
+    // For Search
+    var userIngredients = [String]()
+    var apiResult: APIResult?
+    let apiHelper = APIHelper()
+    
+    // For ResultVC
+    var hits = [Hit]()
     
     // MARK: - #@IBActions
     @IBAction func actionAddButton(_ sender: UIButton) {
@@ -45,22 +39,28 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func actionClearButton(_ sender: UIButton) {
-        updateUserIngredients(action: .removeAll, indexPath: nil)
+        ud_updateUserIngredients(action: .removeAll, indexPath: nil)
         tableView.reloadData()
         impact.impactOccurred()
         
     }
     
     @IBAction func actionSearchButton(_ sender: UIButton) {
+        startActivityIndicator()
         launchCall()
     }
     
+    // MARK: - Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addGestureToHideKeyboard()
+        ud_updateUserIngredients(action: .get, indexPath: nil)
+    }
     func addUserIngredientToArray() {
         if let ingredient = ingredientTextField.text, ingredient.count > 2 {
-            let indexPath: IndexPath
+            let indexPath: IndexPath = IndexPath(row: userIngredients.count - 1, section: 0)
             userIngredients.append(ingredient)
-            updateUserIngredients(action: .set, indexPath: nil)
-            indexPath = IndexPath(row: userIngredients.count - 1, section: 0)
+            ud_updateUserIngredients(action: .set, indexPath: nil)
             tableView.insertRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
             resetText(textField: ingredientTextField)
@@ -69,7 +69,8 @@ class SearchViewController: UIViewController {
     }
     
     // required IndexPath only for .remove
-    func updateUserIngredients(action: Choice, indexPath: IndexPath?) {
+    // ud = UserDefaults
+    func ud_updateUserIngredients(action: Choice, indexPath: IndexPath?) {
         let userDefaultsManager = UserDefaultsManager()
         let key = userDefaultsManager.userIngredientsKey
         
@@ -93,22 +94,55 @@ class SearchViewController: UIViewController {
 
 //MARK: - API call
 extension SearchViewController {
-    @objc func launchCall() {
-        apiHelper.getRecipe(userIngredients: userIngredients) { (apiResult, statusCode) in
+    
+    func launchCall() {
+        guard !userIngredients.isEmpty else {
+            parent?.presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok, statusCode: nil, completion: nil)
+            return
+        }
+        startActivityIndicator()
+        apiHelper.from = 1
+        apiHelper.to = 20
+        
+        apiHelper.getRecipe(userIngredients: userIngredients) { [weak self] (apiResult, statusCode) in
             guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
-                guard let statusCode = statusCode else { return }
+                self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: nil, completion: nil)
+                self?.stopActivityIndicator()
+                
+                guard let statusCode = statusCode else {
+                     self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: nil, completion: nil)
+                    self?.stopActivityIndicator()
+                    return
+                }
+                
                 switch statusCode {
                 case 401:
-                    print("limit request")
+                    self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode, completion: nil)
+                    print("error: \(statusCode)")
                 default:
+                    self?.parent?.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: statusCode, completion: nil)
                     print("error: \(statusCode)")
                 }
+                self?.stopActivityIndicator()
                 return
                     
             }
-            self.hits = apiResult.hits
-            self.performSegue(withIdentifier: "SearchToResult", sender: nil)
+            self?.hits = apiResult.hits
+            self?.stopActivityIndicator()
+            self?.performSegue(withIdentifier: "SearchToResult", sender: nil)
         }
+    }
+    
+    func startActivityIndicator() {
+        self.searchForRecipesButton.isEnabled = false
+        self.activityIndicator.isHidden = false
+        self.activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        self.searchForRecipesButton.isEnabled = true
+        self.activityIndicator.isHidden = true
+        self.activityIndicator.stopAnimating()
     }
 }
 
@@ -147,7 +181,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func fillCell(cell: UITableViewCell, indexPath: IndexPath) {
         cell.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
         if let labelCell = cell.textLabel {
-            updateUserIngredients(action: .get, indexPath: nil)
+            ud_updateUserIngredients(action: .get, indexPath: nil)
             updateLabelCell(labelCell: labelCell, indexPath: indexPath)
         }
         tableView.rowHeight = tableView.frame.height / 6
@@ -166,9 +200,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func deleteRow(indexPath: IndexPath) {
-        updateUserIngredients(action: .remove, indexPath: indexPath)
+        ud_updateUserIngredients(action: .remove, indexPath: indexPath)
         tableView.deleteRows(at: [indexPath], with: .automatic)
         tableView.reloadData()
     }
-    
 }

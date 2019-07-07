@@ -8,23 +8,37 @@
 
 import UIKit
 import Kingfisher
+import WebKit
 
 class DescriptionViewController: UIViewController {
     
     var nameRecipe = String()
     var ingredients = String()
-    var imageRecipe = UIImage()
-    @IBOutlet weak var nameRecipeLabel: UILabel!
-    @IBOutlet weak var ingredientsLabel: UITextView!
+    var imageURL: URL?
+    var urlDirections = URL(string: "")
     
     // MARK: - @IBOutlets
+    @IBOutlet weak var nameRecipeLabel: UILabel!
+    @IBOutlet weak var ingredientsTextView: UITextView!
     @IBOutlet weak var recipeImageView: UIImageView!
     
     override func viewWillAppear(_ animated: Bool) {
-        recipeImageView.contentMode = .scaleAspectFill
-        recipeImageView.image = imageRecipe
+        updateRecipeImageView()
         nameRecipeLabel.text = nameRecipe
-        ingredientsLabel.text = ingredients
+        ingredientsTextView.text = ingredients
+    }
+    
+    deinit {
+        print("deinit: DescriptionVC")
+    }
+    @IBAction func getDirectionsButtonAction(_ sender: UIButton) {
+        performSegue(withIdentifier: "DescriptionToWeb", sender: nil)
+    }
+    
+    func updateRecipeImageView() {
+        guard let imageURL = imageURL else { return }
+        recipeImageView.contentMode = .scaleAspectFit
+        recipeImageView.kf.setImage(with: .network(imageURL))
     }
 }
 
@@ -33,7 +47,8 @@ class DescriptionViewController: UIViewController {
 extension DescriptionViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "DescriptionToWeb", let webVC = segue.destination as? WebViewController {
+            webVC.url = urlDirections
+        }
     }
 }

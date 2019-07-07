@@ -14,8 +14,15 @@
 		5227BC192296C5E2009A3E43 /* ExtensionUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */; };
 		5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */; };
 		52365E7E22B7D4AC005226DB /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E7D22B7D4AC005226DB /* APIKey.swift */; };
+		52365E8022BB037B005226DB /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E7F22BB037B005226DB /* Alert.swift */; };
+		52365E8222BB0C28005226DB /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E8122BB0C28005226DB /* ErrorMessages.swift */; };
 		52619B1022AA6D01002B8471 /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52619B0F22AA6D01002B8471 /* APIResult.swift */; };
+		529AC36E22C62CED0020DD36 /* FavoritesWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AC36D22C62CED0020DD36 /* FavoritesWebViewController.swift */; };
+		529AC37022CA79910020DD36 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AC36F22CA79910020DD36 /* CoreDataManager.swift */; };
 		529BB74222B2A386004B9244 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BB74122B2A386004B9244 /* UserDefaultsManager.swift */; };
+		52B59A1A22C0DA6F00BDE0CE /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */; };
+		52B59A1C22C216F600BDE0CE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B59A1B22C216F600BDE0CE /* WebKit.framework */; };
+		52B59A1E22C3819100BDE0CE /* Recipe_.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B59A1D22C3819100BDE0CE /* Recipe_.swift */; };
 		52C766112296026B007A2212 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766102296026B007A2212 /* SearchViewController.swift */; };
 		52C76613229602F1007A2212 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76612229602F1007A2212 /* ResultViewController.swift */; };
 		52C766152296034B007A2212 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C766142296034B007A2212 /* DescriptionViewController.swift */; };
@@ -50,8 +57,15 @@
 		5227BC182296C5E2009A3E43 /* ExtensionUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIView.swift; sourceTree = "<group>"; };
 		5227BC21229800E0009A3E43 /* ResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		52365E7D22B7D4AC005226DB /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		52365E7F22BB037B005226DB /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		52365E8122BB0C28005226DB /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
 		52619B0F22AA6D01002B8471 /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
+		529AC36D22C62CED0020DD36 /* FavoritesWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesWebViewController.swift; sourceTree = "<group>"; };
+		529AC36F22CA79910020DD36 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		529BB74122B2A386004B9244 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		52B59A1B22C216F600BDE0CE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		52B59A1D22C3819100BDE0CE /* Recipe_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe_.swift; sourceTree = "<group>"; };
 		52C1F823E1E2BBE4A8F9BA18 /* Pods_P10_RecipleaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_P10_RecipleaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52C766102296026B007A2212 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		52C76612229602F1007A2212 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52B59A1C22C216F600BDE0CE /* WebKit.framework in Frameworks */,
 				AB8426761D21D93C3BDF7A5D /* Pods_P10_Reciplease.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +108,7 @@
 		176D833A154E74007F7119A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52B59A1B22C216F600BDE0CE /* WebKit.framework */,
 				2F0A6A961A824509886B2739 /* Pods_P10_Reciplease.framework */,
 				52C1F823E1E2BBE4A8F9BA18 /* Pods_P10_RecipleaseTests.framework */,
 			);
@@ -116,6 +132,7 @@
 				52C766102296026B007A2212 /* SearchViewController.swift */,
 				52C76612229602F1007A2212 /* ResultViewController.swift */,
 				52C766142296034B007A2212 /* DescriptionViewController.swift */,
+				52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */,
 			);
 			path = tab1;
 			sourceTree = "<group>";
@@ -125,6 +142,7 @@
 			children = (
 				521D23AA22A0501600701187 /* FavoritesResultViewController.swift */,
 				521D23AC22A0505A00701187 /* FavoritesDescriptionViewController.swift */,
+				529AC36D22C62CED0020DD36 /* FavoritesWebViewController.swift */,
 			);
 			path = tab2;
 			sourceTree = "<group>";
@@ -132,6 +150,7 @@
 		5227BC132296B54B009A3E43 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				52365E7F22BB037B005226DB /* Alert.swift */,
 				521D23A822A0479D00701187 /* tab1 */,
 				521D23A922A04FBE00701187 /* tab2 */,
 			);
@@ -153,6 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				529BB74122B2A386004B9244 /* UserDefaultsManager.swift */,
+				529AC36F22CA79910020DD36 /* CoreDataManager.swift */,
+				52B59A1D22C3819100BDE0CE /* Recipe_.swift */,
 				52619B0F22AA6D01002B8471 /* APIResult.swift */,
 				52F6B43A22AB257600959467 /* APIHelper.swift */,
 				52365E7D22B7D4AC005226DB /* APIKey.swift */,
@@ -184,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				52CAF3D12294882400240A7B /* AppDelegate.swift */,
+				52365E8122BB0C28005226DB /* ErrorMessages.swift */,
 				5227BC2022980081009A3E43 /* Model */,
 				5227BC1F22980070009A3E43 /* View */,
 				5227BC132296B54B009A3E43 /* Controller */,
@@ -372,17 +394,23 @@
 			files = (
 				5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */,
 				52C766112296026B007A2212 /* SearchViewController.swift in Sources */,
+				529AC36E22C62CED0020DD36 /* FavoritesWebViewController.swift in Sources */,
+				529AC37022CA79910020DD36 /* CoreDataManager.swift in Sources */,
 				521D23AD22A0505A00701187 /* FavoritesDescriptionViewController.swift in Sources */,
 				52CAF3DA2294882400240A7B /* P10_Reciplease.xcdatamodeld in Sources */,
 				52CAF3D22294882400240A7B /* AppDelegate.swift in Sources */,
 				52619B1022AA6D01002B8471 /* APIResult.swift in Sources */,
+				52365E8022BB037B005226DB /* Alert.swift in Sources */,
 				529BB74222B2A386004B9244 /* UserDefaultsManager.swift in Sources */,
+				52B59A1E22C3819100BDE0CE /* Recipe_.swift in Sources */,
+				52365E8222BB0C28005226DB /* ErrorMessages.swift in Sources */,
 				52C766152296034B007A2212 /* DescriptionViewController.swift in Sources */,
 				5227BC192296C5E2009A3E43 /* ExtensionUIView.swift in Sources */,
 				52F6B43B22AB257600959467 /* APIHelper.swift in Sources */,
 				521D23AB22A0501600701187 /* FavoritesResultViewController.swift in Sources */,
 				52365E7E22B7D4AC005226DB /* APIKey.swift in Sources */,
 				52C76613229602F1007A2212 /* ResultViewController.swift in Sources */,
+				52B59A1A22C0DA6F00BDE0CE /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
