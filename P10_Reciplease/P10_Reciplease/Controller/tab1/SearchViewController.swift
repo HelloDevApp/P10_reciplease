@@ -14,7 +14,7 @@ enum Choice {
     case remove
     case removeAll
 }
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, NetworkProtocol {
     
     // MARK: - @IBOutlets
     @IBOutlet weak var ingredientTextField: UITextField!

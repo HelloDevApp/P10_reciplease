@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ResultViewController: UIViewController {
+class ResultViewController: UIViewController, NetworkProtocol {
     
     //MARK: - SearchVC
     var userIngredients = [String]()
