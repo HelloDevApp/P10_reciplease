@@ -100,36 +100,27 @@ extension SearchViewController {
             parent?.presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok, statusCode: nil, completion: nil)
             return
         }
-        startActivityIndicator()
-        apiHelper.from = 1
-        apiHelper.to = 20
+        apiHelper.from = 0
+        apiHelper.to = 19
         
+        startActivityIndicator()
         apiHelper.getRecipe(userIngredients: userIngredients) { [weak self] (apiResult, statusCode) in
-            guard let apiResult = apiResult, !apiResult.hits.isEmpty else {
-                self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: nil, completion: nil)
-                self?.stopActivityIndicator()
-                
-                guard let statusCode = statusCode else {
-                     self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: nil, completion: nil)
-                    self?.stopActivityIndicator()
-                    return
-                }
-                
-                switch statusCode {
-                case 401:
-                    self?.parent?.presentAlert(titleAlert: .sorry, messageAlert: .requestLimitReached, actionTitle: .ok, statusCode: statusCode, completion: nil)
-                    print("error: \(statusCode)")
-                default:
-                    self?.parent?.presentAlert(titleAlert: .error, messageAlert: .requestHasFailed, actionTitle: .ok, statusCode: statusCode, completion: nil)
-                    print("error: \(statusCode)")
-                }
-                self?.stopActivityIndicator()
+            guard let self = self else { return }
+            print(apiResult)
+            guard let apiResult = apiResult else {
+                self.switchStatusCodeToPresentAlert(statusCode: statusCode, controller: self, hitsIsEmpty: true)
+                self.stopActivityIndicator()
                 return
-                    
             }
-            self?.hits = apiResult.hits
-            self?.stopActivityIndicator()
-            self?.performSegue(withIdentifier: "SearchToResult", sender: nil)
+            guard !apiResult.hits.isEmpty else {
+                self.switchStatusCodeToPresentAlert(statusCode: statusCode, controller: self, hitsIsEmpty: true)
+                self.stopActivityIndicator()
+                return
+            }
+            
+            self.hits = apiResult.hits
+            self.stopActivityIndicator()
+            self.performSegue(withIdentifier: "SearchToResult", sender: nil)
         }
     }
     

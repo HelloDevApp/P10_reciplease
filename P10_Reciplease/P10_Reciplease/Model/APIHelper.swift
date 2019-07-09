@@ -10,10 +10,10 @@ import Alamofire
 
 class APIHelper {
     
-    var from = 1
-    var to = 20
+    var from = 0
+    var to = 19
     
-    func createURL(userIngredients: [String]) -> URL? {
+    private func createURL(userIngredients: [String]) -> URL? {
         
         let apiKey = APIKey()
        
@@ -37,25 +37,33 @@ class APIHelper {
         guard let url = createURL(userIngredients: userIngredients) else { return }
         AF.request(url).responseJSON { [weak self] (response) in
             print(url)
+            
             guard self != nil else { return }
+            
+            guard let responseStatusCode = response.response?.statusCode else {
+                callback(nil, nil)
+                return
+            }
+            
+            guard let data = response.data else {
+                callback(nil, responseStatusCode)
+                return
+            }
+            
             switch response.result {
             case .success(_):
                 print("success")
-                guard let json = try? JSONDecoder().decode(APIResult.self, from: response.data ?? Data()) else {
+                guard let json = try? JSONDecoder().decode(APIResult.self, from: data) else {
                     print("decode json failed")
-                    callback(nil, response.response?.statusCode)
+                    callback(nil, responseStatusCode)
                     return
                 }
                 print("success json in callback")
-                callback(json, nil)
+                callback(json, responseStatusCode)
                 
             case .failure:
                 print("failure")
-                guard let response = response.response else {
-                    callback(nil, nil)
-                    return
-                }
-                callback(nil, response.statusCode)
+                callback(nil, responseStatusCode)
             }
         }
     }

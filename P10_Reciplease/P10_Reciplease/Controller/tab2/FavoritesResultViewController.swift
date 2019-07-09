@@ -76,8 +76,6 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         default:
             break
         }
-        
-        print(tableView.separatorStyle)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
