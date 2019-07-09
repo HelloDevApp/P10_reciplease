@@ -16,6 +16,7 @@ enum ErrorMessages: String {
     case sorry = "Sorry!"
     case ok = "Ok"
     case noFavorites = "No favorites"
+    case itsOK = "It's okay."
     
     // MARK: - Messages
     case userIngredientsIsEmpty = "Start by adding ingredients or recipe names to your list"
@@ -24,6 +25,10 @@ enum ErrorMessages: String {
     case requestHasFailed = "The request has failed please check again in a few moments."
     case noInternetConnection = "The request has failed... please check your internet connection"
     case favoriteRecipesIsEmpty = "Start by adding recipes as favorites"
+    case recipeAlreadyInFavorites = "This recipe is already in favorites"
+    case recipeAddedToFavorites = "Recipe added to favorites"
+    case noRecipeFound = "No recipe found, try again with other ingredients"
+    
     
     
 }

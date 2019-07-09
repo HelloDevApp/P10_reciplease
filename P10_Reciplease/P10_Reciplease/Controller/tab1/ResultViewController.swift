@@ -193,7 +193,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         let timeString = String(recipe.totalTime)
         cell.timeLabel.text = timeString
         if let url = recipe.image {
-            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(1))], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8)), .forceTransition], progressBlock: nil, completionHandler: nil)
             cell.noImageLabel.isHidden = true
         } else {
             cell.recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
