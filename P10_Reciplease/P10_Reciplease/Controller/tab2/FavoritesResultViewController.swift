@@ -76,8 +76,6 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         default:
             break
         }
-        
-        print(tableView.separatorStyle)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -103,9 +101,10 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         updateIngredientsLabel(cell: cell, ingredients: ingredients)
         updateTimeLabel(cell: cell, time: timeRecipe)
         
+        cell.recipeImageView.contentMode = .scaleAspectFill
         if let imageURL = recipe.image {
             cell.noImageLabel.isHidden = true
-            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(1))], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8))], progressBlock: nil, completionHandler: nil)
         } else {
             cell.noImageLabel.isHidden = false
             cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue

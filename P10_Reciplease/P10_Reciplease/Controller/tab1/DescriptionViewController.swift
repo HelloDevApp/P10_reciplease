@@ -36,9 +36,12 @@ class DescriptionViewController: UIViewController {
     }
     
     func updateRecipeImageView() {
-        guard let imageURL = imageURL else { return }
         recipeImageView.contentMode = .scaleAspectFit
-        recipeImageView.kf.setImage(with: .network(imageURL))
+        if let imageURL = imageURL {
+           recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8))], progressBlock: nil, completionHandler: nil)
+        } else {
+            recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+        }
     }
 }
 
