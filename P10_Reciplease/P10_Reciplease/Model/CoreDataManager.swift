@@ -13,7 +13,7 @@ class CoreDataManager {
     static let shared = CoreDataManager()
     var favoritesRecipes = [Recipe_]()
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "P10_Reciplease")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {

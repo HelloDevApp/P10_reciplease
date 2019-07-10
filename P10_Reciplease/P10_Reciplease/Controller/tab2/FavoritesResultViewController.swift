@@ -104,7 +104,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         cell.recipeImageView.contentMode = .scaleAspectFill
         if let imageURL = recipe.image {
             cell.noImageLabel.isHidden = true
-            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8)), .forceTransition, .keepCurrentImageWhileLoading], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8))], progressBlock: nil, completionHandler: nil)
         } else {
             cell.noImageLabel.isHidden = false
             cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
