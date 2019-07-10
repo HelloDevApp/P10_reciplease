@@ -66,58 +66,6 @@ class ResultViewController: UIViewController, NetworkProtocol {
         }
         
     }
-    
-    private func loadMoreRecipes(indexPath: Int) {
-        guard indexPath == hits.count - 1 else { return }
-        guard let apiHelper = apiHelper else { return }
-        
-        updateFromAndToForNextCall()
-        startAnimatingActivityIndicator()
-        
-        apiHelper.getRecipe(userIngredients: userIngredients, callback: { [weak self] (apiResult, statusCode)  in
-            
-            guard let apiResult = apiResult else {
-                if let self = self {
-                    self.switchStatusCodeToPresentAlert(statusCode: statusCode, controller: self, hitsIsEmpty: true)
-                }
-                self?.updateFromAndToForNextCall()
-                self?.stopAnimatingActivityIndicator()
-                return
-            }
-            
-            guard !apiResult.hits.isEmpty else {
-                
-                if let self = self {
-                    self.switchStatusCodeToPresentAlert(statusCode: statusCode, controller: self, hitsIsEmpty: true)
-                    self.updateFromAndToForNextCall()
-                    self.stopAnimatingActivityIndicator()
-                }
-                return
-            }
-            
-            self?.stopAnimatingActivityIndicator()
-            self?.hits.append(contentsOf: apiResult.hits)
-            self?.tableView.reloadData()
-        })
-    }
-    
-    func updateFromAndToForNextCall() {
-        if let apiHelper = apiHelper {
-            apiHelper.from = hits.count + 1
-            apiHelper.to = apiHelper.from + 10
-        }
-    }
-    
-    private func startAnimatingActivityIndicator() {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-    }
-    
-    private func stopAnimatingActivityIndicator() {
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
-    }
-    
 }
 
 // MARK: - Navigation
@@ -178,8 +126,19 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         return cellStandard
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        loadMoreRecipes(indexPath: indexPath.row)
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let offset: CGPoint = scrollView.contentOffset
+        let bounds: CGRect = scrollView.bounds
+        let size: CGSize = scrollView.contentSize
+        let inset: UIEdgeInsets = scrollView.contentInset
+        let y: CGFloat = offset.y + bounds.size.height - inset.bottom
+        let h: CGFloat = size.height
+        
+        let reloadDistance: CGFloat = 1
+        
+        if (y > h + reloadDistance) {
+            launchCall(controller: self)
+        }
     }
     
     private func fillCell(_ cell: ResultTableViewCell, with hits: [Hit], indexPath: IndexPath) {
@@ -192,7 +151,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         cell.timeLabel.text = String(recipe.totalTime)
         
         if let url = recipe.image {
-            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8)), .forceTransition], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8)), .forceRefresh], progressBlock: nil, completionHandler: nil)
             cell.noImageLabel.isHidden = true
         } else {
             cell.recipeImageView.image = #imageLiteral(resourceName: "defaultImage")

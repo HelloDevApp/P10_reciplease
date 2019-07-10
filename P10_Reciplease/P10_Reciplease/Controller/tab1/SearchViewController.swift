@@ -92,51 +92,6 @@ class SearchViewController: UIViewController, NetworkProtocol {
     }
 }
 
-//MARK: - API call
-extension SearchViewController {
-    
-    func launchCall() {
-        guard !userIngredients.isEmpty else {
-            parent?.presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok, statusCode: nil, completion: nil)
-            return
-        }
-        apiHelper.from = 0
-        apiHelper.to = 19
-        
-        startActivityIndicator()
-        apiHelper.getRecipe(userIngredients: userIngredients) { [weak self] (apiResult, statusCode) in
-            guard let self = self else { return }
-            print(apiResult)
-            guard let apiResult = apiResult else {
-                self.switchStatusCodeToPresentAlert(statusCode: statusCode, controller: self, hitsIsEmpty: true)
-                self.stopActivityIndicator()
-                return
-            }
-            guard !apiResult.hits.isEmpty else {
-                self.switchStatusCodeToPresentAlert(statusCode: statusCode, controller: self, hitsIsEmpty: true)
-                self.stopActivityIndicator()
-                return
-            }
-            
-            self.hits = apiResult.hits
-            self.stopActivityIndicator()
-            self.performSegue(withIdentifier: "SearchToResult", sender: nil)
-        }
-    }
-    
-    func startActivityIndicator() {
-        self.searchForRecipesButton.isEnabled = false
-        self.activityIndicator.isHidden = false
-        self.activityIndicator.startAnimating()
-    }
-    
-    func stopActivityIndicator() {
-        self.searchForRecipesButton.isEnabled = true
-        self.activityIndicator.isHidden = true
-        self.activityIndicator.stopAnimating()
-    }
-}
-
 // MARK: - Navigation
 extension SearchViewController {
     
