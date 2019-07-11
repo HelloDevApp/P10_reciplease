@@ -12,10 +12,6 @@ import Kingfisher
 
 class FavoritesResultViewController: UIViewController {
     
-    // FavoritesResultVC
-    lazy var refresher = UIRefreshControl()
-    
-    // FavoritesDescriptionVC
     var rowSelect = 0
     
     @IBOutlet weak var tableView: UITableView!
@@ -59,7 +55,6 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     
     @objc func refreshTableView() {
         tableView.reloadData()
-        self.refresher.endRefreshing()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,14 +92,14 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         let ingredients = ingredientLines.joined(separator: ", \n")
         let timeRecipe = recipe.totalTime
         
-        updateNameRecipeLabel(cell: cell, nameRecipe: nameRecipe)
+        updateNameRecipeLabel(cell: cell, nameRecipe: nameRecipe, indexPath: indexPath)
         updateIngredientsLabel(cell: cell, ingredients: ingredients)
         updateTimeLabel(cell: cell, time: timeRecipe)
         
         cell.recipeImageView.contentMode = .scaleAspectFill
         if let imageURL = recipe.image {
             cell.noImageLabel.isHidden = true
-            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8))], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
         } else {
             cell.noImageLabel.isHidden = false
             cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
@@ -138,8 +133,8 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         performSegue(withIdentifier: "FavoritesToFavoritesDescription", sender: nil)
     }
     
-    func updateNameRecipeLabel(cell: ResultTableViewCell, nameRecipe: String) {
-        cell.nameRecipeLabel.text = nameRecipe
+    func updateNameRecipeLabel(cell: ResultTableViewCell, nameRecipe: String, indexPath: IndexPath) {
+        cell.nameRecipeLabel.text = "\(indexPath.row + 1) " + nameRecipe
     }
     
     func updateIngredientsLabel(cell: ResultTableViewCell, ingredients: String) {

@@ -25,12 +25,8 @@ class SearchViewController: UIViewController, NetworkProtocol {
     // MARK: - Properties
     let impact = UIImpactFeedbackGenerator(style: .heavy)
     
-    // For Search
     var userIngredients = [String]()
-    var apiResult: APIResult?
     let apiHelper = APIHelper()
-    
-    // For ResultVC
     var hits = [Hit]()
     
     // MARK: - #@IBActions
