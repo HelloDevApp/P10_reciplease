@@ -19,6 +19,7 @@ class ResultTableViewCell: UITableViewCell {
     let defaultImage = #imageLiteral(resourceName: "defaultImage")
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         noImageLabel.text = nil
         nameRecipeLabel.text = nil
         ingredientsLabel.text = nil

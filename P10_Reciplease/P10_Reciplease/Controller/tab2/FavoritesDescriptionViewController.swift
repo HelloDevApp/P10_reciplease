@@ -34,7 +34,7 @@ class FavoritesDescriptionViewController: UIViewController {
         ingredientsTextView.text = ingredients.joined(separator: ",\n")
         recipeImageView.contentMode = .scaleAspectFit
         if let urlImage = recipe.image {
-            recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8))], progressBlock: nil, completionHandler: nil)
+            recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
         } else {
             recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
         }

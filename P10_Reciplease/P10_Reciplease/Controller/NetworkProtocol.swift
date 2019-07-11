@@ -51,18 +51,13 @@ extension NetworkProtocol {
         updateFromAndToForNextCall(apiHelper: controller.apiHelper, hits: controller.hits)
         guard let apiHelper = controller.apiHelper else { return }
         
-        //sert juste a animer l'activityIndicator rien d'autre
         controller.startActivityIndicator(controller: controller)
 
-        //lance l'appel
         apiHelper.getRecipe(userIngredients: controller.userIngredients, callback: { [weak controller] (apiResult, statusCode)  in
 
             guard let controller = controller else { return }
-            // verifie que apiResult n'est pas nulet que le tableau contenant les recette n'est pas vide
             guard let apiResult = self.checkIfApiResultIsNotNil(apiResult: apiResult, controller: controller, statusCode: statusCode) else { return
             }
-            
-            // et la j'affecte les données recus 
             controller.hits.append(contentsOf: apiResult.hits)
             controller.tableView.reloadData()
             controller.stopActivityIndicator(controller: controller)

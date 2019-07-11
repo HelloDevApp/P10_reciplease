@@ -10,18 +10,11 @@ import UIKit
 import Kingfisher
 
 class ResultViewController: UIViewController, NetworkProtocol {
-    
-    //MARK: - SearchVC
+
     var userIngredients = [String]()
-    
-    //MARK: - ResultVC
     var apiHelper: APIHelper?
     var hits = [Hit]()
-    
-    //MARK: - FavoritesVC
     var favorite = [Recipe]()
-    
-    //MARK: - DescriptionVC
     var rowSelect: Int = 0
     
     //MARK: - @IBOutlets
@@ -151,7 +144,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         cell.timeLabel.text = String(recipe.totalTime)
         
         if let url = recipe.image {
-            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.8)), .forceRefresh], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
             cell.noImageLabel.isHidden = true
         } else {
             cell.recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
