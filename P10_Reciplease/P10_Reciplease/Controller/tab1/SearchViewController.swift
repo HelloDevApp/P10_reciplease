@@ -14,7 +14,7 @@ enum Choice {
     case remove
     case removeAll
 }
-class SearchViewController: UIViewController, NetworkProtocol {
+class SearchViewController: NetworkController {
     
     // MARK: - @IBOutlets
     @IBOutlet weak var ingredientTextField: UITextField!
@@ -41,7 +41,7 @@ class SearchViewController: UIViewController, NetworkProtocol {
     }
     
     @IBAction func actionSearchButton(_ sender: UIButton) {
-        launchCall(controller: self)
+        firstCall()
     }
     
     // MARK: - Methods
@@ -62,8 +62,8 @@ class SearchViewController: UIViewController, NetworkProtocol {
         impact.impactOccurred()
     }
     
-    // ud = UserDefaults
-    // required IndexPath only for .remove
+    /// ud = UserDefaults
+    /// required IndexPath only for .remove
     func ud_updateUserIngredients(action: Choice, indexPath: IndexPath?) {
         let userDefaultsManager = UserDefaultsManager()
         let key = userDefaultsManager.userIngredientsKey
@@ -83,6 +83,38 @@ class SearchViewController: UIViewController, NetworkProtocol {
     
     func resetText(textField: UITextField) {
         textField.text = ""
+    }
+    
+    func firstCall() {
+        
+        guard !self.userIngredients.isEmpty else {
+            self.parent?.presentAlert(titleAlert: .error, messageAlert: .userIngredientsIsEmpty, actionTitle: .ok, completion: nil)
+            return
+        }
+        
+        self.apiHelper.from = 0
+        self.apiHelper.to = 19
+        
+        startActivityIndicator(controller: self)
+        
+        self.apiHelper.getRecipe(userIngredients: self.userIngredients) { [weak self] (apiResult, errorNetwork) in
+            guard let self = self else { return }
+            guard let apiResult = apiResult else { return }
+            
+            print(errorNetwork)
+            
+            if apiResult.hits.isEmpty {
+                self.switchErrorNetworkToPresentAlert(errorNetwork: errorNetwork, hitsIsEmpty: true)
+                self.stopActivityIndicator(controller: self)
+                return
+            } else {
+                self.switchErrorNetworkToPresentAlert(errorNetwork: errorNetwork, hitsIsEmpty: false)
+            }
+            
+            self.stopActivityIndicator(controller: self)
+            self.hits = apiResult.hits
+            self.performSegue(withIdentifier: "SearchToResult", sender: nil)
+        }
     }
 }
 

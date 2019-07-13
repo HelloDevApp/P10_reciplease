@@ -11,7 +11,7 @@ import Foundation
 class UserDefaultsManager {
     
     // MARK: - Properties
-    private let _userIngredientskey = "UserIngredient"
+    private var _userIngredientskey = "UserIngredient"
     
     // contains the key to get the ingredients saved in userDefaults
     var userIngredientsKey: String {

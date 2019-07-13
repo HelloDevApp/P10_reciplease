@@ -13,6 +13,12 @@ class APIHelper {
     var from = 0
     var to = 19
     
+    var session: APISessionProtocol?
+    
+    init(session: APISessionProtocol = APISession()) {
+        self.session = session
+    }
+    
     private func createURL(userIngredients: [String]) -> URL? {
         
         let apiKey = APIKey()
@@ -32,21 +38,14 @@ class APIHelper {
         return url
     }
     
-    func getRecipe(userIngredients: [String], callback: @escaping (APIResult?, Int?) -> Void) {
-        
+    func getRecipe(userIngredients: [String], callback: @escaping (APIResult?, ErrorNetwork) -> Void) {
+
         guard let url = createURL(userIngredients: userIngredients) else { return }
-        AF.request(url).responseJSON { [weak self] (response) in
+        session?.request(url: url) { (response) in
             print(url)
             
-            guard self != nil else { return }
-            
-            guard let responseStatusCode = response.response?.statusCode else {
-                callback(nil, nil)
-                return
-            }
-            
-            guard let data = response.data else {
-                callback(nil, responseStatusCode)
+            guard let data = response.data ,let responseStatusCode = response.response?.statusCode else {
+                callback(nil, .requestHasFailed)
                 return
             }
             
@@ -55,15 +54,19 @@ class APIHelper {
                 print("success")
                 guard let json = try? JSONDecoder().decode(APIResult.self, from: data) else {
                     print("decode json failed")
-                    callback(nil, responseStatusCode)
+                    callback(nil, .wrongJSON)
+                    return
+                }
+                guard !json.hits.isEmpty else {
+                    callback(json, .noRecipeFound)
                     return
                 }
                 print("success json in callback")
-                callback(json, responseStatusCode)
+                callback(json, .noError)
                 
             case .failure:
                 print("failure")
-                callback(nil, responseStatusCode)
+                callback(nil, .requestHasFailed)
             }
         }
     }
