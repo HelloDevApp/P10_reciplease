@@ -24,6 +24,8 @@
 		529AC36E22C62CED0020DD36 /* FavoritesWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AC36D22C62CED0020DD36 /* FavoritesWebViewController.swift */; };
 		529AC37022CA79910020DD36 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529AC36F22CA79910020DD36 /* CoreDataManager.swift */; };
 		529BB74222B2A386004B9244 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BB74122B2A386004B9244 /* UserDefaultsManager.swift */; };
+		52A3DCBF22DD0BCD002ECB4B /* UserDefaultsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3DCBE22DD0BCD002ECB4B /* UserDefaultsTest.swift */; };
+		52A3DCC322DD1118002ECB4B /* FakeUserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3DCC222DD1118002ECB4B /* FakeUserDefaultsManager.swift */; };
 		52B59A1A22C0DA6F00BDE0CE /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */; };
 		52B59A1C22C216F600BDE0CE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B59A1B22C216F600BDE0CE /* WebKit.framework */; };
 		52B59A1E22C3819100BDE0CE /* Recipe_.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B59A1D22C3819100BDE0CE /* Recipe_.swift */; };
@@ -76,6 +78,8 @@
 		529AC36D22C62CED0020DD36 /* FavoritesWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesWebViewController.swift; sourceTree = "<group>"; };
 		529AC36F22CA79910020DD36 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		529BB74122B2A386004B9244 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		52A3DCBE22DD0BCD002ECB4B /* UserDefaultsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTest.swift; sourceTree = "<group>"; };
+		52A3DCC222DD1118002ECB4B /* FakeUserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUserDefaultsManager.swift; sourceTree = "<group>"; };
 		52B59A1922C0DA6F00BDE0CE /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		52B59A1B22C216F600BDE0CE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		52B59A1D22C3819100BDE0CE /* Recipe_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe_.swift; sourceTree = "<group>"; };
@@ -240,6 +244,8 @@
 			children = (
 				52CAF3E92294882600240A7B /* P10_RecipleaseTests.swift */,
 				52E6A55822D7ACA6004D182E /* FakeAPISession.swift */,
+				52A3DCC222DD1118002ECB4B /* FakeUserDefaultsManager.swift */,
+				52A3DCBE22DD0BCD002ECB4B /* UserDefaultsTest.swift */,
 				5249337322D87B03008F6C28 /* JSON_OK.json */,
 				526109C222DA1F8D00E6DF19 /* JSON_WithEmptyRecipes.json */,
 				5249337722D89E9B008F6C28 /* IncorrectJSON.json */,
@@ -448,9 +454,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				52E6A55622D77546004D182E /* FakeResponseData.swift in Sources */,
+				52A3DCBF22DD0BCD002ECB4B /* UserDefaultsTest.swift in Sources */,
 				52E6A55922D7ACA6004D182E /* FakeAPISession.swift in Sources */,
 				52CAF3EA2294882600240A7B /* P10_RecipleaseTests.swift in Sources */,
 				52C8A10C22D7BD98001CF0E5 /* FakeResponse.swift in Sources */,
+				52A3DCC322DD1118002ECB4B /* FakeUserDefaultsManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
