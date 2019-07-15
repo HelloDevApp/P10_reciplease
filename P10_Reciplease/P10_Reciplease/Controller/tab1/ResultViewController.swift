@@ -40,7 +40,11 @@ class ResultViewController: NetworkController {
         apiHelper.getRecipe(userIngredients: userIngredients, callback: { [weak self] (apiResult, errorNetwork)  in
             
             guard let self = self else { return }
-            guard let apiResult = apiResult else { return }
+            guard let apiResult = apiResult else {
+                self.switchErrorNetworkToPresentAlert(errorNetwork: errorNetwork, hitsIsEmpty: true)
+                self.stopActivityIndicator(controller: self)
+                return
+            }
             
             if self.hits.isEmpty && apiResult.hits.isEmpty {
                 self.switchErrorNetworkToPresentAlert(errorNetwork: .noRecipeFound, hitsIsEmpty: true)

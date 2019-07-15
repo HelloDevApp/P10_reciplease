@@ -99,7 +99,11 @@ class SearchViewController: NetworkController {
         
         self.apiHelper.getRecipe(userIngredients: self.userIngredients) { [weak self] (apiResult, errorNetwork) in
             guard let self = self else { return }
-            guard let apiResult = apiResult else { return }
+            guard let apiResult = apiResult else {
+                self.switchErrorNetworkToPresentAlert(errorNetwork: errorNetwork, hitsIsEmpty: true)
+                self.stopActivityIndicator(controller: self)
+                return
+            }
             
             print(errorNetwork)
             
