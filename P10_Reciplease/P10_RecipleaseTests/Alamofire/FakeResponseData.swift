@@ -17,9 +17,6 @@ class FakeResponseData {
     let image = "image".data(using: .utf8)
     let error = ErrorProtocol()
     
-    
-    
-    
     var jsonOK: Data {
         let data = recoverUrlJSONFiles(nameJson: "JSON_OK")
         return data
@@ -44,13 +41,6 @@ class FakeResponseData {
     func recoverUrlJSONFiles(nameJson: String) -> Data {
         let bundle = Bundle(for: FakeResponseData.self)
         let url = bundle.url(forResource: nameJson, withExtension: "json")
-        let data = try! Data(contentsOf: url!)
-        return data
-    }
-    
-    func recoverUrlXMLFiles(nameJson: String) -> Data {
-        let bundle = Bundle(for: FakeResponseData.self)
-        let url = bundle.url(forResource: nameJson, withExtension: "xml")
         let data = try! Data(contentsOf: url!)
         return data
     }
