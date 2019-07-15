@@ -10,7 +10,6 @@ import CoreData
 
 class CoreDataManager {
     
-    static let shared = CoreDataManager()
     var favoritesRecipes = [Recipe_]()
     
     private lazy var persistentContainer: NSPersistentContainer = {

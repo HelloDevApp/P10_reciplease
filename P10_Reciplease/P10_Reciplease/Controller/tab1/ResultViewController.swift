@@ -16,6 +16,7 @@ class ResultViewController: NetworkController {
     var hits = [Hit]()
     var favorite = [Recipe]()
     var rowSelect: Int = 0
+    private let coreDataManager = CoreDataManager()
     
     //MARK: - @IBOutlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -60,7 +61,7 @@ class ResultViewController: NetworkController {
     
     private func saveRecipe(label: String, ingredientsLines: [String], image: URL?, url: URL, uri: URL, totalTime: Double) {
         var canSave = true
-        for favoriteRecipe in CoreDataManager.shared.fetchRecipes() {
+        for favoriteRecipe in coreDataManager.fetchRecipes() {
             if favoriteRecipe.uri != uri {
                 canSave = true
             } else {
@@ -71,14 +72,14 @@ class ResultViewController: NetworkController {
         
         switch canSave {
         case true:
-            let recipe = Recipe_(context: CoreDataManager.shared.viewContext)
+            let recipe = Recipe_(context: coreDataManager.viewContext)
             recipe.label = label
             recipe.ingredientLines = ingredientsLines as NSObject
             recipe.totalTime = totalTime
             recipe.image = image
             recipe.url = url
             recipe.uri = uri
-            CoreDataManager.shared.saveContext()
+            coreDataManager.saveContext()
             parent?.presentAlert(titleAlert: .itsOK, messageAlert: .recipeAddedToFavorites, actionTitle: .ok, completion: nil)
         case false:
             parent?.presentAlert(titleAlert: .sorry, messageAlert: .recipeAlreadyInFavorites, actionTitle: .ok, completion: nil)

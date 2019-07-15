@@ -13,6 +13,7 @@ import Kingfisher
 class FavoritesResultViewController: UIViewController {
     
     var rowSelect = 0
+    let coreDataManager = CoreDataManager()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,13 +27,13 @@ class FavoritesResultViewController: UIViewController {
     }
     
     func fetchRecipes() {
-        guard !CoreDataManager.shared.fetchRecipes().isEmpty else {
+        guard !coreDataManager.fetchRecipes().isEmpty else {
             parent?.presentAlert(titleAlert: .error, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok) { (alert) in
                 self.tabBarController?.selectedIndex = 0
             }
             return
         }
-        CoreDataManager.shared.favoritesRecipes = CoreDataManager.shared.fetchRecipes()
+        coreDataManager.favoritesRecipes = coreDataManager.fetchRecipes()
         tableView.reloadData()
     }
     
@@ -45,7 +46,7 @@ extension FavoritesResultViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "FavoritesToFavoritesDescription" else { return }
         guard let favoritesDescriptionVC = segue.destination as? FavoritesDescriptionViewController else { return }
-        favoritesDescriptionVC.recipe = CoreDataManager.shared.favoritesRecipes[rowSelect]
+        favoritesDescriptionVC.recipe = coreDataManager.favoritesRecipes[rowSelect]
     }
 }
 
@@ -57,11 +58,11 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CoreDataManager.shared.favoritesRecipes.count
+        return coreDataManager.favoritesRecipes.count
     }
     
     fileprivate func changeSeparatorStyle(_ tableView: UITableView) {
-        switch CoreDataManager.shared.favoritesRecipes.count {
+        switch coreDataManager.favoritesRecipes.count {
         case 0...2:
             tableView.separatorStyle = .none
         case 3...Int.max:
@@ -77,7 +78,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         tableView.rowHeight = tableView.frame.height / 3
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell else { return UITableViewCell() }
-        fillCell(cell, with: CoreDataManager.shared.favoritesRecipes, indexPath: indexPath)
+        fillCell(cell, with: coreDataManager.favoritesRecipes, indexPath: indexPath)
         
         return cell
     }
@@ -111,15 +112,15 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            CoreDataManager.shared.viewContext.delete(CoreDataManager.shared.favoritesRecipes[indexPath.row])
-            CoreDataManager.shared.saveContext()
+            coreDataManager.viewContext.delete(coreDataManager.favoritesRecipes[indexPath.row])
+            coreDataManager.saveContext()
             
             // refresh count of favoritesRecipes to display correct tableView
-            CoreDataManager.shared.favoritesRecipes = CoreDataManager.shared.fetchRecipes()
+            coreDataManager.favoritesRecipes = coreDataManager.fetchRecipes()
             changeSeparatorStyle(tableView)
             tableView.reloadData()
             
-            if CoreDataManager.shared.favoritesRecipes.count == 0 {
+            if coreDataManager.favoritesRecipes.count == 0 {
                 parent?.presentAlert(titleAlert: .sorry, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok) { (alert) in
                     self.tabBarController?.selectedIndex = 0
                 }
