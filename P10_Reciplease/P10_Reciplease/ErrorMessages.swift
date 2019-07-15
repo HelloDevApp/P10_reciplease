@@ -28,7 +28,13 @@ enum ErrorMessages: String {
     case recipeAlreadyInFavorites = "This recipe is already in favorites"
     case recipeAddedToFavorites = "Recipe added to favorites"
     case noRecipeFound = "No recipe found, try again with other ingredients"
-    
-    
-    
+}
+
+
+enum ErrorNetwork: Swift.Error {
+    case noError
+    case wrongJSON
+    case requestHasFailed
+    case requestLimitReached
+    case noRecipeFound
 }

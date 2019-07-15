@@ -8,7 +8,7 @@ target 'P10_Reciplease' do
   use_frameworks!
 
   # Pods for P10_Reciplease
-  pod 'Alamofire', '~> 5.0.0-beta-6'
+  pod 'Alamofire', '~> 4.5'
   pod 'Kingfisher', '~> 5.0'
   
   target 'P10_RecipleaseTests' do

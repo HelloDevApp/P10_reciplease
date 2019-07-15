@@ -1,0 +1,22 @@
+{
+    "hits": [
+        {
+            "recipe": {
+                "uri": "http://www.edamam.com/ontologies/edamam.owl#recipe_d4c217307a6c1a4f5aab75c9f48dccd3",
+                "label": "Fresh Pea And Salami Bruschetta",
+                "image": "https://www.edamam.com/web-img/477/47702ad20f1b1418da4d3ef308a6cc48.jpg",
+                "url": "http://food52.com/recipes/27539-fresh-pea-and-salami-bruschetta",
+                
+                "ingredientLines": [
+                    "4 tablespoons olive oil, divided",
+                    "4 ounces saucisson sec, thinly sliced, or sliced salami",
+                    "2 cups fresh peas or thawed frozen peas",
+                    "1/2 teaspoon finely grated lemon zest",
+                    "4 slices bread from a country loaf",
+                    "Salad, for serving"
+                ],
+                "totalTime": 60,
+            }
+        }
+    ]
+}
