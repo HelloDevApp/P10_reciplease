@@ -10,16 +10,9 @@ import UIKit
 
 extension UIViewController {
     
-    func presentAlert(titleAlert: ErrorMessages, messageAlert: ErrorMessages, actionTitle: ErrorMessages, statusCode: Int?, completion: ((UIAlertAction) -> Void)?) {
+    func presentAlert(titleAlert: ErrorMessages, messageAlert: ErrorMessages, actionTitle: ErrorMessages, completion: ((UIAlertAction) -> Void)?) {
         
-        var alert: UIAlertController
-        
-        if let statusCode = statusCode {
-            let displaysStatusCode = "error:" + "\(statusCode)"
-            alert = UIAlertController(title: titleAlert.rawValue, message: displaysStatusCode + messageAlert.rawValue, preferredStyle: .alert)
-        } else {
-            alert = UIAlertController(title: titleAlert.rawValue, message: messageAlert.rawValue, preferredStyle: .alert)
-        }
+        let alert = UIAlertController(title: titleAlert.rawValue, message: messageAlert.rawValue, preferredStyle: .alert)
         
         let action = UIAlertAction(title: actionTitle.rawValue, style: .default, handler: completion)
         alert.addAction(action)

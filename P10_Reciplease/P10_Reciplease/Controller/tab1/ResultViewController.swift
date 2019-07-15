@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ResultViewController: UIViewController, NetworkProtocol {
+class ResultViewController: NetworkController {
 
     var userIngredients = [String]()
     var apiHelper: APIHelper?
@@ -29,6 +29,33 @@ class ResultViewController: UIViewController, NetworkProtocol {
     
     deinit {
         print("deinit: ResultVC")
+    }
+    
+    func loadMoreRecipes() {
+        updateFromAndToForNextCall(apiHelper: apiHelper, hits: hits)
+        guard let apiHelper = apiHelper else { return }
+        
+        startActivityIndicator(controller: self)
+        
+        apiHelper.getRecipe(userIngredients: userIngredients, callback: { [weak self] (apiResult, errorNetwork)  in
+            
+            guard let self = self else { return }
+            guard let apiResult = apiResult else {
+                self.switchErrorNetworkToPresentAlert(errorNetwork: errorNetwork, hitsIsEmpty: true)
+                self.stopActivityIndicator(controller: self)
+                return
+            }
+            
+            if self.hits.isEmpty && apiResult.hits.isEmpty {
+                self.switchErrorNetworkToPresentAlert(errorNetwork: .noRecipeFound, hitsIsEmpty: true)
+            } else {
+               self.switchErrorNetworkToPresentAlert(errorNetwork: errorNetwork, hitsIsEmpty: false)
+            }
+            
+            self.hits.append(contentsOf: apiResult.hits)
+            self.tableView.reloadData()
+            self.stopActivityIndicator(controller: self)
+        })
     }
     
     private func saveRecipe(label: String, ingredientsLines: [String], image: URL?, url: URL, uri: URL, totalTime: Double) {
@@ -52,9 +79,9 @@ class ResultViewController: UIViewController, NetworkProtocol {
             recipe.url = url
             recipe.uri = uri
             CoreDataManager.shared.saveContext()
-            presentAlert(titleAlert: .itsOK, messageAlert: .recipeAddedToFavorites, actionTitle: .ok, statusCode: nil, completion: nil)
+            parent?.presentAlert(titleAlert: .itsOK, messageAlert: .recipeAddedToFavorites, actionTitle: .ok, completion: nil)
         case false:
-            presentAlert(titleAlert: .sorry, messageAlert: .recipeAlreadyInFavorites, actionTitle: .ok, statusCode: nil, completion: nil)
+            parent?.presentAlert(titleAlert: .sorry, messageAlert: .recipeAlreadyInFavorites, actionTitle: .ok, completion: nil)
             break
         }
         
@@ -130,7 +157,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         let reloadDistance: CGFloat = 1
         
         if (y > h + reloadDistance) {
-            launchCall(controller: self)
+            loadMoreRecipes()
         }
     }
     

@@ -27,8 +27,7 @@ class FavoritesResultViewController: UIViewController {
     
     func fetchRecipes() {
         guard !CoreDataManager.shared.fetchRecipes().isEmpty else {
-            parent?.presentAlert(titleAlert: .error, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok
-            , statusCode: nil) { (alert) in
+            parent?.presentAlert(titleAlert: .error, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok) { (alert) in
                 self.tabBarController?.selectedIndex = 0
             }
             return
@@ -121,7 +120,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
             tableView.reloadData()
             
             if CoreDataManager.shared.favoritesRecipes.count == 0 {
-                parent?.presentAlert(titleAlert: .sorry, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok, statusCode: nil) { (alert) in
+                parent?.presentAlert(titleAlert: .sorry, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok) { (alert) in
                     self.tabBarController?.selectedIndex = 0
                 }
             }
