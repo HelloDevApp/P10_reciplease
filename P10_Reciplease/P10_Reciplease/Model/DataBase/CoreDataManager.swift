@@ -43,13 +43,13 @@ class CoreDataManager {
     }
     
     func saveContext() {
+        
+        guard viewContext.hasChanges else { return }
         do {
             try viewContext.save()
-            print("object has been saved in the context.")
+        } catch let error as NSError {
+            print("Error: \(error), \(error.userInfo)")
         }
-            
-        catch {
-            print("error")
-        }
+        print("object has been saved in the context.")
     }
 }
