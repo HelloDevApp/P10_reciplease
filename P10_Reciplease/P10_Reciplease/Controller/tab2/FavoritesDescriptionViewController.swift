@@ -13,6 +13,7 @@ class FavoritesDescriptionViewController: UIViewController {
     
     var recipe: Recipe_?
     
+    @IBOutlet weak var starButton: UIBarButtonItem!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsTextView: UITextView!
@@ -20,6 +21,9 @@ class FavoritesDescriptionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    @IBAction func starButtonAction(_ sender: UIBarButtonItem) {
     }
     
     @IBAction func getDirectionButtonAction(_ sender: UIButton) {

@@ -440,11 +440,18 @@
                     </view>
                     <navigationItem key="navigationItem" title="Reciplease" id="0vB-I5-oBD">
                         <barButtonItem key="backBarButtonItem" title="Back" id="2Es-UP-kNT"/>
+                        <barButtonItem key="rightBarButtonItem" image="star" id="RGX-sc-RGy">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="starButtonAction:" destination="MwN-sV-QHi" id="h9Q-SL-Opa"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="ingredientsTextView" destination="I74-rn-Yif" id="bGT-43-bj1"/>
                         <outlet property="nameRecipeLabel" destination="tez-8V-rbg" id="EmA-8Q-5ie"/>
                         <outlet property="recipeImageView" destination="MWs-18-HJ8" id="cm7-Go-5qb"/>
+                        <outlet property="starButton" destination="RGX-sc-RGy" id="xRl-pc-oDd"/>
                         <segue destination="RzH-GS-btU" kind="presentation" identifier="DescriptionToWeb" modalPresentationStyle="currentContext" id="vYn-UB-bss"/>
                     </connections>
                 </viewController>
@@ -694,11 +701,19 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0Mt-Kf-XDE"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Reciplease" id="zq3-dl-dng"/>
+                    <navigationItem key="navigationItem" title="Reciplease" id="zq3-dl-dng">
+                        <barButtonItem key="rightBarButtonItem" image="star" id="Jzx-9b-ro8">
+                            <color key="tintColor" red="0.93435251539999997" green="0.93621113580000004" blue="0.02867993559" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="starButtonAction:" destination="H0v-Xj-xXm" id="NGR-xU-fHW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="ingredientsTextView" destination="mOt-Fu-tGi" id="c61-2G-8Rg"/>
                         <outlet property="nameRecipeLabel" destination="vn9-fO-kd2" id="E0B-Fj-vt6"/>
                         <outlet property="recipeImageView" destination="j6N-dR-IgG" id="GKA-AO-h0N"/>
+                        <outlet property="starButton" destination="Jzx-9b-ro8" id="gCc-fi-7yB"/>
                         <segue destination="4bd-Ku-cDt" kind="presentation" identifier="FavoritesDescriptionToWeb" id="Uqn-xh-bHR"/>
                     </connections>
                 </viewController>
@@ -764,6 +779,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="star" width="30" height="30"/>
         <image name="time" width="40" height="40"/>
     </resources>
 </document>

@@ -16,6 +16,7 @@ class DescriptionViewController: UIViewController {
     var ingredients = String()
     var imageURL: URL?
     var urlDirections = URL(string: "")
+    @IBOutlet weak var starButton: UIBarButtonItem!
     
     // MARK: - @IBOutlets
     @IBOutlet weak var nameRecipeLabel: UILabel!
@@ -31,6 +32,10 @@ class DescriptionViewController: UIViewController {
     deinit {
         print("deinit: DescriptionVC")
     }
+    
+    @IBAction func starButtonAction(_ sender: UIBarButtonItem) {
+    }
+    
     @IBAction func getDirectionsButtonAction(_ sender: UIButton) {
         performSegue(withIdentifier: "DescriptionToWeb", sender: nil)
     }
