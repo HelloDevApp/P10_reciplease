@@ -19,6 +19,7 @@ class FavoritesDescriptionViewController: UIViewController {
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsTextView: UITextView!
+    @IBOutlet weak var totalTimeLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +74,7 @@ class FavoritesDescriptionViewController: UIViewController {
         nameRecipeLabel.text = recipe.label
         ingredientsTextView.text = recipe.ingredientLines.joined(separator: ",\n")
         recipeImageView.contentMode = .scaleAspectFit
+        totalTimeLabel.text = "\(recipe.totalTime)"
         if let urlImage = recipe.image {
             recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
         } else {

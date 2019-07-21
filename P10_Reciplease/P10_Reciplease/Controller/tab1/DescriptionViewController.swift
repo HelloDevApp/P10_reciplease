@@ -21,6 +21,7 @@ class DescriptionViewController: UIViewController {
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsTextView: UITextView!
     @IBOutlet weak var recipeImageView: UIImageView!
+    @IBOutlet weak var totalTimeLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
         guard let recipe_ = recipe else { return }
@@ -29,6 +30,7 @@ class DescriptionViewController: UIViewController {
         nameRecipeLabel.text = recipe_.label
         let ingredientsLines = recipe_.ingredientLines
         ingredientsTextView.text = ingredientsLines.joined(separator: ", \n")
+        totalTimeLabel.text = "\(recipe_.totalTime)"
     }
     
     deinit {
