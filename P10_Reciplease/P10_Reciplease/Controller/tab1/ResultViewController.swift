@@ -16,7 +16,11 @@ class ResultViewController: NetworkController {
     var hits = [Hit]()
     var favorite = [Recipe]()
     var rowSelect: Int = 0
-    private let coreDataManager = CoreDataManager()
+    
+    private var coreDataManager: CoreDataManager {
+        guard let cdm = (UIApplication.shared.delegate as? AppDelegate)?.coreDataManager else { return CoreDataManager() }
+        return cdm
+    }
     
     //MARK: - @IBOutlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -59,10 +63,10 @@ class ResultViewController: NetworkController {
         })
     }
     
-    private func saveRecipe(label: String, ingredientsLines: [String], image: URL?, url: URL, uri: URL, totalTime: Double) {
+    private func saveRecipe(recipe: Recipe) {
         var canSave = true
-        for favoriteRecipe in coreDataManager.fetchRecipes() {
-            if favoriteRecipe.uri != uri {
+        for favoriteRecipe in coreDataManager.read() {
+            if favoriteRecipe.uri != recipe.uri {
                 canSave = true
             } else {
                 canSave = false
@@ -72,14 +76,7 @@ class ResultViewController: NetworkController {
         
         switch canSave {
         case true:
-            let recipe = Recipe_(context: coreDataManager.viewContext)
-            recipe.label = label
-            recipe.ingredientLines = ingredientsLines as NSObject
-            recipe.totalTime = totalTime
-            recipe.image = image
-            recipe.url = url
-            recipe.uri = uri
-            coreDataManager.saveContext()
+            coreDataManager.create(recipe: recipe)
             parent?.presentAlert(titleAlert: .itsOK, messageAlert: .recipeAddedToFavorites, actionTitle: .ok, completion: nil)
         case false:
             parent?.presentAlert(titleAlert: .sorry, messageAlert: .recipeAlreadyInFavorites, actionTitle: .ok, completion: nil)
@@ -97,12 +94,9 @@ extension ResultViewController {
         case "DescriptionVC":
             guard let descriptionVC = segue.destination as? DescriptionViewController else { return }
             guard let recipe = hits[rowSelect].recipe else { return }
-            guard let recipeImageURL = recipe.image else { return }
             
-            descriptionVC.urlDirections = recipe.url
-            descriptionVC.nameRecipe = recipe.label
-            descriptionVC.ingredients = recipe.ingredientLines.joined(separator: ", \n")
-            descriptionVC.imageURL = recipeImageURL
+            descriptionVC.coreDataManager = coreDataManager
+            descriptionVC.recipe = recipe
             
         default:
             return
@@ -125,7 +119,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
             guard let self = self else { return }
             guard let recipe = self.hits[indexPath.row].recipe else { return }
             
-            self.saveRecipe(label: recipe.label, ingredientsLines: recipe.ingredientLines, image: recipe.image, url: recipe.url, uri: recipe.uri, totalTime: recipe.totalTime)
+            self.saveRecipe(recipe: recipe)
             self.favorite.append(recipe)
         })
         
