@@ -17,6 +17,11 @@ class ResultViewController: NetworkController {
     var favorite = [Recipe]()
     var rowSelect: Int = 0
     
+    private var coreDataManager: CoreDataManager {
+        guard let cdm = (UIApplication.shared.delegate as? AppDelegate)?.coreDataManager else { return CoreDataManager() }
+        return cdm
+    }
+    
     //MARK: - @IBOutlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -58,10 +63,10 @@ class ResultViewController: NetworkController {
         })
     }
     
-    private func saveRecipe(label: String, ingredientsLines: [String], image: URL?, url: URL, uri: URL, totalTime: Double) {
+    private func saveRecipe(recipe: Recipe) {
         var canSave = true
-        for favoriteRecipe in CoreDataManager.shared.fetchRecipes() {
-            if favoriteRecipe.uri != uri {
+        for favoriteRecipe in coreDataManager.read() {
+            if favoriteRecipe.uri != recipe.uri {
                 canSave = true
             } else {
                 canSave = false
@@ -71,14 +76,7 @@ class ResultViewController: NetworkController {
         
         switch canSave {
         case true:
-            let recipe = Recipe_(context: CoreDataManager.shared.viewContext)
-            recipe.label = label
-            recipe.ingredientLines = ingredientsLines as NSObject
-            recipe.totalTime = totalTime
-            recipe.image = image
-            recipe.url = url
-            recipe.uri = uri
-            CoreDataManager.shared.saveContext()
+            coreDataManager.create(recipe: recipe)
             parent?.presentAlert(titleAlert: .itsOK, messageAlert: .recipeAddedToFavorites, actionTitle: .ok, completion: nil)
         case false:
             parent?.presentAlert(titleAlert: .sorry, messageAlert: .recipeAlreadyInFavorites, actionTitle: .ok, completion: nil)
@@ -96,12 +94,9 @@ extension ResultViewController {
         case "DescriptionVC":
             guard let descriptionVC = segue.destination as? DescriptionViewController else { return }
             guard let recipe = hits[rowSelect].recipe else { return }
-            guard let recipeImageURL = recipe.image else { return }
             
-            descriptionVC.urlDirections = recipe.url
-            descriptionVC.nameRecipe = recipe.label
-            descriptionVC.ingredients = recipe.ingredientLines.joined(separator: ", \n")
-            descriptionVC.imageURL = recipeImageURL
+            descriptionVC.coreDataManager = coreDataManager
+            descriptionVC.recipe = recipe
             
         default:
             return
@@ -124,7 +119,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
             guard let self = self else { return }
             guard let recipe = self.hits[indexPath.row].recipe else { return }
             
-            self.saveRecipe(label: recipe.label, ingredientsLines: recipe.ingredientLines, image: recipe.image, url: recipe.url, uri: recipe.uri, totalTime: recipe.totalTime)
+            self.saveRecipe(recipe: recipe)
             self.favorite.append(recipe)
         })
         
@@ -171,12 +166,20 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         cell.timeLabel.text = String(recipe.totalTime)
         
         if let url = recipe.image {
-            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
+                switch image {
+                case .success(_):
+                    print("image downloading ok !")
+                case .failure:
+                    cell.recipeImageView.image = Constants.noInternetImage
+                    print("failure downloading image !")
+                }
+            })
             cell.noImageLabel.isHidden = true
         } else {
-            cell.recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+            cell.recipeImageView.image = Constants.noImage
             cell.noImageLabel.isHidden = false
-            cell.noImageLabel.text = "No image available"
+            cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
         }
     }
     

@@ -381,6 +381,12 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MWs-18-HJ8" userLabel="spoon">
                                 <rect key="frame" x="0.0" y="64" width="320" height="227"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="time" translatesAutoresizingMaskIntoConstraints="NO" id="82s-s6-evJ">
+                                <rect key="frame" x="160.5" y="264" width="19" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="82s-s6-evJ" secondAttribute="height" id="CCN-tl-wbd"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pizza" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="tez-8V-rbg">
                                 <rect key="frame" x="32" y="291" width="256" height="23.5"/>
                                 <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="20"/>
@@ -414,25 +420,39 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✘" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="H8w-jX-pxn">
+                                <rect key="frame" x="123.5" y="264" width="32" height="19"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="18"/>
+                                <color key="textColor" red="0.54454493520000002" green="0.73336356879999998" blue="0.91381222009999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.12190238389999999" green="0.12918049100000001" blue="0.1423901618" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tez-8V-rbg" firstAttribute="width" secondItem="UZe-WH-DQ1" secondAttribute="width" multiplier="0.8" id="0xt-zC-aTi"/>
                             <constraint firstItem="D2Q-nj-bFP" firstAttribute="centerX" secondItem="nIH-eM-cmr" secondAttribute="centerX" id="CiL-0F-ytE"/>
+                            <constraint firstItem="tez-8V-rbg" firstAttribute="top" secondItem="82s-s6-evJ" secondAttribute="bottom" constant="8" id="D2C-Jh-Uuh"/>
                             <constraint firstItem="MWs-18-HJ8" firstAttribute="height" secondItem="UZe-WH-DQ1" secondAttribute="height" multiplier="0.4" id="O0b-aF-BQ0"/>
                             <constraint firstItem="nIH-eM-cmr" firstAttribute="trailing" secondItem="MWs-18-HJ8" secondAttribute="trailing" id="Oj8-uu-B7K"/>
                             <constraint firstItem="nIH-eM-cmr" firstAttribute="trailing" secondItem="I74-rn-Yif" secondAttribute="trailing" constant="20" id="Qb8-7f-Hfs"/>
                             <constraint firstItem="tez-8V-rbg" firstAttribute="top" secondItem="MWs-18-HJ8" secondAttribute="bottom" id="Sbb-wh-hiX"/>
+                            <constraint firstItem="82s-s6-evJ" firstAttribute="width" secondItem="82s-s6-evJ" secondAttribute="height" id="WbG-8o-5D9"/>
                             <constraint firstItem="E2U-8T-i4n" firstAttribute="top" secondItem="tez-8V-rbg" secondAttribute="bottom" constant="10" id="XQJ-oW-rYO"/>
                             <constraint firstItem="I74-rn-Yif" firstAttribute="leading" secondItem="nIH-eM-cmr" secondAttribute="leading" constant="20" id="Ygv-6X-deX"/>
+                            <constraint firstItem="H8w-jX-pxn" firstAttribute="centerY" secondItem="82s-s6-evJ" secondAttribute="centerY" id="ZDO-72-aN8"/>
                             <constraint firstItem="E2U-8T-i4n" firstAttribute="leading" secondItem="nIH-eM-cmr" secondAttribute="leading" constant="20" id="Ztc-1C-q4P"/>
                             <constraint firstItem="D2Q-nj-bFP" firstAttribute="width" secondItem="UZe-WH-DQ1" secondAttribute="width" multiplier="0.5" id="cVL-az-mXk"/>
                             <constraint firstItem="nIH-eM-cmr" firstAttribute="bottom" secondItem="I74-rn-Yif" secondAttribute="bottom" constant="60" id="cuV-Xu-W7U"/>
                             <constraint firstItem="MWs-18-HJ8" firstAttribute="top" secondItem="nIH-eM-cmr" secondAttribute="top" id="ddz-wD-2YS"/>
                             <constraint firstItem="E2U-8T-i4n" firstAttribute="height" secondItem="MWs-18-HJ8" secondAttribute="height" multiplier="0.07" id="eNH-C8-4C1"/>
+                            <constraint firstItem="82s-s6-evJ" firstAttribute="centerX" secondItem="UZe-WH-DQ1" secondAttribute="centerX" constant="10" id="fAz-Bz-hvv"/>
                             <constraint firstItem="nIH-eM-cmr" firstAttribute="trailing" secondItem="E2U-8T-i4n" secondAttribute="trailing" constant="20" id="g8J-Ch-w4g"/>
+                            <constraint firstItem="82s-s6-evJ" firstAttribute="leading" secondItem="H8w-jX-pxn" secondAttribute="trailing" constant="5" id="lO2-lF-Ikc"/>
+                            <constraint firstItem="82s-s6-evJ" firstAttribute="width" secondItem="MWs-18-HJ8" secondAttribute="width" multiplier="0.06" id="ld0-ds-dJI"/>
                             <constraint firstItem="tez-8V-rbg" firstAttribute="centerX" secondItem="nIH-eM-cmr" secondAttribute="centerX" id="or2-vv-Hkx"/>
+                            <constraint firstItem="H8w-jX-pxn" firstAttribute="height" secondItem="82s-s6-evJ" secondAttribute="height" id="qTy-mh-9CO"/>
                             <constraint firstItem="nIH-eM-cmr" firstAttribute="bottom" secondItem="D2Q-nj-bFP" secondAttribute="bottom" constant="10" id="qVU-A9-V9e"/>
+                            <constraint firstItem="H8w-jX-pxn" firstAttribute="width" secondItem="MWs-18-HJ8" secondAttribute="width" multiplier="0.1" id="u9g-iC-RqG"/>
                             <constraint firstItem="MWs-18-HJ8" firstAttribute="leading" secondItem="UZe-WH-DQ1" secondAttribute="leading" id="uQV-aS-8k8"/>
                             <constraint firstItem="I74-rn-Yif" firstAttribute="top" secondItem="E2U-8T-i4n" secondAttribute="bottom" constant="5" id="xpZ-mH-guP"/>
                         </constraints>
@@ -440,11 +460,19 @@
                     </view>
                     <navigationItem key="navigationItem" title="Reciplease" id="0vB-I5-oBD">
                         <barButtonItem key="backBarButtonItem" title="Back" id="2Es-UP-kNT"/>
+                        <barButtonItem key="rightBarButtonItem" image="star" id="RGX-sc-RGy">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="starButtonAction:" destination="MwN-sV-QHi" id="h9Q-SL-Opa"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="ingredientsTextView" destination="I74-rn-Yif" id="bGT-43-bj1"/>
                         <outlet property="nameRecipeLabel" destination="tez-8V-rbg" id="EmA-8Q-5ie"/>
                         <outlet property="recipeImageView" destination="MWs-18-HJ8" id="cm7-Go-5qb"/>
+                        <outlet property="starButton" destination="RGX-sc-RGy" id="xRl-pc-oDd"/>
+                        <outlet property="totalTimeLabel" destination="H8w-jX-pxn" id="JMb-RU-Gaf"/>
                         <segue destination="RzH-GS-btU" kind="presentation" identifier="DescriptionToWeb" modalPresentationStyle="currentContext" id="vYn-UB-bss"/>
                     </connections>
                 </viewController>
@@ -670,35 +698,63 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="time" translatesAutoresizingMaskIntoConstraints="NO" id="WBe-Kb-nPu">
+                                <rect key="frame" x="160.5" y="264" width="19" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="WBe-Kb-nPu" secondAttribute="height" id="aSc-Lf-vHc"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✘" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="Ct3-oo-kJE">
+                                <rect key="frame" x="123.5" y="264" width="32" height="19"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="18"/>
+                                <color key="textColor" red="0.54454493520000002" green="0.73336356879999998" blue="0.91381222009999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.12190238389999999" green="0.12918049100000001" blue="0.1423901618" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="WBe-Kb-nPu" firstAttribute="leading" secondItem="Ct3-oo-kJE" secondAttribute="trailing" constant="5" id="17m-ag-65G"/>
                             <constraint firstItem="Mtb-w4-0OD" firstAttribute="leading" secondItem="0Mt-Kf-XDE" secondAttribute="leading" constant="20" id="1km-yX-IOn"/>
                             <constraint firstItem="Mtb-w4-0OD" firstAttribute="height" secondItem="j6N-dR-IgG" secondAttribute="height" multiplier="0.07" id="6IA-1Z-2tU"/>
                             <constraint firstItem="j6N-dR-IgG" firstAttribute="top" secondItem="0Mt-Kf-XDE" secondAttribute="top" id="6VB-3s-dAr"/>
+                            <constraint firstItem="Ct3-oo-kJE" firstAttribute="height" secondItem="WBe-Kb-nPu" secondAttribute="height" id="Bmf-Dv-JFc"/>
+                            <constraint firstItem="WBe-Kb-nPu" firstAttribute="centerY" secondItem="Ct3-oo-kJE" secondAttribute="centerY" id="D1P-94-mvh"/>
                             <constraint firstItem="j6N-dR-IgG" firstAttribute="height" secondItem="eyf-YU-4gT" secondAttribute="height" multiplier="0.4" id="DfB-us-aZ1"/>
                             <constraint firstItem="j6N-dR-IgG" firstAttribute="leading" secondItem="eyf-YU-4gT" secondAttribute="leading" id="E3V-EV-KYr"/>
                             <constraint firstItem="0Mt-Kf-XDE" firstAttribute="trailing" secondItem="mOt-Fu-tGi" secondAttribute="trailing" constant="20" id="GzE-QB-JhQ"/>
                             <constraint firstItem="0Mt-Kf-XDE" firstAttribute="bottom" secondItem="mOt-Fu-tGi" secondAttribute="bottom" constant="60" id="JZ1-ga-ziw"/>
                             <constraint firstItem="vn9-fO-kd2" firstAttribute="top" secondItem="j6N-dR-IgG" secondAttribute="bottom" id="Kf1-fN-ECv"/>
+                            <constraint firstItem="WBe-Kb-nPu" firstAttribute="centerX" secondItem="eyf-YU-4gT" secondAttribute="centerX" constant="10" id="MLJ-Ly-xxh"/>
                             <constraint firstItem="0Mt-Kf-XDE" firstAttribute="trailing" secondItem="j6N-dR-IgG" secondAttribute="trailing" id="QFz-1R-F4L"/>
+                            <constraint firstItem="Ct3-oo-kJE" firstAttribute="width" secondItem="j6N-dR-IgG" secondAttribute="width" multiplier="0.1" id="QPB-T0-x8D"/>
+                            <constraint firstItem="vn9-fO-kd2" firstAttribute="top" secondItem="WBe-Kb-nPu" secondAttribute="bottom" constant="8" id="SEZ-Vp-SZ8"/>
                             <constraint firstItem="0Mt-Kf-XDE" firstAttribute="bottom" secondItem="dcK-x4-ZL6" secondAttribute="bottom" constant="10" id="XGI-3I-qyQ"/>
                             <constraint firstItem="dcK-x4-ZL6" firstAttribute="centerX" secondItem="0Mt-Kf-XDE" secondAttribute="centerX" id="c6r-6m-ks9"/>
                             <constraint firstItem="vn9-fO-kd2" firstAttribute="centerX" secondItem="0Mt-Kf-XDE" secondAttribute="centerX" id="e6i-IL-vQH"/>
                             <constraint firstItem="mOt-Fu-tGi" firstAttribute="leading" secondItem="0Mt-Kf-XDE" secondAttribute="leading" constant="20" id="lWk-yR-5xJ"/>
                             <constraint firstItem="mOt-Fu-tGi" firstAttribute="top" secondItem="Mtb-w4-0OD" secondAttribute="bottom" constant="5" id="tK0-yu-eST"/>
                             <constraint firstItem="dcK-x4-ZL6" firstAttribute="width" secondItem="eyf-YU-4gT" secondAttribute="width" multiplier="0.5" id="tvj-6N-VcM"/>
+                            <constraint firstItem="WBe-Kb-nPu" firstAttribute="width" secondItem="j6N-dR-IgG" secondAttribute="width" multiplier="0.06" id="vHV-jI-Rcx"/>
                             <constraint firstItem="vn9-fO-kd2" firstAttribute="width" secondItem="eyf-YU-4gT" secondAttribute="width" multiplier="0.8" id="w5N-j7-JnT"/>
                             <constraint firstItem="Mtb-w4-0OD" firstAttribute="top" secondItem="vn9-fO-kd2" secondAttribute="bottom" constant="10" id="y5v-87-hnH"/>
                             <constraint firstItem="0Mt-Kf-XDE" firstAttribute="trailing" secondItem="Mtb-w4-0OD" secondAttribute="trailing" constant="20" id="y9Z-Nn-9N8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0Mt-Kf-XDE"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Reciplease" id="zq3-dl-dng"/>
+                    <navigationItem key="navigationItem" title="Reciplease" id="zq3-dl-dng">
+                        <barButtonItem key="rightBarButtonItem" image="star" id="Jzx-9b-ro8">
+                            <color key="tintColor" red="0.93435251539999997" green="0.93621113580000004" blue="0.02867993559" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="starButtonAction:" destination="H0v-Xj-xXm" id="NGR-xU-fHW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="ingredientsTextView" destination="mOt-Fu-tGi" id="c61-2G-8Rg"/>
                         <outlet property="nameRecipeLabel" destination="vn9-fO-kd2" id="E0B-Fj-vt6"/>
                         <outlet property="recipeImageView" destination="j6N-dR-IgG" id="GKA-AO-h0N"/>
+                        <outlet property="starButton" destination="Jzx-9b-ro8" id="gCc-fi-7yB"/>
+                        <outlet property="totalTimeLabel" destination="Ct3-oo-kJE" id="nmd-91-HLF"/>
                         <segue destination="4bd-Ku-cDt" kind="presentation" identifier="FavoritesDescriptionToWeb" id="Uqn-xh-bHR"/>
                     </connections>
                 </viewController>
@@ -764,6 +820,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="star" width="30" height="30"/>
         <image name="time" width="40" height="40"/>
     </resources>
 </document>

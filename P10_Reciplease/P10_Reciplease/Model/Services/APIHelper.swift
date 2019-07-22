@@ -44,7 +44,7 @@ class APIHelper {
         session?.request(url: url) { (response) in
             print(url)
             
-            guard let data = response.data ,let responseStatusCode = response.response?.statusCode else {
+            guard let data = response.data else {
                 callback(nil, .requestHasFailed)
                 return
             }

@@ -11,32 +11,83 @@ import Kingfisher
 
 class FavoritesDescriptionViewController: UIViewController {
     
-    var recipe: Recipe_?
+    var rowSelect: Int?
+    var recipe: Recipe?
+    var coreDataManager = (UIApplication.shared.delegate as? AppDelegate)?.coreDataManager
     
+    @IBOutlet weak var starButton: UIBarButtonItem!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsTextView: UITextView!
+    @IBOutlet weak var totalTimeLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refreshFavoriteStatus()
+    }
+    
+    @IBAction func starButtonAction(_ sender: UIBarButtonItem) {
+        guard let recipe = recipe else { return }
+        createsOrDeletesCoreDataRecipe(recipe: recipe)
+    }
+    
     @IBAction func getDirectionButtonAction(_ sender: UIButton) {
         performSegue(withIdentifier: "FavoritesDescriptionToWeb", sender: nil)
+    }
+    
+    func refreshFavoriteStatus() {
+        
+        guard let coreDataManager = coreDataManager else { return }
+        let favorite = coreDataManager.read().first(where: { recipe -> Bool in
+            return recipe.uri == self.recipe?.uri
+        })
+        
+        if favorite == nil {
+            starButton.tintColor = .white
+        } else {
+            starButton.tintColor = .yellow
+        }
+    }
+    
+    func createsOrDeletesCoreDataRecipe(recipe: Recipe) {
+        
+        guard let coreDataManager = coreDataManager else { return }
+        let favorite = coreDataManager.read().first(where: { recipe -> Bool in
+            return recipe.uri == self.recipe?.uri
+        })
+        
+        if let favorite = favorite {
+            coreDataManager.delete(recipe_: favorite)
+        } else {
+            coreDataManager.create(recipe: recipe)
+        }
+        refreshFavoriteStatus()
     }
     
     func setup() {
         guard let recipe = recipe else { return }
         nameRecipeLabel.text = recipe.label
-        guard let ingredients = recipe.ingredientLines as? [String] else  { return }
-
-        ingredientsTextView.text = ingredients.joined(separator: ",\n")
+        ingredientsTextView.text = recipe.ingredientLines.joined(separator: ",\n")
         recipeImageView.contentMode = .scaleAspectFit
+        totalTimeLabel.text = "\(recipe.totalTime)"
         if let urlImage = recipe.image {
-            recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
+            recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
+                switch image {
+                case .success(_):
+                    print("image downloading ok !")
+                case .failure:
+                    self.recipeImageView.image = Constants.noInternetImage
+                    print("failure image loading..")
+                    break
+                }
+            })
         } else {
-            recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+            recipeImageView.image = Constants.noImage
         }
         
     }
@@ -48,8 +99,8 @@ extension FavoritesDescriptionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "FavoritesDescriptionToWeb" else { return }
         if let webVC = segue.destination as? FavoritesWebViewController {
-            guard let recipe = recipe, let url = recipe.url else { return }
-            webVC.url = url
+            guard let recipe = recipe else { return }
+            webVC.url = recipe.url
         }
     }
 }

@@ -10,11 +10,17 @@ import CoreData
 
 class CoreDataManager {
     
-    static let shared = CoreDataManager()
-    var favoritesRecipes = [Recipe_]()
+    var favoritesRecipes_ = [Recipe_]()
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "P10_Reciplease")
+        
+//        let description = NSPersistentStoreDescription()
+//        description.type = NSInMemoryStoreType
+//        description.shouldAddStoreAsynchronously = false // Make it simpler in test env
+//
+//        container.persistentStoreDescriptions = [description]
+        
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -27,30 +33,45 @@ class CoreDataManager {
         return persistentContainer.viewContext
     }
     
-    func fetchRecipes() -> [Recipe_] {
-        
+    func create(recipe: Recipe) {
+        let recipe_ = Recipe_(context: viewContext)
+        recipe_.label = recipe.label
+        recipe_.ingredientLines = recipe.ingredientLines as NSObject
+        recipe_.image = recipe.image
+        recipe_.url = recipe.url
+        recipe_.uri = recipe.uri
+        recipe_.totalTime = recipe.totalTime
+        viewContext.insert(recipe_)
+        update()
+    }
+    
+    func read() -> [Recipe_] {
         let request: NSFetchRequest<Recipe_> = Recipe_.fetchRequest()
         
         do {
-            favoritesRecipes = try viewContext.fetch(request).reversed()
+            favoritesRecipes_ = try viewContext.fetch(request).reversed()
             print("retrieve Favorites...")
-            return favoritesRecipes
+            return favoritesRecipes_
         }
-            
         catch {
             print("no fav")
-            return []
+            return [Recipe_]()
         }
     }
     
-    func saveContext() {
+    func update() {
+        guard viewContext.hasChanges else { return }
         do {
             try viewContext.save()
-            print("object has been saved in the context.")
+        } catch let error as NSError {
+            print("Error: \(error), \(error.userInfo)")
         }
-            
-        catch {
-            print("error")
-        }
+        print("object has been saved in the context.")
+    }
+    
+    func delete(recipe_: Recipe_) {
+        viewContext.delete(recipe_)
+        favoritesRecipes_ = read()
+        update()
     }
 }
