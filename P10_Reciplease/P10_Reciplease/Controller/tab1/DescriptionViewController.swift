@@ -77,9 +77,17 @@ class DescriptionViewController: UIViewController {
     func updateRecipeImageView() {
         recipeImageView.contentMode = .scaleAspectFit
         if let imageURL = recipe?.image {
-           recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
+            recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
+                switch image {
+                case .success(_):
+                    print("image downloading ok !")
+                case .failure:
+                    self.recipeImageView.image = Constants.noInternetImage
+                    print("failure downloading image !")
+                }
+            })
         } else {
-            recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+            recipeImageView.image = Constants.noImage
         }
     }
 }

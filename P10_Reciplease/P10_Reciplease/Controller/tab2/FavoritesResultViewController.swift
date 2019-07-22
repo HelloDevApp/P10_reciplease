@@ -103,11 +103,19 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         cell.recipeImageView.contentMode = .scaleAspectFill
         if let imageURL = recipe.image {
             cell.noImageLabel.isHidden = true
-            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
+                switch image {
+                case .success(_):
+                    print("image downloading ok !")
+                case .failure:
+                    cell.recipeImageView.image = Constants.noInternetImage
+                    print("failure downloading image !")
+                }
+            })
         } else {
             cell.noImageLabel.isHidden = false
             cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
-            cell.recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+            cell.recipeImageView.image = Constants.noImage
         }
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }

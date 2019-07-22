@@ -16,6 +16,7 @@
 		52365E7E22B7D4AC005226DB /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E7D22B7D4AC005226DB /* APIKey.swift */; };
 		52365E8022BB037B005226DB /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E7F22BB037B005226DB /* Alert.swift */; };
 		52365E8222BB0C28005226DB /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52365E8122BB0C28005226DB /* ErrorMessages.swift */; };
+		5245B45A22E5CF0F0035A2AD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5245B45922E5CF0F0035A2AD /* Constants.swift */; };
 		5249337422D87B03008F6C28 /* JSON_OK.json in Resources */ = {isa = PBXBuildFile; fileRef = 5249337322D87B03008F6C28 /* JSON_OK.json */; };
 		5249337822D89E9B008F6C28 /* IncorrectJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 5249337722D89E9B008F6C28 /* IncorrectJSON.json */; };
 		5249337C22D8C135008F6C28 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5249337B22D8C135008F6C28 /* NetworkController.swift */; };
@@ -70,6 +71,7 @@
 		52365E7D22B7D4AC005226DB /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		52365E7F22BB037B005226DB /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		52365E8122BB0C28005226DB /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
+		5245B45922E5CF0F0035A2AD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5249337322D87B03008F6C28 /* JSON_OK.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = JSON_OK.json; sourceTree = "<group>"; };
 		5249337722D89E9B008F6C28 /* IncorrectJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = IncorrectJSON.json; sourceTree = "<group>"; };
 		5249337B22D8C135008F6C28 /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 			children = (
 				52CAF3D12294882400240A7B /* AppDelegate.swift */,
 				52365E8122BB0C28005226DB /* ErrorMessages.swift */,
+				5245B45922E5CF0F0035A2AD /* Constants.swift */,
 				5227BC2022980081009A3E43 /* Model */,
 				5227BC1F22980070009A3E43 /* View */,
 				5227BC132296B54B009A3E43 /* Controller */,
@@ -469,6 +472,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5249337C22D8C135008F6C28 /* NetworkController.swift in Sources */,
+				5245B45A22E5CF0F0035A2AD /* Constants.swift in Sources */,
 				5227BC22229800E0009A3E43 /* ResultTableViewCell.swift in Sources */,
 				52C766112296026B007A2212 /* SearchViewController.swift in Sources */,
 				529AC36E22C62CED0020DD36 /* FavoritesWebViewController.swift in Sources */,

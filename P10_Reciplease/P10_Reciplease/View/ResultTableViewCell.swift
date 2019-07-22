@@ -16,8 +16,6 @@ class ResultTableViewCell: UITableViewCell {
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var noImageLabel: UILabel!
     
-    let defaultImage = #imageLiteral(resourceName: "defaultImage")
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         noImageLabel.text = nil

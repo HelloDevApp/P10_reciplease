@@ -166,12 +166,20 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         cell.timeLabel.text = String(recipe.totalTime)
         
         if let url = recipe.image {
-            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: nil)
+            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
+                switch image {
+                case .success(_):
+                    print("image downloading ok !")
+                case .failure:
+                    cell.recipeImageView.image = Constants.noInternetImage
+                    print("failure downloading image !")
+                }
+            })
             cell.noImageLabel.isHidden = true
         } else {
-            cell.recipeImageView.image = #imageLiteral(resourceName: "defaultImage")
+            cell.recipeImageView.image = Constants.noImage
             cell.noImageLabel.isHidden = false
-            cell.noImageLabel.text = "No image available"
+            cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
         }
     }
     
