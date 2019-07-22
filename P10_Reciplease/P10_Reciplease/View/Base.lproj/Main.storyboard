@@ -450,6 +450,7 @@
                             <constraint firstItem="82s-s6-evJ" firstAttribute="leading" secondItem="H8w-jX-pxn" secondAttribute="trailing" constant="5" id="lO2-lF-Ikc"/>
                             <constraint firstItem="82s-s6-evJ" firstAttribute="width" secondItem="MWs-18-HJ8" secondAttribute="width" multiplier="0.06" id="ld0-ds-dJI"/>
                             <constraint firstItem="tez-8V-rbg" firstAttribute="centerX" secondItem="nIH-eM-cmr" secondAttribute="centerX" id="or2-vv-Hkx"/>
+                            <constraint firstItem="H8w-jX-pxn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nIH-eM-cmr" secondAttribute="leading" symbolic="YES" id="q11-Pp-eFp"/>
                             <constraint firstItem="H8w-jX-pxn" firstAttribute="height" secondItem="82s-s6-evJ" secondAttribute="height" id="qTy-mh-9CO"/>
                             <constraint firstItem="nIH-eM-cmr" firstAttribute="bottom" secondItem="D2Q-nj-bFP" secondAttribute="bottom" constant="10" id="qVU-A9-V9e"/>
                             <constraint firstItem="H8w-jX-pxn" firstAttribute="width" secondItem="MWs-18-HJ8" secondAttribute="width" multiplier="0.1" id="u9g-iC-RqG"/>
@@ -729,6 +730,7 @@
                             <constraint firstItem="Ct3-oo-kJE" firstAttribute="width" secondItem="j6N-dR-IgG" secondAttribute="width" multiplier="0.1" id="QPB-T0-x8D"/>
                             <constraint firstItem="vn9-fO-kd2" firstAttribute="top" secondItem="WBe-Kb-nPu" secondAttribute="bottom" constant="8" id="SEZ-Vp-SZ8"/>
                             <constraint firstItem="0Mt-Kf-XDE" firstAttribute="bottom" secondItem="dcK-x4-ZL6" secondAttribute="bottom" constant="10" id="XGI-3I-qyQ"/>
+                            <constraint firstItem="Ct3-oo-kJE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0Mt-Kf-XDE" secondAttribute="leading" symbolic="YES" id="YIl-id-6fU"/>
                             <constraint firstItem="dcK-x4-ZL6" firstAttribute="centerX" secondItem="0Mt-Kf-XDE" secondAttribute="centerX" id="c6r-6m-ks9"/>
                             <constraint firstItem="vn9-fO-kd2" firstAttribute="centerX" secondItem="0Mt-Kf-XDE" secondAttribute="centerX" id="e6i-IL-vQH"/>
                             <constraint firstItem="mOt-Fu-tGi" firstAttribute="leading" secondItem="0Mt-Kf-XDE" secondAttribute="leading" constant="20" id="lWk-yR-5xJ"/>
