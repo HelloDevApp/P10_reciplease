@@ -474,7 +474,7 @@
                         <outlet property="recipeImageView" destination="MWs-18-HJ8" id="cm7-Go-5qb"/>
                         <outlet property="starButton" destination="RGX-sc-RGy" id="xRl-pc-oDd"/>
                         <outlet property="totalTimeLabel" destination="H8w-jX-pxn" id="JMb-RU-Gaf"/>
-                        <segue destination="RzH-GS-btU" kind="presentation" identifier="DescriptionToWeb" modalPresentationStyle="currentContext" id="vYn-UB-bss"/>
+                        <segue destination="RzH-GS-btU" kind="presentation" identifier="DescriptionToWeb" id="vYn-UB-bss"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5IA-3P-Bgs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -490,7 +490,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" allowsBackForwardNavigationGestures="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zY3-Fo-S8s">
-                                <rect key="frame" x="0.0" y="50" width="320" height="469"/>
+                                <rect key="frame" x="0.0" y="50" width="320" height="518"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
