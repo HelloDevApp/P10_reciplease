@@ -48,7 +48,7 @@ extension FavoritesResultViewController {
         guard let favoritesDescriptionVC = segue.destination as? FavoritesDescriptionViewController else { return }
         let recipe_ = coreDataManager.favoritesRecipes_[rowSelect]
         guard let label = recipe_.label, let url = recipe_.url, let uri = recipe_.uri, let ingredients = recipe_.ingredientLines as? [String] else { return }
-        let recipe = Recipe(label: label, image: recipe_.image, url: url, uri: uri, ingredientLines: ingredients, totalTime: recipe_.totalTime)
+        let recipe = Recipe(label: label, image: recipe_.image, url: url, uri: uri, ingredientLines: ingredients, totalTime: recipe_.totalTime, imageData: recipe_.imageData)
         favoritesDescriptionVC.recipe = recipe
         favoritesDescriptionVC.coreDataManager = coreDataManager
     }
@@ -101,25 +101,15 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         updateTimeLabel(cell: cell, time: timeRecipe)
         
         cell.recipeImageView.contentMode = .scaleAspectFill
-        if let imageURL = recipe.image {
-            cell.noImageLabel.isHidden = true
-            KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: "\(imageURL)") { (result) in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        UIView.transition(with: cell.recipeImageView, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                            cell.recipeImageView.image = image
-                        }, completion: nil)
-                    }
-                case .failure(_): break
-                    
-                }
-            }
-        } else {
+        guard let imageData = recipe.imageData else {
+            print("return favorite image data == nil")
             cell.noImageLabel.isHidden = false
             cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
             cell.recipeImageView.image = Constants.noImage
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            return
         }
+        cell.recipeImageView.image = UIImage(data: imageData)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     

@@ -34,6 +34,7 @@ class DescriptionViewController: UIViewController {
     }
     
     deinit {
+        ImageCache.default.clearMemoryCache()
         print("deinit: DescriptionVC")
     }
     
@@ -75,22 +76,24 @@ class DescriptionViewController: UIViewController {
     }
     
     func updateRecipeImageView() {
+        
         recipeImageView.contentMode = .scaleAspectFit
-        if let imageURL = recipe?.image {
-            KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: "\(imageURL)") { (result) in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        UIView.transition(with: self.recipeImageView, duration: 0.7, options: .transitionCrossDissolve, animations: {
-                            self.recipeImageView.image = image
-                        }, completion: nil)
-                    }
-                case .failure(_):
-                    break
+        
+        guard let recipe = recipe, let urlImage = recipe.image else {
+            self.recipeImageView.image = Constants.noImage
+            return
+        }
+        
+        // retrieve image in memory cache
+        KingfisherManager.shared.cache.retrieveImage(forKey: "\(urlImage)") { (result) in
+            switch result {
+            case .success(let imageCacheResult):
+                DispatchQueue.main.async {
+                    self.recipeImageView.image = imageCacheResult.image
                 }
+            case .failure(_):
+                self.recipeImageView.image = Constants.noImage
             }
-        } else {
-            recipeImageView.image = Constants.noImage
         }
     }
 }

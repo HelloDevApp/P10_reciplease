@@ -12,7 +12,7 @@ class CoreDataTest: XCTestCase {
     
     var coreDataManager: CoreDataManager!
     
-    let recipe: Recipe = Recipe(label: "label", image: URL(string: "url")!, url: URL(string: "url1")!, uri: URL(string: "Uri")!, ingredientLines: ["ingredients", "lines"], totalTime: 2.0)
+    let recipe: Recipe = Recipe(label: "label", image: URL(string: "url")!, url: URL(string: "url1")!, uri: URL(string: "Uri")!, ingredientLines: ["ingredients", "lines"], totalTime: 2.0, imageData: UIImage().pngData())
     
     override func setUp() {
         coreDataManager = CoreDataManager(inMemoryType: true)

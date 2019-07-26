@@ -43,6 +43,7 @@ class CoreDataManager {
         recipe_.url = recipe.url
         recipe_.uri = recipe.uri
         recipe_.totalTime = recipe.totalTime
+        recipe_.imageData = recipe.imageData
         viewContext.insert(recipe_)
         update()
     }

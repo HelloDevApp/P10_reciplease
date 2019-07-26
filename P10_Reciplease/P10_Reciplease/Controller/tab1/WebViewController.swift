@@ -17,6 +17,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadURLDirections(url: url)
+        webView.navigationDelegate = self
         // Do any additional setup after loading the view.
     }
     deinit {

@@ -75,23 +75,12 @@ class FavoritesDescriptionViewController: UIViewController {
         ingredientsTextView.text = recipe.ingredientLines.joined(separator: ",\n")
         recipeImageView.contentMode = .scaleAspectFit
         totalTimeLabel.text = "\(recipe.totalTime)"
-        if let urlImage = recipe.image {
-            KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: "\(urlImage)") { (result) in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        UIView.transition(with: self.recipeImageView, duration: 0.7, options: .transitionCrossDissolve, animations: {
-                            self.recipeImageView.image = image
-                        }, completion: nil)
-                    }
-                case .failure(_):
-                    break
-                }
-            }
-        } else {
+        guard let imageData = recipe.imageData else {
+            print("return descriptionFav ImageData == nil")
             recipeImageView.image = Constants.noImage
+            return
         }
-        
+        recipeImageView.image = UIImage(data: imageData)
     }
 }
 

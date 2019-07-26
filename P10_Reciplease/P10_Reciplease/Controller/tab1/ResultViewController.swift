@@ -33,6 +33,7 @@ class ResultViewController: NetworkController {
     }
     
     deinit {
+        ImageCache.default.clearMemoryCache()
         print("deinit: ResultVC")
     }
     
@@ -117,16 +118,16 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         let favoritesAction = UITableViewRowAction(style: .default, title: "➕Favorites", handler: { [weak self] (action, indexPath) in
             
             guard let self = self else { return }
-            guard let recipe = self.hits[indexPath.row].recipe else { return }
-            guard let imageURL = recipe.image else { return }
+            
+            guard var recipe = self.hits[indexPath.row].recipe else { return }
             
             guard let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell else { return }
-            guard let imageRecipe = cell.recipeImageView.image else { return }
-            guard let imageData = imageRecipe.pngData() else { return }
-            ImageCache.default.storeToDisk(imageData, forKey: imageURL.description)
             
+            guard let imageRecipe = cell.recipeImageView.image else { return }
+            recipe.imageData = imageRecipe.pngData()
             self.saveRecipe(recipe: recipe)
             self.favorite.append(recipe)
+            
         })
         
         favoritesAction.backgroundColor = UIColor.darkText
@@ -175,7 +176,8 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
             cell.noImageLabel.isHidden = true
             cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image) in
                 switch image {
-                case .success(_):
+                case .success(let retrieveImageResult):
+                    ImageCache.default.store(retrieveImageResult.image, forKey: "\(url)")
                     print("image downloading ok !")
                 case .failure:
                     cell.recipeImageView.image = Constants.noInternetImage
