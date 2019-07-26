@@ -9,9 +9,10 @@
 @testable import P10_Reciplease
 import XCTest
 
-class AlamofireTests: XCTestCase {
+class APITests: XCTestCase {
 
     var fakeResponseData: FakeResponseData!
+    let expectation = XCTestExpectation(description: "wait, for queue change.")
     
     override func setUp() {
         fakeResponseData = FakeResponseData()
@@ -41,7 +42,9 @@ class AlamofireTests: XCTestCase {
         apiHelper.getRecipe(userIngredients: []) { (apiResult, errorNetwork) in
             XCTAssertNil(apiResult)
             XCTAssertEqual(errorNetwork, ErrorNetwork.requestHasFailed)
+            self.expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.01)
     }
     
     func testGetRecipesShouldPostFailedCallbackIfIncorrectData() {
@@ -50,7 +53,9 @@ class AlamofireTests: XCTestCase {
         apiHelper.getRecipe(userIngredients: []) { (apiResult, errorNetwork) in
             XCTAssertNil(apiResult)
             XCTAssertEqual(errorNetwork, ErrorNetwork.wrongJSON)
+            self.expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.01)
     }
     
     func testGetRecipesShouldPostSuccessCallbackIfNoErrorAndCorrectData() {
@@ -59,7 +64,9 @@ class AlamofireTests: XCTestCase {
         apiHelper.getRecipe(userIngredients: []) { (apiResult, errorNetwork) in
             XCTAssert(!apiResult!.hits.isEmpty)
             XCTAssertEqual(errorNetwork, ErrorNetwork.noError)
+            self.expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.01)
     }
     
     func testGetRecipesShouldPostSuccessCallbackWithEmptyRecipes() {
@@ -68,7 +75,9 @@ class AlamofireTests: XCTestCase {
         apiHelper.getRecipe(userIngredients: []) { (apiResult, errorNetwork) in
             XCTAssertNotNil(apiResult)
             XCTAssertEqual(errorNetwork, ErrorNetwork.noRecipeFound)
+            self.expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.01)
     }
     
     func testGetRecipesShouldPostFailedCallbackIfResponseIsNotCorrect() {
@@ -77,7 +86,9 @@ class AlamofireTests: XCTestCase {
         apiHelper.getRecipe(userIngredients: []) { (apiResult, errorNetwork) in
             XCTAssertNil(apiResult)
             XCTAssertEqual(errorNetwork, ErrorNetwork.requestHasFailed)
+            self.expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 0.01)
     }
 
 }

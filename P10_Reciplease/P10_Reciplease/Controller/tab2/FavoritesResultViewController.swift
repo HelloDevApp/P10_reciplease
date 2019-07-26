@@ -103,15 +103,18 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         cell.recipeImageView.contentMode = .scaleAspectFill
         if let imageURL = recipe.image {
             cell.noImageLabel.isHidden = true
-            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
-                switch image {
-                case .success(_):
-                    print("image downloading ok !")
-                case .failure:
-                    cell.recipeImageView.image = Constants.noInternetImage
-                    print("failure downloading image !")
+            KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: "\(imageURL)") { (result) in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        UIView.transition(with: cell.recipeImageView, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                            cell.recipeImageView.image = image
+                        }, completion: nil)
+                    }
+                case .failure(_): break
+                    
                 }
-            })
+            }
         } else {
             cell.noImageLabel.isHidden = false
             cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue

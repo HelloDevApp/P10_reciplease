@@ -76,16 +76,18 @@ class FavoritesDescriptionViewController: UIViewController {
         recipeImageView.contentMode = .scaleAspectFit
         totalTimeLabel.text = "\(recipe.totalTime)"
         if let urlImage = recipe.image {
-            recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
-                switch image {
-                case .success(_):
-                    print("image downloading ok !")
-                case .failure:
-                    self.recipeImageView.image = Constants.noInternetImage
-                    print("failure image loading..")
+            KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: "\(urlImage)") { (result) in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        UIView.transition(with: self.recipeImageView, duration: 0.7, options: .transitionCrossDissolve, animations: {
+                            self.recipeImageView.image = image
+                        }, completion: nil)
+                    }
+                case .failure(_):
                     break
                 }
-            })
+            }
         } else {
             recipeImageView.image = Constants.noImage
         }

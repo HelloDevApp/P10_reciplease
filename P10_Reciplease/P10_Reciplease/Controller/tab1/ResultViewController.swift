@@ -118,6 +118,12 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
             
             guard let self = self else { return }
             guard let recipe = self.hits[indexPath.row].recipe else { return }
+            guard let imageURL = recipe.image else { return }
+            
+            guard let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell else { return }
+            guard let imageRecipe = cell.recipeImageView.image else { return }
+            guard let imageData = imageRecipe.pngData() else { return }
+            ImageCache.default.storeToDisk(imageData, forKey: imageURL.description)
             
             self.saveRecipe(recipe: recipe)
             self.favorite.append(recipe)
@@ -166,7 +172,8 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         cell.timeLabel.text = String(recipe.totalTime)
         
         if let url = recipe.image {
-            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
+            cell.noImageLabel.isHidden = true
+            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image) in
                 switch image {
                 case .success(_):
                     print("image downloading ok !")
@@ -175,7 +182,6 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
                     print("failure downloading image !")
                 }
             })
-            cell.noImageLabel.isHidden = true
         } else {
             cell.recipeImageView.image = Constants.noImage
             cell.noImageLabel.isHidden = false

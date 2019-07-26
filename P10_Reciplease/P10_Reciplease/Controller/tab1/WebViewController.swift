@@ -37,4 +37,21 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             webView.load(urlDirectionsRequest)
         }
     }
+    
+    // only for print
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        print("loading the web page...")
+    }
+    
+    // only for print
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        print("web page finished loading!")
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print("error when loading the web page")
+        presentAlert(titleAlert: .error, messageAlert: .noInternetConnection, actionTitle: .ok) { [weak self] (_) in
+            self?.dismiss(animated: true, completion: nil)
+        }
+    }
 }

@@ -16,6 +16,6 @@ extension UIViewController {
         
         let action = UIAlertAction(title: actionTitle.rawValue, style: .default, handler: completion)
         alert.addAction(action)
-        self.parent?.present(alert, animated: true, completion: nil)
+        (self.parent ?? self).present(alert, animated: true, completion: nil)
     }
 }
