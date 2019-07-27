@@ -139,11 +139,26 @@ extension SearchViewController {
 // MARK: - TableView
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        changeSizeCell()
+    }
+    
+    func changeSizeCell() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.orientation.isPortrait {
+            tableView.rowHeight = tableView.frame.height / 6
+        } else {
+            tableView.rowHeight = tableView.frame.height / 3
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        changeSizeCell()
         return userIngredients.count
     }
     
@@ -154,7 +169,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func fillCell(cell: UITableViewCell, indexPath: IndexPath) {
-        tableView.rowHeight = tableView.frame.height / 6
         cell.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
         guard let labelCell = cell.textLabel else { return }
         ud_updateUserIngredients(action: .get, indexPath: nil)
