@@ -39,8 +39,8 @@ class DescriptionViewController: UIViewController {
     }
     
     @IBAction func starButtonAction(_ sender: UIBarButtonItem) {
-        guard let recipe = recipe else { return }
-        createsOrDeletesCoreDataRecipe(recipe: recipe)
+        guard var recipe = recipe else { return }
+        createsOrDeletesCoreDataRecipe(recipe: &recipe)
     }
     
     @IBAction func getDirectionsButtonAction(_ sender: UIButton) {
@@ -59,7 +59,7 @@ class DescriptionViewController: UIViewController {
         }
     }
     
-    func createsOrDeletesCoreDataRecipe(recipe: Recipe) {
+    func createsOrDeletesCoreDataRecipe(recipe: inout Recipe) {
         
         guard let coreDataManager = coreDataManager else { return }
         let favoriteRecipe = coreDataManager.read().first(where: { recipe -> Bool in
@@ -70,6 +70,9 @@ class DescriptionViewController: UIViewController {
 
             coreDataManager.delete(recipe_: favoriteRecipe)
         } else {
+            
+            guard let imageRecipe = recipeImageView.image else { return }
+            recipe.imageData = imageRecipe.pngData()
             coreDataManager.create(recipe: recipe)
         }
         refreshFavoriteStatus()
