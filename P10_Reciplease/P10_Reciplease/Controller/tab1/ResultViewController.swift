@@ -111,6 +111,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
         tableView.separatorStyle = .none
+        changeSizeCell()
         return hits.count
     }
     
@@ -139,7 +140,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.rowHeight = tableView.frame.height / 3
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             fillCell(cell, with: hits, indexPath: indexPath)
             return cell
@@ -170,7 +171,11 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.nameRecipeLabel.text = "\(indexPath.row + 1) " + recipe.label
         cell.ingredientsLabel.text = recipe.ingredientLines.joined(separator: ", ")
-        cell.timeLabel.text = String(recipe.totalTime)
+        
+        let timeConvert = String(format: "%.2f", recipe.totalTime / 60)
+            .replacingOccurrences(of: ".", with: "h")
+        
+        cell.timeLabel.text = String(timeConvert)
         
         if let url = recipe.image {
             cell.noImageLabel.isHidden = true
@@ -178,7 +183,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
                 switch image {
                 case .success(let retrieveImageResult):
                     ImageCache.default.store(retrieveImageResult.image, forKey: "\(url)")
-                    print("image downloading ok !")
+                    print("image: \(retrieveImageResult.source) stored in imageCache ok !")
                 case .failure:
                     cell.recipeImageView.image = Constants.noInternetImage
                     print("failure downloading image !")

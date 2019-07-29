@@ -74,7 +74,9 @@ class FavoritesDescriptionViewController: UIViewController {
         nameRecipeLabel.text = recipe.label
         ingredientsTextView.text = recipe.ingredientLines.joined(separator: ",\n")
         recipeImageView.contentMode = .scaleAspectFit
-        totalTimeLabel.text = "\(recipe.totalTime)"
+        
+        let timeConvert = String(format: "%.2f", recipe.totalTime / 60).replacingOccurrences(of: ".", with: "h")
+            totalTimeLabel.text = timeConvert
         guard let imageData = recipe.imageData else {
             print("return descriptionFav ImageData == nil")
             recipeImageView.image = Constants.noImage

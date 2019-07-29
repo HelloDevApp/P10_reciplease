@@ -30,7 +30,11 @@ class DescriptionViewController: UIViewController {
         nameRecipeLabel.text = recipe_.label
         let ingredientsLines = recipe_.ingredientLines
         ingredientsTextView.text = ingredientsLines.joined(separator: ", \n")
-        totalTimeLabel.text = "\(recipe_.totalTime)"
+        
+        let timeConvert = String(format: "%.2f", recipe_.totalTime / 60)
+            .replacingOccurrences(of: ".", with: "h")
+        
+        totalTimeLabel.text = timeConvert
     }
     
     deinit {

@@ -79,8 +79,6 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        tableView.rowHeight = tableView.frame.height / 3
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell else { return UITableViewCell() }
         fillCell(cell, with: coreDataManager.favoritesRecipes_, indexPath: indexPath)
         
@@ -148,8 +146,10 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     
     func updateTimeLabel(cell: ResultTableViewCell, time: Double?) {
         if let timerecipe = time {
-            let time = String(timerecipe)
-            cell.timeLabel.text = time
+            
+            let timeConvert = String(format: "%.2f", timerecipe / 60).replacingOccurrences(of: ".", with: "h")
+            
+            cell.timeLabel.text = timeConvert
         }
     }
 }
