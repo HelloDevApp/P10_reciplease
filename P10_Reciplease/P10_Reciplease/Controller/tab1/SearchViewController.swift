@@ -141,13 +141,15 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+        loadView()
         changeSizeCell()
+        tableView.reloadData()
     }
     
     func changeSizeCell() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         if UIDevice.current.orientation.isPortrait {
-            tableView.rowHeight = tableView.frame.height / 6
+            tableView.rowHeight = tableView.frame.height / 5
         } else {
             tableView.rowHeight = tableView.frame.height / 3
         }

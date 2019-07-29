@@ -23,7 +23,7 @@ class FavoritesResultViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         fetchRecipes()
         changeSeparatorStyle(tableView)
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     func fetchRecipes() {
@@ -57,11 +57,30 @@ extension FavoritesResultViewController {
 // MARK: - TableView
 extension FavoritesResultViewController: UITableViewDataSource, UITableViewDelegate {
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        loadView()
+        changeSizeCell()
+        tableView.reloadData()
+    }
+    
+    
+    func changeSizeCell() {
+        guard let tableView = tableView else { return }
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.orientation.isPortrait {
+            tableView.rowHeight = tableView.frame.height / 5
+        } else {
+            tableView.rowHeight = tableView.frame.height / 2.7
+        }
+    }
+    
     @objc func refreshTableView() {
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        changeSizeCell()
         return coreDataManager.favoritesRecipes_.count
     }
     

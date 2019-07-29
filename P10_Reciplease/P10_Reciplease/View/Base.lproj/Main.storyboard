@@ -273,16 +273,16 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(name)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="qB8-JL-8rC">
-                                                    <rect key="frame" x="15" y="5" width="290" height="29"/>
-                                                    <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="22"/>
+                                                    <rect key="frame" x="15" y="5" width="290" height="27"/>
+                                                    <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="20"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="0.12190238389999999" green="0.12918049100000001" blue="0.1423901618" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <size key="shadowOffset" width="2" height="2"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ingredients" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="fYt-M5-6h1">
-                                                    <rect key="frame" x="15" y="64" width="230.5" height="25"/>
-                                                    <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="19"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ingredients" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="fYt-M5-6h1">
+                                                    <rect key="frame" x="15" y="64" width="214.5" height="25"/>
+                                                    <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -295,7 +295,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✘" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="SJa-c7-sK9">
-                                                    <rect key="frame" x="263" y="74" width="32" height="15"/>
+                                                    <rect key="frame" x="247" y="74" width="48" height="15"/>
                                                     <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="18"/>
                                                     <color key="textColor" red="0.54454493522644043" green="0.7333635687828064" blue="0.91381222009658813" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -326,7 +326,7 @@
                                                 <constraint firstItem="qB8-JL-8rC" firstAttribute="top" secondItem="a0j-Tg-sLI" secondAttribute="top" constant="5" id="X0j-Cd-PAm"/>
                                                 <constraint firstItem="IKt-xd-4V9" firstAttribute="leading" secondItem="SJa-c7-sK9" secondAttribute="trailing" constant="5" id="XfK-V2-mIM"/>
                                                 <constraint firstItem="2kr-LY-pEG" firstAttribute="centerX" secondItem="a0j-Tg-sLI" secondAttribute="centerX" id="ckD-G6-Lql"/>
-                                                <constraint firstItem="SJa-c7-sK9" firstAttribute="width" secondItem="a0j-Tg-sLI" secondAttribute="width" multiplier="0.1" id="dxw-MI-LYr"/>
+                                                <constraint firstItem="SJa-c7-sK9" firstAttribute="width" secondItem="a0j-Tg-sLI" secondAttribute="width" multiplier="0.15" id="dxw-MI-LYr"/>
                                                 <constraint firstItem="IKt-xd-4V9" firstAttribute="height" secondItem="a0j-Tg-sLI" secondAttribute="height" multiplier="0.15" id="e2G-7g-U14"/>
                                                 <constraint firstItem="2kr-LY-pEG" firstAttribute="centerY" secondItem="KZH-2I-BfY" secondAttribute="centerY" id="egG-fS-ybO"/>
                                                 <constraint firstItem="fYt-M5-6h1" firstAttribute="leading" secondItem="a0j-Tg-sLI" secondAttribute="leadingMargin" id="emI-iH-zkG"/>
@@ -709,17 +709,17 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b8D-0M-7bd">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(name)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZOI-a8-lRY">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(name)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="ZOI-a8-lRY">
                                                     <rect key="frame" x="15" y="5" width="290" height="29"/>
-                                                    <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="22"/>
+                                                    <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="20"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <size key="shadowOffset" width="2" height="2"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Ingredients)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="m2c-ut-gPi">
-                                                    <rect key="frame" x="15" y="64" width="235.5" height="25"/>
-                                                    <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="19"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Ingredients)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="m2c-ut-gPi">
+                                                    <rect key="frame" x="15" y="64" width="219.5" height="25"/>
+                                                    <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -740,7 +740,7 @@
                                                     <size key="shadowOffset" width="1" height="1"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✘" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="b5S-Z8-JTa">
-                                                    <rect key="frame" x="268" y="71.5" width="32" height="20"/>
+                                                    <rect key="frame" x="252" y="71.5" width="48" height="20"/>
                                                     <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="18"/>
                                                     <color key="textColor" red="0.61643052101135254" green="0.76946169137954712" blue="0.9150698184967041" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -791,7 +791,7 @@
                                         <color key="backgroundColor" red="0.12190238389999999" green="0.12918049100000001" blue="0.1423901618" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="HJA-rU-bdg" firstAttribute="height" secondItem="XOe-xU-TsD" secondAttribute="height" multiplier="0.15" id="ZAG-2u-s91"/>
-                                            <constraint firstItem="b5S-Z8-JTa" firstAttribute="width" secondItem="XOe-xU-TsD" secondAttribute="width" multiplier="0.1" id="v6l-js-FfN"/>
+                                            <constraint firstItem="b5S-Z8-JTa" firstAttribute="width" secondItem="XOe-xU-TsD" secondAttribute="width" multiplier="0.15" id="v6l-js-FfN"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="ingredientsLabel" destination="m2c-ut-gPi" id="QiH-7E-KiN"/>
