@@ -161,6 +161,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         changeSizeCell()
+        tableView.allowsSelection = false
         return userIngredients.count
     }
     
