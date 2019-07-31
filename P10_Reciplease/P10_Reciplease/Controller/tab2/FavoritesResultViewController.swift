@@ -12,20 +12,24 @@ import Kingfisher
 
 class FavoritesResultViewController: UIViewController {
     
+    // MARK: - Properties
     var rowSelect = 0
     private var coreDataManager: CoreDataManager {
         guard let cdm = (UIApplication.shared.delegate as? AppDelegate)?.coreDataManager else { return CoreDataManager() }
         return cdm
     }
     
+    // MARK: - @IBOutlets
     @IBOutlet weak var tableView: UITableView!
     
+    // MARK: - Methods Life Cycle App
     override func viewWillAppear(_ animated: Bool) {
         fetchRecipes()
         changeSeparatorStyle(tableView)
         self.tableView.reloadData()
     }
     
+    // MARK: - Methods
     func fetchRecipes() {
         guard !coreDataManager.read().isEmpty else {
             parent?.presentAlert(titleAlert: .error, messageAlert: .favoriteRecipesIsEmpty, actionTitle: .ok) { (alert) in
@@ -60,28 +64,8 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         loadView()
-        changeSizeCell()
+        changeSizeCell(tableView: tableView)
         tableView.reloadData()
-    }
-    
-    
-    func changeSizeCell() {
-        guard let tableView = tableView else { return }
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        if UIDevice.current.orientation.isPortrait {
-            tableView.rowHeight = tableView.frame.height / 5
-        } else {
-            tableView.rowHeight = tableView.frame.height / 2.7
-        }
-    }
-    
-    @objc func refreshTableView() {
-        tableView.reloadData()
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        changeSizeCell()
-        return coreDataManager.favoritesRecipes_.count
     }
     
     fileprivate func changeSeparatorStyle(_ tableView: UITableView) {
@@ -94,6 +78,11 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         default:
             break
         }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        changeSizeCell(tableView: tableView)
+        return coreDataManager.favoritesRecipes_.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -155,6 +144,7 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         performSegue(withIdentifier: "FavoritesToFavoritesDescription", sender: nil)
     }
     
+    // MARK: Update UI
     func updateNameRecipeLabel(cell: ResultTableViewCell, nameRecipe: String, indexPath: IndexPath) {
         cell.nameRecipeLabel.text = "\(indexPath.row + 1) " + nameRecipe
     }

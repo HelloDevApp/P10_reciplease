@@ -142,17 +142,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         loadView()
-        changeSizeCell()
+        changeSizeCell(tableView: tableView)
         tableView.reloadData()
-    }
-    
-    func changeSizeCell() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        if UIDevice.current.orientation.isPortrait {
-            tableView.rowHeight = tableView.frame.height / 5
-        } else {
-            tableView.rowHeight = tableView.frame.height / 3
-        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -160,7 +151,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        changeSizeCell()
+        changeSizeCell(tableView: tableView)
         tableView.allowsSelection = false
         return userIngredients.count
     }

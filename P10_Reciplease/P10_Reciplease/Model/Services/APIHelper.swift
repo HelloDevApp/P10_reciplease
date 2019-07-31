@@ -10,15 +10,17 @@ import Alamofire
 
 class APIHelper {
     
+    // MARK: - Properties
     var from = 0
     var to = 19
-    
     var session: APISessionProtocol?
     
+    // MARK: - Init
     init(session: APISessionProtocol = APISession()) {
         self.session = session
     }
     
+    // MARK: - Methods
     private func createURL(userIngredients: [String]) -> URL? {
         
         let apiKey = APIKey()

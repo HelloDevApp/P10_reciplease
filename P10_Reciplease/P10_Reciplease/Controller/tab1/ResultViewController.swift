@@ -11,6 +11,7 @@ import Kingfisher
 
 class ResultViewController: NetworkController {
 
+    // MARK: - Properties
     var userIngredients = [String]()
     var apiHelper: APIHelper?
     var hits = [Hit]()
@@ -26,7 +27,7 @@ class ResultViewController: NetworkController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     
-    // MARK: - Methods
+    // MARK: - Life Cycle App Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
@@ -37,6 +38,8 @@ class ResultViewController: NetworkController {
         print("deinit: ResultVC")
     }
     
+    
+    // MARK: - Methods
     func loadMoreRecipes() {
         updateFromAndToForNextCall(apiHelper: apiHelper, hits: hits)
         guard let apiHelper = apiHelper else { return }
@@ -111,23 +114,14 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         loadView()
-        changeSizeCell()
+        changeSizeCell(tableView: tableView)
         tableView.reloadData()
-    }
-    
-    func changeSizeCell() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        if UIDevice.current.orientation.isPortrait {
-            tableView.rowHeight = tableView.frame.height / 5
-        } else {
-            tableView.rowHeight = tableView.frame.height / 2.7
-        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
         tableView.separatorStyle = .none
-        changeSizeCell()
+        changeSizeCell(tableView: tableView)
         return hits.count
     }
     

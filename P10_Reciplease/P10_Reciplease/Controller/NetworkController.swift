@@ -15,6 +15,7 @@ class NetworkController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    // MARK: - Methods Error Network
     func switchErrorNetworkToPresentAlert(errorNetwork: ErrorNetwork, hitsIsEmpty: Bool) {
         
         switch errorNetwork {
@@ -33,6 +34,7 @@ class NetworkController: UIViewController {
         }
     }
     
+    // MARK: - Update Request
     func updateFromAndToForNextCall(apiHelper: APIHelper?, hits: [Hit]) {
         if let apiHelper = apiHelper {
             apiHelper.from = hits.count + 1
@@ -41,6 +43,7 @@ class NetworkController: UIViewController {
         }
     }
     
+    // MARK: - Activity Indicator
     func stopActivityIndicator(controller: NetworkController) {
         if let controller = controller as? SearchViewController {
             controller.searchForRecipesButton.isEnabled = true
