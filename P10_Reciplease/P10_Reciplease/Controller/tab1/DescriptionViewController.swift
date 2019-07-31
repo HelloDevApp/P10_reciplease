@@ -23,6 +23,7 @@ class DescriptionViewController: UIViewController {
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var totalTimeLabel: UILabel!
     
+    // MARK: - Life Cycle App Methods
     override func viewWillAppear(_ animated: Bool) {
         guard let recipe_ = recipe else { return }
         refreshFavoriteStatus()
@@ -42,6 +43,7 @@ class DescriptionViewController: UIViewController {
         print("deinit: DescriptionVC")
     }
     
+    // MARK: - @IBActions
     @IBAction func starButtonAction(_ sender: UIBarButtonItem) {
         guard var recipe = recipe else { return }
         createsOrDeletesCoreDataRecipe(recipe: &recipe)
@@ -51,6 +53,7 @@ class DescriptionViewController: UIViewController {
         performSegue(withIdentifier: "DescriptionToWeb", sender: nil)
     }
     
+    // MARK: - Methods
     func refreshFavoriteStatus() {
         guard let coreDataManager = coreDataManager else { return }
         let favorite = coreDataManager.read().first(where: { recipe -> Bool in

@@ -18,4 +18,13 @@ extension UIViewController {
         alert.addAction(action)
         (self.parent ?? self).present(alert, animated: true, completion: nil)
     }
+    
+    func changeSizeCell(tableView: UITableView) {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.orientation.isPortrait {
+            tableView.rowHeight = tableView.frame.height / 5
+        } else {
+            tableView.rowHeight = tableView.frame.height / 2.7
+        }
+    }
 }

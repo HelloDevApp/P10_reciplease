@@ -11,16 +11,19 @@ import Kingfisher
 
 class FavoritesDescriptionViewController: UIViewController {
     
+    // MARK: - Properties
     var rowSelect: Int?
     var recipe: Recipe?
     var coreDataManager = (UIApplication.shared.delegate as? AppDelegate)?.coreDataManager
     
+    // MARK: - @IBoutlets
     @IBOutlet weak var starButton: UIBarButtonItem!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsTextView: UITextView!
     @IBOutlet weak var totalTimeLabel: UILabel!
     
+    // MARK: - Methods Life Cycle App
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -31,6 +34,7 @@ class FavoritesDescriptionViewController: UIViewController {
         refreshFavoriteStatus()
     }
     
+    // MARK: - @IBActions
     @IBAction func starButtonAction(_ sender: UIBarButtonItem) {
         guard let recipe = recipe else { return }
         createsOrDeletesCoreDataRecipe(recipe: recipe)
@@ -40,6 +44,8 @@ class FavoritesDescriptionViewController: UIViewController {
         performSegue(withIdentifier: "FavoritesDescriptionToWeb", sender: nil)
     }
     
+    
+    //MARK: - Methods
     func refreshFavoriteStatus() {
         
         guard let coreDataManager = coreDataManager else { return }

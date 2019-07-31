@@ -10,9 +10,8 @@ import Foundation
 
 class UserDefaultsManager: UserDefaults {
     
-    private var userDefaults = UserDefaults.standard
-    
     // MARK: - Properties
+    private var userDefaults = UserDefaults.standard
     private var _userIngredientskey = "UserIngredient"
     
     // contains the key to get the ingredients saved in userDefaults

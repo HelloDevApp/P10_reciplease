@@ -10,6 +10,7 @@ import CoreData
 
 class CoreDataManager {
     
+    // MARK: - Properties
     var favoritesRecipes_ = [Recipe_]()
     let container = NSPersistentContainer(name: "P10_Reciplease")
     
@@ -26,6 +27,7 @@ class CoreDataManager {
         return persistentContainer.viewContext
     }
     
+    // MARK: - Init for Test
     init(inMemoryType: Bool = false) {
         if inMemoryType {
             let description = NSPersistentStoreDescription()
@@ -35,6 +37,7 @@ class CoreDataManager {
         }
     }
     
+    // MARK: - Methods (CRUD)
     func create(recipe: Recipe) {
         let recipe_ = Recipe_(context: viewContext)
         recipe_.label = recipe.label
