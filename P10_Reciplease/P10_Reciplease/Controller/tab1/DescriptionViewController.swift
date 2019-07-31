@@ -30,16 +30,21 @@ class DescriptionViewController: UIViewController {
         nameRecipeLabel.text = recipe_.label
         let ingredientsLines = recipe_.ingredientLines
         ingredientsTextView.text = ingredientsLines.joined(separator: ", \n")
-        totalTimeLabel.text = "\(recipe_.totalTime)"
+        
+        let timeConvert = String(format: "%.2f", recipe_.totalTime / 60)
+            .replacingOccurrences(of: ".", with: "h")
+        
+        totalTimeLabel.text = timeConvert
     }
     
     deinit {
+        ImageCache.default.clearMemoryCache()
         print("deinit: DescriptionVC")
     }
     
     @IBAction func starButtonAction(_ sender: UIBarButtonItem) {
-        guard let recipe = recipe else { return }
-        createsOrDeletesCoreDataRecipe(recipe: recipe)
+        guard var recipe = recipe else { return }
+        createsOrDeletesCoreDataRecipe(recipe: &recipe)
     }
     
     @IBAction func getDirectionsButtonAction(_ sender: UIButton) {
@@ -58,7 +63,7 @@ class DescriptionViewController: UIViewController {
         }
     }
     
-    func createsOrDeletesCoreDataRecipe(recipe: Recipe) {
+    func createsOrDeletesCoreDataRecipe(recipe: inout Recipe) {
         
         guard let coreDataManager = coreDataManager else { return }
         let favoriteRecipe = coreDataManager.read().first(where: { recipe -> Bool in
@@ -69,25 +74,33 @@ class DescriptionViewController: UIViewController {
 
             coreDataManager.delete(recipe_: favoriteRecipe)
         } else {
+            
+            guard let imageRecipe = recipeImageView.image else { return }
+            recipe.imageData = imageRecipe.pngData()
             coreDataManager.create(recipe: recipe)
         }
         refreshFavoriteStatus()
     }
     
     func updateRecipeImageView() {
+        
         recipeImageView.contentMode = .scaleAspectFit
-        if let imageURL = recipe?.image {
-            recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
-                switch image {
-                case .success(_):
-                    print("image downloading ok !")
-                case .failure:
-                    self.recipeImageView.image = Constants.noInternetImage
-                    print("failure downloading image !")
+        
+        guard let recipe = recipe, let urlImage = recipe.image else {
+            self.recipeImageView.image = Constants.noImage
+            return
+        }
+        
+        // retrieve image in memory cache
+        KingfisherManager.shared.cache.retrieveImage(forKey: "\(urlImage)") { (result) in
+            switch result {
+            case .success(let imageCacheResult):
+                DispatchQueue.main.async {
+                    self.recipeImageView.image = imageCacheResult.image
                 }
-            })
-        } else {
-            recipeImageView.image = Constants.noImage
+            case .failure(_):
+                self.recipeImageView.image = Constants.noImage
+            }
         }
     }
 }

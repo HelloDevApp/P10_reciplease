@@ -23,7 +23,7 @@ class FavoritesResultViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         fetchRecipes()
         changeSeparatorStyle(tableView)
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     func fetchRecipes() {
@@ -48,7 +48,7 @@ extension FavoritesResultViewController {
         guard let favoritesDescriptionVC = segue.destination as? FavoritesDescriptionViewController else { return }
         let recipe_ = coreDataManager.favoritesRecipes_[rowSelect]
         guard let label = recipe_.label, let url = recipe_.url, let uri = recipe_.uri, let ingredients = recipe_.ingredientLines as? [String] else { return }
-        let recipe = Recipe(label: label, image: recipe_.image, url: url, uri: uri, ingredientLines: ingredients, totalTime: recipe_.totalTime)
+        let recipe = Recipe(label: label, image: recipe_.image, url: url, uri: uri, ingredientLines: ingredients, totalTime: recipe_.totalTime, imageData: recipe_.imageData)
         favoritesDescriptionVC.recipe = recipe
         favoritesDescriptionVC.coreDataManager = coreDataManager
     }
@@ -57,11 +57,30 @@ extension FavoritesResultViewController {
 // MARK: - TableView
 extension FavoritesResultViewController: UITableViewDataSource, UITableViewDelegate {
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        loadView()
+        changeSizeCell()
+        tableView.reloadData()
+    }
+    
+    
+    func changeSizeCell() {
+        guard let tableView = tableView else { return }
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.orientation.isPortrait {
+            tableView.rowHeight = tableView.frame.height / 5
+        } else {
+            tableView.rowHeight = tableView.frame.height / 2.7
+        }
+    }
+    
     @objc func refreshTableView() {
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        changeSizeCell()
         return coreDataManager.favoritesRecipes_.count
     }
     
@@ -78,8 +97,6 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        tableView.rowHeight = tableView.frame.height / 3
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell else { return UITableViewCell() }
         fillCell(cell, with: coreDataManager.favoritesRecipes_, indexPath: indexPath)
@@ -101,22 +118,15 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
         updateTimeLabel(cell: cell, time: timeRecipe)
         
         cell.recipeImageView.contentMode = .scaleAspectFill
-        if let imageURL = recipe.image {
-            cell.noImageLabel.isHidden = true
-            cell.recipeImageView.kf.setImage(with: .network(imageURL), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
-                switch image {
-                case .success(_):
-                    print("image downloading ok !")
-                case .failure:
-                    cell.recipeImageView.image = Constants.noInternetImage
-                    print("failure downloading image !")
-                }
-            })
-        } else {
+        guard let imageData = recipe.imageData else {
+            print("return favorite image data == nil")
             cell.noImageLabel.isHidden = false
             cell.noImageLabel.text = ErrorMessages.noImageAvailable.rawValue
             cell.recipeImageView.image = Constants.noImage
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            return
         }
+        cell.recipeImageView.image = UIImage(data: imageData)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
@@ -155,8 +165,10 @@ extension FavoritesResultViewController: UITableViewDataSource, UITableViewDeleg
     
     func updateTimeLabel(cell: ResultTableViewCell, time: Double?) {
         if let timerecipe = time {
-            let time = String(timerecipe)
-            cell.timeLabel.text = time
+            
+            let timeConvert = String(format: "%.2f", timerecipe / 60).replacingOccurrences(of: ".", with: "h")
+            
+            cell.timeLabel.text = timeConvert
         }
     }
 }

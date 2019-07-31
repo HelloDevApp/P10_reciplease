@@ -74,22 +74,15 @@ class FavoritesDescriptionViewController: UIViewController {
         nameRecipeLabel.text = recipe.label
         ingredientsTextView.text = recipe.ingredientLines.joined(separator: ",\n")
         recipeImageView.contentMode = .scaleAspectFit
-        totalTimeLabel.text = "\(recipe.totalTime)"
-        if let urlImage = recipe.image {
-            recipeImageView.kf.setImage(with: .network(urlImage), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
-                switch image {
-                case .success(_):
-                    print("image downloading ok !")
-                case .failure:
-                    self.recipeImageView.image = Constants.noInternetImage
-                    print("failure image loading..")
-                    break
-                }
-            })
-        } else {
-            recipeImageView.image = Constants.noImage
-        }
         
+        let timeConvert = String(format: "%.2f", recipe.totalTime / 60).replacingOccurrences(of: ".", with: "h")
+            totalTimeLabel.text = timeConvert
+        guard let imageData = recipe.imageData else {
+            print("return descriptionFav ImageData == nil")
+            recipeImageView.image = Constants.noImage
+            return
+        }
+        recipeImageView.image = UIImage(data: imageData)
     }
 }
 

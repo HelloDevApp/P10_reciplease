@@ -23,5 +23,6 @@ struct Recipe: Decodable {
     let uri: URL
     let ingredientLines: [String]
     let totalTime: Double
+    var imageData: Data?
 }
 

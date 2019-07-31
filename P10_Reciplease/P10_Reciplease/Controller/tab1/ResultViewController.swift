@@ -33,6 +33,7 @@ class ResultViewController: NetworkController {
     }
     
     deinit {
+        ImageCache.default.clearMemoryCache()
         print("deinit: ResultVC")
     }
     
@@ -107,9 +108,26 @@ extension ResultViewController {
 // MARK: - TableView
 extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        loadView()
+        changeSizeCell()
+        tableView.reloadData()
+    }
+    
+    func changeSizeCell() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.orientation.isPortrait {
+            tableView.rowHeight = tableView.frame.height / 5
+        } else {
+            tableView.rowHeight = tableView.frame.height / 2.7
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.backgroundColor = #colorLiteral(red: 0.1219023839, green: 0.129180491, blue: 0.1423901618, alpha: 1)
         tableView.separatorStyle = .none
+        changeSizeCell()
         return hits.count
     }
     
@@ -117,10 +135,16 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         let favoritesAction = UITableViewRowAction(style: .default, title: "➕Favorites", handler: { [weak self] (action, indexPath) in
             
             guard let self = self else { return }
-            guard let recipe = self.hits[indexPath.row].recipe else { return }
             
+            guard var recipe = self.hits[indexPath.row].recipe else { return }
+            
+            guard let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell else { return }
+            
+            guard let imageRecipe = cell.recipeImageView.image else { return }
+            recipe.imageData = imageRecipe.pngData()
             self.saveRecipe(recipe: recipe)
             self.favorite.append(recipe)
+            
         })
         
         favoritesAction.backgroundColor = UIColor.darkText
@@ -132,7 +156,7 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.rowHeight = tableView.frame.height / 3
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath) as? ResultTableViewCell {
             fillCell(cell, with: hits, indexPath: indexPath)
             return cell
@@ -163,19 +187,24 @@ extension ResultViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.nameRecipeLabel.text = "\(indexPath.row + 1) " + recipe.label
         cell.ingredientsLabel.text = recipe.ingredientLines.joined(separator: ", ")
-        cell.timeLabel.text = String(recipe.totalTime)
+        
+        let timeConvert = String(format: "%.2f", recipe.totalTime / 60)
+            .replacingOccurrences(of: ".", with: "h")
+        
+        cell.timeLabel.text = String(timeConvert)
         
         if let url = recipe.image {
-            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: [.cacheOriginalImage, .transition(.fade(0.5)), .forceRefresh], progressBlock: nil, completionHandler: { (image) in
+            cell.noImageLabel.isHidden = true
+            cell.recipeImageView.kf.setImage(with: .network(url), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image) in
                 switch image {
-                case .success(_):
-                    print("image downloading ok !")
+                case .success(let retrieveImageResult):
+                    ImageCache.default.store(retrieveImageResult.image, forKey: "\(url)")
+                    print("image: \(retrieveImageResult.source) stored in imageCache ok !")
                 case .failure:
                     cell.recipeImageView.image = Constants.noInternetImage
                     print("failure downloading image !")
                 }
             })
-            cell.noImageLabel.isHidden = true
         } else {
             cell.recipeImageView.image = Constants.noImage
             cell.noImageLabel.isHidden = false

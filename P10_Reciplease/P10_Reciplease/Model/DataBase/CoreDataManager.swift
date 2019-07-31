@@ -11,16 +11,9 @@ import CoreData
 class CoreDataManager {
     
     var favoritesRecipes_ = [Recipe_]()
+    let container = NSPersistentContainer(name: "P10_Reciplease")
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "P10_Reciplease")
-        
-//        let description = NSPersistentStoreDescription()
-//        description.type = NSInMemoryStoreType
-//        description.shouldAddStoreAsynchronously = false // Make it simpler in test env
-//
-//        container.persistentStoreDescriptions = [description]
-        
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -33,6 +26,15 @@ class CoreDataManager {
         return persistentContainer.viewContext
     }
     
+    init(inMemoryType: Bool = false) {
+        if inMemoryType {
+            let description = NSPersistentStoreDescription()
+            description.type = NSInMemoryStoreType
+            description.shouldAddStoreAsynchronously = false
+            container.persistentStoreDescriptions = [description]
+        }
+    }
+    
     func create(recipe: Recipe) {
         let recipe_ = Recipe_(context: viewContext)
         recipe_.label = recipe.label
@@ -41,6 +43,7 @@ class CoreDataManager {
         recipe_.url = recipe.url
         recipe_.uri = recipe.uri
         recipe_.totalTime = recipe.totalTime
+        recipe_.imageData = recipe.imageData
         viewContext.insert(recipe_)
         update()
     }
